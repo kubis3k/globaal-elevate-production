@@ -1,0 +1,86 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Prose from '../components/Prose.astro';
+import JobList from '../components/JobList.astro';
+
+const page = await getEntry('pages', 'careers.cs');
+if (!page) throw new Error('Missing pages entry "careers.cs"');
+
+const company = (await getEntry('company', 'main'))?.data;
+if (!company) throw new Error('Missing company entry "main"');
+
+const jobs = (await getCollection('jobs'))
+  .filter((job) => job.data.active)
+  .sort((a, b) => b.data.datePosted.getTime() - a.data.datePosted.getTime());
+
+const breadcrumbs = [
+  { label: 'Domů', href: '/' },
+  { label: page.data.h1, href: '/kariera' },
+];
+
+const jsonLd =
+  jobs.length > 0
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@graph': jobs.map((job) => ({
+            '@type': 'JobPosting',
+            title: job.data.title,
+            description: job.body ?? job.data.title,
+            hiringOrganization: {
+              '@type': 'Organization',
+              name: 'Globaal Elevate',
+              legalName: company.legalName,
+              sameAs: company.siteUrl,
+            },
+            jobLocation: {
+              '@type': 'Place',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: company.city,
+                addressCountry: company.country,
+              },
+            },
+            employmentType: job.data.employmentType,
+            datePosted: job.data.datePosted.toISOString(),
+            ...(job.data.validThrough
+              ? { validThrough: job.data.validThrough.toISOString() }
+              : {}),
+            ...(job.data.salaryMin != null || job.data.salaryMax != null
+              ? {
+                  baseSalary: {
+                    '@type': 'MonetaryAmount',
+                    currency: job.data.salaryCurrency,
+                    value: {
+                      '@type': 'QuantitativeValue',
+                      ...(job.data.salaryMin != null ? { minValue: job.data.salaryMin } : {}),
+                      ...(job.data.salaryMax != null ? { maxValue: job.data.salaryMax } : {}),
+                      unitText: job.data.salaryUnit,
+                    },
+                  },
+                }
+              : {}),
+          })),
+        },
+      ]
+    : undefined;
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs} jsonLd={jsonLd}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+
+    <div class="mt-12">
+      <JobList jobs={jobs.map((job) => job.data)} locale="cs" />
+    </div>
+  </div>
+</PageLayout>

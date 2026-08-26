@@ -1,0 +1,38 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Prose from '../../components/Prose.astro';
+
+const page = await getEntry('pages', 'about.en');
+if (!page) throw new Error('Missing pages entry "about.en"');
+
+const company = (await getEntry('company', 'main'))?.data;
+if (!company) throw new Error('Missing company entry "main"');
+
+const siteUrl = company.siteUrl;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/en' },
+  { label: page.data.h1, href: '/en/about' },
+];
+
+const alternates = [
+  { hreflang: 'cs', href: `${siteUrl}/o-nas` },
+  { hreflang: 'en', href: `${siteUrl}/en/about` },
+  { hreflang: 'x-default', href: `${siteUrl}/o-nas` },
+];
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs} alternates={alternates}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+  </div>
+</PageLayout>

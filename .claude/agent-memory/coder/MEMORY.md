@@ -1,0 +1,4 @@
+- [Stack versions](project_stack_versions.md) — Astro 5.18.2 + vercel@9.0.5 pinned deliberately; real npm latest is Astro 7 but vercel adapter major is coupled to astro major.
+- [Content collections](project_content_collections.md) — company.json `{main:{...}}`; glob loader uses frontmatter `slug` as id by default (fixed via generateId); PageLayout path quirk for home; en/ fallback redirect stubs.
+- [Logo assets pipeline](project_logo_assets.md) — generate-assets.mjs extractRegion coords for planet icon, must retune + visually verify if logo-source.png changes.
+- [i18n nav slugs](project_i18n_nav_slugs.md) — Header nav hrefs are placeholder CS slugs for both locales, revisit once real pages/slugs exist.

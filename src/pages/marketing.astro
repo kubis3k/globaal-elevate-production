@@ -1,0 +1,94 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Prose from '../components/Prose.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import FaqSection from '../components/FaqSection.astro';
+import CtaTile from '../components/CtaTile.astro';
+import { getAlternateLinks } from '../i18n/utils';
+
+const page = await getEntry('pages', 'marketing.cs');
+if (!page) throw new Error('Missing pages entry "marketing.cs"');
+
+const company = (await getEntry('company', 'main'))?.data;
+if (!company) throw new Error('Missing company entry "main"');
+
+const breadcrumbs = [
+  { label: 'Domů', href: '/' },
+  { label: page.data.h1, href: '/marketing' },
+];
+
+const faq = page.data.faq ?? [];
+const steps = page.data.steps ?? [];
+
+const faqJsonLd = faq.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.a,
+        },
+      })),
+    }
+  : null;
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'web development, marketing',
+  name: 'Globaal Production',
+  provider: {
+    '@type': 'Organization',
+    name: 'Globaal Elevate',
+    legalName: company.legalName,
+    url: company.siteUrl,
+  },
+  areaServed: 'CZ',
+};
+
+const jsonLd = faqJsonLd ? [serviceJsonLd, faqJsonLd] : [serviceJsonLd];
+
+const alternates = getAlternateLinks('/marketing', company.siteUrl);
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs} jsonLd={jsonLd} alternates={alternates}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+
+    {steps.length > 0 && (
+      <section class="mt-16">
+        <SectionHeading as="h2">Jak spolupráce probíhá</SectionHeading>
+        <div class="mt-6">
+          <ProcessSteps steps={steps} />
+        </div>
+      </section>
+    )}
+
+    {faq.length > 0 && (
+      <section class="mt-16">
+        <SectionHeading as="h2">Časté otázky</SectionHeading>
+        <div class="mt-6">
+          <FaqSection items={faq} />
+        </div>
+      </section>
+    )}
+
+    {page.data.ctas?.map((cta) => (
+      <div class="mt-16 max-w-md">
+        <CtaTile label={cta.label} href={cta.href} external={cta.external} note={cta.note} />
+      </div>
+    ))}
+  </div>
+</PageLayout>

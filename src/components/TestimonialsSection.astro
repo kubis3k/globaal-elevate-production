@@ -1,0 +1,31 @@
+---
+// Prepared but currently disabled: renders nothing until real testimonials
+// exist. Do not import this component elsewhere with non-empty items yet.
+interface Testimonial {
+  quote: string;
+  author: string;
+  role?: string;
+}
+
+interface Props {
+  items?: Testimonial[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+{items.length > 0 && (
+  <div class="grid gap-6 sm:grid-cols-2">
+    {items.map((item) => (
+      <figure class="rounded-lg border border-line p-6">
+        <blockquote class="text-ink">
+          <p>&ldquo;{item.quote}&rdquo;</p>
+        </blockquote>
+        <figcaption class="mt-4 text-sm text-muted">
+          {item.author}
+          {item.role && <>, {item.role}</>}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+)}

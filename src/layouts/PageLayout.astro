@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { localizePath } from '../i18n/utils';
+
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+interface AlternateLink {
+  hreflang: string;
+  href: string;
+}
+
+interface Props {
+  page: CollectionEntry<'pages'>;
+  jsonLd?: object[];
+  breadcrumbs?: BreadcrumbItem[];
+  path?: string;
+  alternates?: AlternateLink[];
+}
+
+const { page, jsonLd, breadcrumbs, path, alternates } = Astro.props;
+const { title, description, locale, slug, h1, heroLead, ogImage, noindex } = page.data;
+
+const resolvedPath = path ?? localizePath(slug === '' ? '/' : `/${slug}`, locale);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path={resolvedPath}
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+  alternates={alternates}
+  noindex={noindex}
+>
+  {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+  <div class="mx-auto max-w-content px-4 py-12 sm:px-6">
+    <h1 class="text-3xl font-bold text-ink sm:text-4xl">{h1}</h1>
+    {heroLead && <p class="mt-4 max-w-2xl text-lg text-muted">{heroLead}</p>}
+  </div>
+  <slot />
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Prose from '../components/Prose.astro';
+import ContactForm from '../components/islands/ContactForm.astro';
+
+const page = await getEntry('pages', 'contact.cs');
+if (!page) throw new Error('Missing pages entry "contact.cs"');
+
+const company = (await getEntry('company', 'main'))?.data;
+if (!company) throw new Error('Missing company entry "main"');
+
+const siteUrl = company.siteUrl;
+const logoUrl = new URL('/og-default.png', Astro.site).toString();
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Globaal Elevate',
+  legalName: company.legalName,
+  url: siteUrl,
+  logo: logoUrl,
+  email: company.emails.general,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: company.city,
+    addressCountry: company.country,
+  },
+  sameAs: company.instagram,
+  identifier: {
+    '@type': 'PropertyValue',
+    name: 'IČO',
+    value: company.ico,
+  },
+  taxID: company.ico,
+};
+
+const contactPageJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url: `${siteUrl}/kontakt`,
+  name: page.data.title,
+};
+
+const breadcrumbs = [
+  { label: 'Domů', href: '/' },
+  { label: page.data.h1, href: '/kontakt' },
+];
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs} jsonLd={[organizationJsonLd, contactPageJsonLd]}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+
+    <div class="mt-12 grid gap-4 rounded-lg border border-line p-6 text-sm text-muted sm:grid-cols-2">
+      <p>
+        {company.legalName}
+        <br />
+        IČO: {company.ico}
+        <br />
+        {company.city}, {company.country}
+      </p>
+      {company.directorName && <p>Jednatel: {company.directorName}</p>}
+    </div>
+
+    <section id="obchod" class="mt-16 scroll-mt-24">
+      <SectionHeading as="h2">Obchodní dotaz</SectionHeading>
+      <p class="mt-3 max-w-2xl text-sm text-muted">
+        Pro rychlejší reakci nám můžete napsat i přímo na{' '}
+        <a href={`mailto:${company.emails.business}`} class="text-accent hover:underline">
+          {company.emails.business}
+        </a>
+        .
+      </p>
+      <div class="mt-6 max-w-lg">
+        <ContactForm pillar="business" locale="cs" />
+      </div>
+    </section>
+
+    <section id="booking" class="mt-16 scroll-mt-24">
+      <SectionHeading as="h2">Eventový booking</SectionHeading>
+      <p class="mt-3 max-w-2xl text-sm text-muted">
+        Pro rychlejší reakci nám můžete napsat i přímo na{' '}
+        <a href={`mailto:${company.emails.booking}`} class="text-accent hover:underline">
+          {company.emails.booking}
+        </a>
+        .
+      </p>
+      <div class="mt-6 max-w-lg">
+        <ContactForm pillar="booking" locale="cs" />
+      </div>
+    </section>
+  </div>
+</PageLayout>

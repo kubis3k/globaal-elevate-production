@@ -1,0 +1,67 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import CtaTile from '../../components/CtaTile.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Prose from '../../components/Prose.astro';
+import { getAlternateLinks } from '../../i18n/utils';
+
+const page = await getEntry('pages', 'home.en');
+if (!page) throw new Error('Missing pages entry "home.en"');
+
+const company = (await getEntry('company', 'main'))?.data;
+if (!company) throw new Error('Missing company entry "main"');
+
+const siteUrl = company.siteUrl;
+const logoUrl = new URL('/og-default.png', Astro.site).toString();
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Globaal Elevate',
+  legalName: company.legalName,
+  url: siteUrl,
+  logo: logoUrl,
+  email: company.emails.general,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: company.city,
+    addressCountry: company.country,
+  },
+  sameAs: company.instagram,
+  identifier: {
+    '@type': 'PropertyValue',
+    name: 'Company ID',
+    value: company.ico,
+  },
+  taxID: company.ico,
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: siteUrl,
+  name: 'Globaal Elevate',
+};
+
+const alternates = getAlternateLinks('/', siteUrl);
+---
+
+<PageLayout page={page} path="/en" jsonLd={[organizationJsonLd, websiteJsonLd]} alternates={alternates}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    <div class="grid gap-4 sm:grid-cols-3">
+      {page.data.ctas?.map((cta) => (
+        <CtaTile label={cta.label} href={cta.href} external={cta.external} note={cta.note} />
+      ))}
+    </div>
+
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-16">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+  </div>
+</PageLayout>

@@ -1,0 +1,27 @@
+---
+import { getEntry } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Prose from '../components/Prose.astro';
+
+const page = await getEntry('pages', 'gdpr.cs');
+if (!page) throw new Error('Missing pages entry "gdpr.cs"');
+
+const breadcrumbs = [
+  { label: 'Domů', href: '/' },
+  { label: page.data.h1, href: '/gdpr' },
+];
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+  </div>
+</PageLayout>

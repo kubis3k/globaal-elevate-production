@@ -1,0 +1,44 @@
+---
+import { getEntry, getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Prose from '../components/Prose.astro';
+import BrandCard from '../components/BrandCard.astro';
+
+const page = await getEntry('pages', 'portfolio.cs');
+if (!page) throw new Error('Missing pages entry "portfolio.cs"');
+
+const brands = (await getCollection('brands')).sort((a, b) => a.data.order - b.data.order);
+
+const breadcrumbs = [
+  { label: 'Domů', href: '/' },
+  { label: page.data.h1, href: '/portfolio' },
+];
+---
+
+<PageLayout page={page} breadcrumbs={breadcrumbs}>
+  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
+    {page.data.sections.map((section) => (
+      <section id={section.id} class="mt-12 first:mt-0">
+        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
+        <Prose>
+          <p class="mt-4">{section.body}</p>
+        </Prose>
+      </section>
+    ))}
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {brands.map((brand) => (
+        <BrandCard
+          name={brand.data.name}
+          pillar={brand.data.pillar}
+          summary={brand.data.summary}
+          url={brand.data.url}
+          external={brand.data.external}
+          status={brand.data.status}
+          locale="cs"
+        />
+      ))}
+    </div>
+  </div>
+</PageLayout>

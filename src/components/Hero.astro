@@ -1,0 +1,24 @@
+---
+import GradientDecor from './GradientDecor.astro';
+
+interface Props {
+  h1: string;
+  lead?: string;
+}
+
+const { h1, lead } = Astro.props;
+---
+
+<section class="relative overflow-hidden">
+  <GradientDecor />
+  <div class="mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-28">
+    <h1 class="max-w-3xl text-4xl font-bold text-ink sm:text-5xl lg:text-6xl">
+      {h1}
+    </h1>
+    {lead && (
+      <p class="mt-6 max-w-2xl text-lg text-muted sm:text-xl">
+        {lead}
+      </p>
+    )}
+  </div>
+</section>

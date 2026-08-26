@@ -1,0 +1,79 @@
+---
+import Analytics from '@vercel/analytics/astro';
+import '../styles/global.css';
+// eslint-disable-next-line import/no-unresolved
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import Seo from '../components/Seo.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import type { Locale } from '../i18n/ui';
+
+interface AlternateLink {
+  hreflang: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  path: string;
+  ogImage?: string;
+  jsonLd?: object[];
+  alternates?: AlternateLink[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  path,
+  ogImage,
+  jsonLd = [],
+  alternates = [],
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(path, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon-32.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
+
+    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <Seo
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      locale={locale}
+      alternates={alternates}
+      noindex={noindex}
+    />
+
+    {jsonLd.map((entry) => <JsonLd data={entry} />)}
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only">
+      Skip to content
+    </a>
+    <Header locale={locale} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <CookieBanner locale={locale} />
+    <Analytics />
+  </body>
+</html>

@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import logoWordmark from '../assets/logo-wordmark.png';
+import type { Locale } from '../i18n/ui';
+import { useTranslations, localizePath } from '../i18n/utils';
+import LangSwitcher from './LangSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const t = useTranslations(locale);
+
+const navItems = [
+  { key: 'nav.marketing', href: '/marketing' },
+  { key: 'nav.portfolio', href: '/portfolio' },
+  { key: 'nav.about', href: '/o-nas' },
+  { key: 'nav.careers', href: '/kariera' },
+  { key: 'nav.contact', href: '/kontakt' },
+] as const;
+---
+
+<header class="border-b border-line">
+  <div class="mx-auto flex max-w-content items-center justify-between gap-4 px-4 py-4 sm:px-6">
+    <a href={localizePath('/', locale)} class="flex items-center gap-2" aria-label="Globaal Elevate">
+      <Image src={logoWordmark} alt="Globaal Elevate" width={220} height={46} />
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Main">
+      {navItems.map((item) => (
+        <a
+          href={localizePath(item.href, locale)}
+          class="text-sm font-medium text-ink/80 transition hover:text-accent"
+        >
+          {t(item.key)}
+        </a>
+      ))}
+      <LangSwitcher locale={locale} path={path} />
+    </nav>
+
+    <details class="relative md:hidden">
+      <summary class="cursor-pointer list-none rounded border border-line px-3 py-2 text-sm font-medium">
+        Menu
+      </summary>
+      <nav
+        class="absolute right-0 z-50 mt-2 flex w-56 flex-col gap-1 rounded-md border border-line bg-paper p-3 shadow-lg"
+        aria-label="Main"
+      >
+        {navItems.map((item) => (
+          <a
+            href={localizePath(item.href, locale)}
+            class="rounded px-2 py-2 text-sm font-medium text-ink/80 transition hover:bg-line/40"
+          >
+            {t(item.key)}
+          </a>
+        ))}
+        <div class="mt-1 border-t border-line pt-2">
+          <LangSwitcher locale={locale} path={path} />
+        </div>
+      </nav>
+    </details>
+  </div>
+</header>

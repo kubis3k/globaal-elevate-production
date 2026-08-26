@@ -1,0 +1,73 @@
+---
+import { getEntry } from 'astro:content';
+import type { Locale } from '../i18n/ui';
+import { useTranslations, localizePath } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const companyEntry = await getEntry('company', 'main');
+const company = companyEntry?.data;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto max-w-content px-4 py-10 sm:px-6">
+    <div class="grid gap-8 sm:grid-cols-3">
+      <div>
+        <p class="text-sm font-semibold text-ink">Globaal Elevate</p>
+        {company && (
+          <p class="mt-2 text-sm text-muted">
+            {company.legalName}
+            <br />
+            {t('footer.ico')}: {company.ico}
+            <br />
+            {company.city}, {company.country}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-ink">{t('footer.businessInquiries')}</p>
+        {company && (
+          <a href={`mailto:${company.emails.business}`} class="mt-2 block text-sm text-muted transition hover:text-accent">
+            {company.emails.business}
+          </a>
+        )}
+        <p class="mt-4 text-sm font-semibold text-ink">{t('footer.eventBooking')}</p>
+        {company && (
+          <a href={`mailto:${company.emails.booking}`} class="mt-2 block text-sm text-muted transition hover:text-accent">
+            {company.emails.booking}
+          </a>
+        )}
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-ink">Instagram</p>
+        {company && (
+          <ul class="mt-2 flex flex-col gap-1">
+            {company.instagram.map((url) => (
+              <li>
+                <a href={url} target="_blank" rel="noopener noreferrer" class="text-sm text-muted transition hover:text-accent">
+                  {url.replace('https://instagram.com/', '@')}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        <a href={localizePath('/gdpr', locale)} class="mt-4 block text-sm text-muted transition hover:text-accent">
+          {t('footer.gdpr')}
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-8 border-t border-line pt-6 text-xs text-muted">
+      Globaal Production {t('footer.brandOf')} &middot; &copy; {year} &middot; {t('footer.rights')}
+    </p>
+  </div>
+</footer>
