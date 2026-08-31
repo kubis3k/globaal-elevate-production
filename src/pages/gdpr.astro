@@ -1,27 +1,206 @@
 ---
-import { getEntry } from 'astro:content';
-import PageLayout from '../layouts/PageLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import Prose from '../components/Prose.astro';
-
-const page = await getEntry('pages', 'gdpr.cs');
-if (!page) throw new Error('Missing pages entry "gdpr.cs"');
-
-const breadcrumbs = [
-  { label: 'Domů', href: '/' },
-  { label: page.data.h1, href: '/gdpr' },
-];
+import PageLayout from '../layouts/PageLayout.astro'
 ---
 
-<PageLayout page={page} breadcrumbs={breadcrumbs}>
-  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
-    {page.data.sections.map((section) => (
-      <section id={section.id} class="mt-12 first:mt-0">
-        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
-        <Prose>
-          <p class="mt-4">{section.body}</p>
-        </Prose>
-      </section>
-    ))}
-  </div>
+<PageLayout
+  title="Ochrana osobních údajů"
+  description="Zásady ochrany osobních údajů společnosti Globaal Elevate Production s.r.o."
+  badge="• Právní informace"
+  heading="Ochrana osobních údajů"
+  lead="Informace o zpracování osobních údajů podle nařízení GDPR (EU) 2016/679."
+  lang="cs"
+>
+  <section class="section">
+    <div class="container">
+      <div class="prose-content">
+
+        <h2>1. Správce osobních údajů</h2>
+        <p>
+          Správcem osobních údajů je společnost <strong>Globaal Elevate Production s.r.o.</strong>,
+          se sídlem Dlouhá 715/38, Staré Město, 110 00 Praha 1,
+          IČO: 24972070, zapsaná v obchodním rejstříku vedeném Městským soudem v Praze, oddíl C, vložka 446827.
+        </p>
+        <p>
+          Kontaktní e-mail: <a href="mailto:info@globaalelevate.com">info@globaalelevate.com</a>
+        </p>
+
+        <h2>2. Jaké osobní údaje zpracováváme</h2>
+        <p>Zpracováváme pouze údaje, které nám sami poskytnete prostřednictvím kontaktního formuláře nebo e-mailu:</p>
+        <ul>
+          <li>Jméno a příjmení</li>
+          <li>E-mailová adresa</li>
+          <li>Obsah zprávy nebo dotazu</li>
+        </ul>
+        <p>
+          Webová stránka <strong>nepoužívá cookies</strong> třetích stran, reklamní sledovací skripty
+          ani analytické nástroje vyžadující souhlas. Zpracováváme pouze anonymizovaná technická data
+          nezbytná pro provoz serveru (IP adresa v serverových logu po dobu max. 30 dní).
+        </p>
+
+        <h2>3. Účel a právní základ zpracování</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Účel</th>
+              <th>Právní základ</th>
+              <th>Doba uchování</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Odpověď na váš dotaz (kontaktní formulář)</td>
+              <td>Oprávněný zájem správce (čl. 6 odst. 1 písm. f) GDPR)</td>
+              <td>Do vyřízení, max. 1 rok</td>
+            </tr>
+            <tr>
+              <td>Plnění smlouvy / obchodní komunikace</td>
+              <td>Plnění smlouvy (čl. 6 odst. 1 písm. b) GDPR)</td>
+              <td>Po dobu smluvního vztahu + 3 roky</td>
+            </tr>
+            <tr>
+              <td>Zákonné povinnosti (účetnictví, daně)</td>
+              <td>Zákonná povinnost (čl. 6 odst. 1 písm. c) GDPR)</td>
+              <td>Dle příslušných zákonů (až 10 let)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>4. Příjemci osobních údajů</h2>
+        <p>
+          Vaše osobní údaje neprodáváme ani neposkytujeme třetím stranám za účelem marketingu.
+          Pro technický provoz webu a doručení e-mailů využíváme tyto zpracovatele:
+        </p>
+        <ul>
+          <li><strong>Vercel Inc.</strong> — hosting webové stránky (USA; zajištěno Standard Contractual Clauses)</li>
+          <li><strong>Resend Inc.</strong> — doručení e-mailových zpráv z kontaktního formuláře (USA; zajištěno Standard Contractual Clauses)</li>
+        </ul>
+        <p>
+          Se všemi zpracovateli máme uzavřeny smlouvy o zpracování osobních údajů dle čl. 28 GDPR.
+        </p>
+
+        <h2>5. Předávání osobních údajů do třetích zemí</h2>
+        <p>
+          Výše uvedení zpracovatelé sídlí v USA. Předávání je ošetřeno standardními smluvními doložkami
+          Evropské komise (Standard Contractual Clauses), které zajišťují odpovídající úroveň ochrany.
+        </p>
+
+        <h2>6. Vaše práva</h2>
+        <p>V souladu s GDPR máte tato práva:</p>
+        <ul>
+          <li><strong>Právo na přístup</strong> — máte právo zjistit, jaké údaje o vás zpracováváme.</li>
+          <li><strong>Právo na opravu</strong> — máte právo na opravu nepřesných nebo neúplných údajů.</li>
+          <li><strong>Právo na výmaz</strong> — máte právo požádat o smazání údajů, pokud zanikl účel zpracování.</li>
+          <li><strong>Právo na omezení zpracování</strong> — za zákonem stanovených podmínek.</li>
+          <li><strong>Právo na přenositelnost</strong> — máte právo získat své údaje ve strojově čitelném formátu.</li>
+          <li><strong>Právo vznést námitku</strong> — proti zpracování na základě oprávněného zájmu.</li>
+          <li><strong>Právo odvolat souhlas</strong> — pokud je zpracování založeno na souhlasu, můžete jej kdykoli odvolat.</li>
+        </ul>
+        <p>
+          Svá práva uplatňujte e-mailem na adrese <a href="mailto:info@globaalelevate.com">info@globaalelevate.com</a>.
+          Na vaši žádost odpovíme bez zbytečného odkladu, nejpozději do 30 dnů.
+        </p>
+
+        <h2>7. Právo podat stížnost</h2>
+        <p>
+          Pokud se domníváte, že zpracováváme vaše osobní údaje v rozporu s GDPR, máte právo podat stížnost
+          u dozorového úřadu — <strong>Úřadu pro ochranu osobních údajů (ÚOOÚ)</strong>:
+        </p>
+        <ul>
+          <li>Web: <a href="https://www.uoou.cz" target="_blank" rel="noopener">www.uoou.cz</a></li>
+          <li>E-mail: posta@uoou.cz</li>
+          <li>Adresa: Pplk. Sochora 27, 170 00 Praha 7</li>
+        </ul>
+
+        <h2>8. Zabezpečení</h2>
+        <p>
+          Přijímáme přiměřená technická a organizační opatření k ochraně vašich osobních údajů před
+          neoprávněným přístupem, ztrátou nebo zničením. Přenos dat probíhá šifrovaně přes protokol HTTPS.
+        </p>
+
+        <h2>9. Změny těchto zásad</h2>
+        <p>
+          Tyto zásady mohou být průběžně aktualizovány. Aktuální verze je vždy dostupná na této stránce.
+          Datum poslední aktualizace: <strong>srpen 2026</strong>.
+        </p>
+
+      </div>
+    </div>
+  </section>
 </PageLayout>
+
+<style>
+  .prose-content {
+    max-width: 760px;
+  }
+
+  .prose-content h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 2.5rem 0 0.75rem;
+    color: var(--fg);
+  }
+
+  .prose-content h2:first-child {
+    margin-top: 0;
+  }
+
+  .prose-content p {
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose-content ul {
+    margin: 0.5rem 0 0.75rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .prose-content li {
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+  }
+
+  .prose-content a {
+    color: var(--accent);
+    transition: opacity 0.2s ease;
+  }
+
+  .prose-content a:hover {
+    opacity: 0.8;
+  }
+
+  .prose-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1rem 0 1.5rem;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .prose-content th {
+    text-align: left;
+    padding: 0.625rem 0.875rem;
+    background: var(--bg-surface);
+    color: var(--fg);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .prose-content td {
+    padding: 0.625rem 0.875rem;
+    color: var(--fg-muted);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+
+  .prose-content tr:last-child td {
+    border-bottom: none;
+  }
+</style>

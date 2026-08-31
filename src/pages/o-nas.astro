@@ -1,38 +1,253 @@
 ---
-import { getEntry } from 'astro:content';
-import PageLayout from '../layouts/PageLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import Prose from '../components/Prose.astro';
-
-const page = await getEntry('pages', 'about.cs');
-if (!page) throw new Error('Missing pages entry "about.cs"');
-
-const company = (await getEntry('company', 'main'))?.data;
-if (!company) throw new Error('Missing company entry "main"');
-
-const siteUrl = company.siteUrl;
-
-const breadcrumbs = [
-  { label: 'Domů', href: '/' },
-  { label: page.data.h1, href: '/o-nas' },
-];
-
-const alternates = [
-  { hreflang: 'cs', href: `${siteUrl}/o-nas` },
-  { hreflang: 'en', href: `${siteUrl}/en/about` },
-  { hreflang: 'x-default', href: `${siteUrl}/o-nas` },
-];
+import PageLayout from '../layouts/PageLayout.astro'
+import SectionLabel from '../components/SectionLabel.astro'
 ---
 
-<PageLayout page={page} breadcrumbs={breadcrumbs} alternates={alternates}>
-  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
-    {page.data.sections.map((section) => (
-      <section id={section.id} class="mt-12 first:mt-0">
-        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
-        <Prose>
-          <p class="mt-4">{section.body}</p>
-        </Prose>
-      </section>
-    ))}
-  </div>
+<PageLayout
+  title="O nás"
+  description="Jsme katalyzátor moderních značek. Kreativní holding formující budoucnost brandingu, hudby a digitálního byznysu."
+  badge="• Kdo jsme"
+  heading="Jsme katalyzátor moderních značek."
+  lead="Globaal Elevate propojuje kreativitu, technologii a byznys do jednoho ekosystému."
+  lang="cs"
+>
+  <!-- Mise -->
+  <section class="section">
+    <div class="container">
+      <div class="asym-grid anim-fade">
+        <div>
+          <SectionLabel text="Naše mise" />
+          <p class="meta-text">Od roku 2026</p>
+        </div>
+        <div class="mission-body">
+          <h2 class="section-heading">Budujeme brand ekosystém budoucnosti</h2>
+          <p class="body-text">
+            Věříme, že nejsilnější značky nevznikají v silose. Proto propojujeme talenty, projekty a nápady napříč obory — hudba se potkává s technologií, marketing s autenticitou, lokalita s globálním přesahem.
+          </p>
+          <p class="body-text">
+            Každý projekt pod hlavičkou Globaal Elevate sdílí stejné hodnoty: odvahu být jiný, ambici myslet dopředu a schopnost přinášet reálné výsledky.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hodnoty -->
+  <section class="section values-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Naše hodnoty" />
+        <h2 class="section-heading">Co nás pohání</h2>
+      </div>
+
+      <div class="values-grid anim-stagger">
+        <div class="card value-card">
+          <div class="value-number">01</div>
+          <h3>Inovace</h3>
+          <p>Hledáme řešení, která ještě neexistují. Každý projekt je experimentem — metodickým, ale odvážným.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">02</div>
+          <h3>Autenticita</h3>
+          <p>Nevytváříme značky jen proto, aby vypadaly dobře. Tvoříme je tak, aby mluvily pravdu o svém zakladateli.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">03</div>
+          <h3>Globální přesah</h3>
+          <p>Lokální kořeny, globální ambice. Budujeme projekty, které mají potenciál oslovit svět.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">04</div>
+          <h3>Výsledky</h3>
+          <p>Kreativita bez výsledků je jen záměr. Soustředíme se na měřitelný dopad každého projektu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Značky -->
+  <section class="section brands-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Portfolio" />
+        <h2 class="section-heading">Naše projekty</h2>
+      </div>
+
+      <div class="brands-list anim-stagger">
+        <a href="/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Hudba</span>
+            <strong>3lwave</strong>
+          </div>
+          <p>Alternativní hudební vydavatelství pro novou generaci.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Finance</span>
+            <strong>bilanxflow</strong>
+          </div>
+          <p>Byznys strategie a finanční poradenství s přesahem.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">SaaS</span>
+            <strong>gateup</strong>
+          </div>
+          <p>Digitální produkty a platformy pro moderní byznys.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Hudba</span>
+            <strong>Globaal Records</strong>
+          </div>
+          <p>Nezávislé hudební vydavatelství.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Media</span>
+            <strong>klipr</strong>
+          </div>
+          <p>Obsahová platforma a media produkce.</p>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </PageLayout>
+
+<style>
+  .section-heading {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-text {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+    margin-top: 1rem;
+  }
+
+  .body-text {
+    font-size: 1rem;
+    color: var(--fg-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .mission-body {
+    max-width: 640px;
+  }
+
+  .values-section {
+    background: var(--bg-surface);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .value-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .value-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+
+  .value-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .value-card p {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+  }
+
+  .brands-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .brand-row {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+  }
+
+  .brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .brand-tag {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .brand-info strong {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .brand-row p {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+  }
+
+  .arrow {
+    font-size: 1.25rem;
+    color: var(--fg-muted);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .brand-row:hover .arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 900px) {
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .brand-row {
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+    }
+
+    .brand-row p {
+      grid-column: 1;
+    }
+  }
+</style>

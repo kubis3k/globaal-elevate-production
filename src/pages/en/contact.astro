@@ -1,54 +1,54 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro'
-import SectionLabel from '../components/SectionLabel.astro'
+import PageLayout from '../../layouts/PageLayout.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
 ---
 
 <PageLayout
-  title="Kontakt"
-  description="Kontaktujte Globaal Elevate Production. Rádi si promluvíme o vašem projektu."
-  badge="• Kontakt"
-  heading="Pojďme si promluvit."
-  lead="Máte projekt, nápad nebo jen otázku? Jsme tady."
-  lang="cs"
+  title="Contact"
+  description="Contact Globaal Elevate Production. We'd love to hear about your project."
+  badge="• Contact"
+  heading="Let's talk."
+  lead="Have a project, idea or just a question? We're here."
+  lang="en"
 >
   <section class="section">
     <div class="container">
       <div class="contact-grid">
-        <!-- Vlevo: info -->
+        <!-- Left: info -->
         <div class="contact-info anim-fade">
           <div class="info-block">
-            <SectionLabel text="Adresa" />
+            <SectionLabel text="Address" />
             <p>Dlouhá 715/38, Staré Město</p>
-            <p>110 00 Praha 1</p>
+            <p>110 00 Prague 1</p>
           </div>
 
           <div class="info-block">
-            <SectionLabel text="Obecné dotazy" />
+            <SectionLabel text="General enquiries" />
             <a href="mailto:info@globaalelevate.com" class="contact-link">info@globaalelevate.com</a>
           </div>
 
           <div class="info-block">
-            <SectionLabel text="Booking & spolupráce" />
+            <SectionLabel text="Booking & collaboration" />
             <a href="mailto:booking@globaalelevate.com" class="contact-link">booking@globaalelevate.com</a>
           </div>
 
           <div class="info-block">
-            <SectionLabel text="Firma" />
+            <SectionLabel text="Company" />
             <p>Globaal Elevate Production s.r.o.</p>
-            <p class="muted">IČO 24972070</p>
+            <p class="muted">ID: 24972070</p>
           </div>
         </div>
 
-        <!-- Vpravo: formulář -->
+        <!-- Right: form -->
         <div class="contact-form-wrap anim-fade">
           <form class="contact-form" id="contact-form">
             <div class="form-group">
-              <label for="name">Jméno</label>
+              <label for="name">Name</label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Jan Novák"
+                placeholder="John Smith"
                 required
               />
             </div>
@@ -59,18 +59,18 @@ import SectionLabel from '../components/SectionLabel.astro'
                 type="email"
                 id="email"
                 name="email"
-                placeholder="jan@firma.cz"
+                placeholder="john@company.com"
                 required
               />
             </div>
 
             <div class="form-group">
-              <label for="message">Zpráva</label>
+              <label for="message">Message</label>
               <textarea
                 id="message"
                 name="message"
                 rows="6"
-                placeholder="Popište váš projekt nebo dotaz..."
+                placeholder="Tell us about your project or question..."
                 required
               ></textarea>
             </div>
@@ -78,7 +78,7 @@ import SectionLabel from '../components/SectionLabel.astro'
             <div id="form-status" class="form-status" aria-live="polite"></div>
 
             <button type="submit" class="btn btn-filled submit-btn" id="submit-btn">
-              Odeslat zprávu
+              Send message
             </button>
           </form>
         </div>
@@ -95,59 +95,18 @@ import SectionLabel from '../components/SectionLabel.astro'
     align-items: start;
   }
 
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .info-block { display: flex; flex-direction: column; gap: 0.375rem; }
+  .info-block p { font-size: 0.9375rem; color: var(--fg); }
+  .muted { color: var(--fg-muted) !important; font-size: 0.875rem !important; }
+  .contact-link { font-size: 0.9375rem; color: var(--accent); transition: opacity 0.2s ease; }
+  .contact-link:hover { opacity: 0.8; }
 
-  .info-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
+  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  label { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
 
-  .info-block p {
-    font-size: 0.9375rem;
-    color: var(--fg);
-  }
-
-  .muted {
-    color: var(--fg-muted) !important;
-    font-size: 0.875rem !important;
-  }
-
-  .contact-link {
-    font-size: 0.9375rem;
-    color: var(--accent);
-    transition: opacity 0.2s ease;
-  }
-
-  .contact-link:hover {
-    opacity: 0.8;
-  }
-
-  /* Form */
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--fg);
-  }
-
-  input,
-  textarea {
+  input, textarea {
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: 0.5rem;
@@ -160,22 +119,9 @@ import SectionLabel from '../components/SectionLabel.astro'
     resize: vertical;
   }
 
-  input::placeholder,
-  textarea::placeholder {
-    color: var(--fg-muted);
-  }
-
-  input:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-  }
-
-  .submit-btn {
-    align-self: flex-start;
-    padding: 0.875rem 2rem;
-    font-size: 0.9375rem;
-  }
+  input::placeholder, textarea::placeholder { color: var(--fg-muted); }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  .submit-btn { align-self: flex-start; padding: 0.875rem 2rem; font-size: 0.9375rem; }
 
   .form-status {
     font-size: 0.875rem;
@@ -187,10 +133,7 @@ import SectionLabel from '../components/SectionLabel.astro'
   .form-status.error { display: block; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
 
   @media (max-width: 768px) {
-    .contact-grid {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
   }
 </style>
 
@@ -202,7 +145,7 @@ import SectionLabel from '../components/SectionLabel.astro'
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     submitBtn.disabled = true
-    submitBtn.textContent = 'Odesílám…'
+    submitBtn.textContent = 'Sending…'
     statusEl.className = 'form-status'
     statusEl.textContent = ''
 
@@ -210,7 +153,7 @@ import SectionLabel from '../components/SectionLabel.astro'
       name: (document.getElementById('name') as HTMLInputElement).value,
       email: (document.getElementById('email') as HTMLInputElement).value,
       message: (document.getElementById('message') as HTMLTextAreaElement).value,
-      lang: 'cs',
+      lang: 'en',
     }
 
     try {
@@ -221,17 +164,17 @@ import SectionLabel from '../components/SectionLabel.astro'
       })
       if (res.ok) {
         statusEl.className = 'form-status success'
-        statusEl.textContent = 'Zpráva odeslána! Ozveme se vám co nejdříve.'
+        statusEl.textContent = 'Message sent! We\'ll get back to you as soon as possible.'
         form.reset()
       } else {
         throw new Error('Server error')
       }
     } catch {
       statusEl.className = 'form-status error'
-      statusEl.textContent = 'Něco se nepovedlo. Zkuste to prosím znovu nebo nás kontaktujte přímo.'
+      statusEl.textContent = 'Something went wrong. Please try again or contact us directly.'
     } finally {
       submitBtn.disabled = false
-      submitBtn.textContent = 'Odeslat zprávu'
+      submitBtn.textContent = 'Send message'
     }
   })
 </script>

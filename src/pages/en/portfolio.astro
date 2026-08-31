@@ -1,0 +1,115 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
+
+const brands = [
+  {
+    name: '3lwave',
+    category: 'Events',
+    description: 'Next-generation event brand — music, experiences and connecting people at unforgettable events.',
+    year: '2026',
+    color: '#F59E0B',
+    href: 'https://3lwave.cz',
+  },
+  {
+    name: 'Globaal Records',
+    category: 'Music',
+    description: 'Independent music label focused on authentic artists and original sounds.',
+    year: '2026',
+    color: '#ff6600',
+    href: 'https://3lwave.cz/label',
+  },
+  {
+    name: 'Globaal Production',
+    category: 'Creative',
+    description: 'Creative agency for marketing, branding and graphic design. We build visual identities that leave a lasting impression.',
+    year: '2026',
+    color: '#6366f1',
+    href: '/en/contact',
+  },
+  {
+    name: 'Vision Technology',
+    category: 'Technology',
+    description: 'Custom development of AI systems, websites and digital products. From prototype to production.',
+    year: '2026',
+    color: '#10b981',
+    href: 'https://visiontechnology.cz',
+  },
+]
+---
+
+<PageLayout
+  title="Portfolio"
+  description="Our portfolio spans music, marketing, finance and technology."
+  badge="• Our projects"
+  heading="Brand portfolio"
+  lead="Two brands, one vision — an ecosystem of connected projects with global ambition."
+  lang="en"
+>
+  <section class="section">
+    <div class="container">
+      <div class="brands-grid anim-stagger">
+        {brands.map(brand => (
+          <a href={brand.href} target="_blank" rel="noopener noreferrer" class="card brand-card">
+            <div class="brand-header">
+              <span class="brand-dot" style={`background: ${brand.color}`}></span>
+              <span class="brand-category">{brand.category}</span>
+              <span class="brand-year">{brand.year}</span>
+            </div>
+            <h2 class="brand-name">{brand.name}</h2>
+            <p class="brand-desc">{brand.description}</p>
+            <div class="brand-footer">
+              <span class="brand-status">Active project</span>
+              <span class="brand-arrow">↗</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner anim-fade">
+        <SectionLabel text="Collaboration" />
+        <h2 class="cta-heading">Want to work with us?</h2>
+        <p class="cta-text">We are looking for talent, partners and projects that share our vision.</p>
+        <a href="/en/contact" class="btn btn-filled">Contact us</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .brands-grid > :nth-child(4) {
+    grid-column: 1;
+  }
+
+  .brand-card { display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; }
+
+  .brand-header { display: flex; align-items: center; gap: 0.75rem; }
+  .brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .brand-category { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; flex: 1; }
+  .brand-year { font-size: 0.75rem; color: var(--fg-muted); }
+  .brand-name { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; }
+  .brand-desc { font-size: 0.9375rem; color: var(--fg-muted); line-height: 1.65; flex: 1; }
+
+  .brand-footer { padding-top: 0.75rem; border-top: 1px solid var(--border); margin-top: auto; display: flex; align-items: center; justify-content: space-between; }
+  .brand-status { font-size: 0.75rem; color: #22c55e; font-weight: 600; letter-spacing: 0.05em; }
+  .brand-arrow { font-size: 1rem; color: var(--fg-muted); transition: color 0.2s ease, transform 0.2s ease; }
+  .brand-card:hover .brand-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+  .cta-section { background: var(--bg-surface); padding: 5rem 0; border-top: 1px solid var(--border); }
+  .cta-inner { max-width: 560px; }
+  .cta-heading { font-size: clamp(1.75rem, 3vw, 2.5rem); margin: 0.5rem 0 1rem; }
+  .cta-text { font-size: 1rem; color: var(--fg-muted); margin-bottom: 1.75rem; line-height: 1.7; }
+
+  @media (max-width: 900px) { .brands-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .brands-grid { grid-template-columns: 1fr; } }
+</style>

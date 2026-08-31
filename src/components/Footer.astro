@@ -1,73 +1,156 @@
 ---
-import { getEntry } from 'astro:content';
-import type { Locale } from '../i18n/ui';
-import { useTranslations, localizePath } from '../i18n/utils';
-
 interface Props {
-  locale: Locale;
+  lang?: string
 }
 
-const { locale } = Astro.props;
-const t = useTranslations(locale);
-
-const companyEntry = await getEntry('company', 'main');
-const company = companyEntry?.data;
-
-const year = new Date().getFullYear();
+const { lang = 'cs' } = Astro.props
 ---
 
-<footer class="border-t border-line">
-  <div class="mx-auto max-w-content px-4 py-10 sm:px-6">
-    <div class="grid gap-8 sm:grid-cols-3">
-      <div>
-        <p class="text-sm font-semibold text-ink">Globaal Elevate</p>
-        {company && (
-          <p class="mt-2 text-sm text-muted">
-            {company.legalName}
-            <br />
-            {t('footer.ico')}: {company.ico}
-            <br />
-            {company.city}, {company.country}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold text-ink">{t('footer.businessInquiries')}</p>
-        {company && (
-          <a href={`mailto:${company.emails.business}`} class="mt-2 block text-sm text-muted transition hover:text-accent">
-            {company.emails.business}
-          </a>
-        )}
-        <p class="mt-4 text-sm font-semibold text-ink">{t('footer.eventBooking')}</p>
-        {company && (
-          <a href={`mailto:${company.emails.booking}`} class="mt-2 block text-sm text-muted transition hover:text-accent">
-            {company.emails.booking}
-          </a>
-        )}
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold text-ink">Instagram</p>
-        {company && (
-          <ul class="mt-2 flex flex-col gap-1">
-            {company.instagram.map((url) => (
-              <li>
-                <a href={url} target="_blank" rel="noopener noreferrer" class="text-sm text-muted transition hover:text-accent">
-                  {url.replace('https://instagram.com/', '@')}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-        <a href={localizePath('/gdpr', locale)} class="mt-4 block text-sm text-muted transition hover:text-accent">
-          {t('footer.gdpr')}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href={lang === 'en' ? '/en/' : '/'} class="logo-link">
+          <img src="/logo.png" class="footer-logo-img" alt="Globaal Elevate Production" />
         </a>
+        <p class="tagline">Tvoříme brand, který zanechá stopu.</p>
       </div>
+
+      <nav class="footer-nav" aria-label="Patičková navigace">
+        {lang === 'en' ? (
+          <>
+            <a href="/en/about">About</a>
+            <a href="/en/portfolio">Portfolio</a>
+            <a href="/en/contact">Contact</a>
+          </>
+        ) : (
+          <>
+            <a href="/o-nas">O nás</a>
+            <a href="/portfolio">Portfolio</a>
+            <a href="/kontakt">Kontakt</a>
+          </>
+        )}
+      </nav>
     </div>
 
-    <p class="mt-8 border-t border-line pt-6 text-xs text-muted">
-      Globaal Production {t('footer.brandOf')} &middot; &copy; {year} &middot; {t('footer.rights')}
-    </p>
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 Globaal Elevate Production s.r.o. · IČO 24972070 · C 446827, Městský soud v Praze</p>
+      <div class="footer-legal">
+        <a href="/gdpr" class="legal-link">GDPR</a>
+      </div>
+    </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 0 2rem;
+    margin-top: auto;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .footer-logo-img {
+    height: 26px;
+    width: auto;
+    filter: invert(1);
+    mix-blend-mode: screen;
+    transition: opacity 0.2s ease;
+  }
+
+  :global([data-theme="light"]) .footer-logo-img {
+    filter: none;
+    mix-blend-mode: multiply;
+  }
+
+  .logo-link:hover .footer-logo-img {
+    opacity: 0.7;
+  }
+
+  .tagline {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    max-width: 260px;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .footer-nav a {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    transition: color 0.2s ease;
+  }
+
+  .footer-nav a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .legal-link {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+    transition: color 0.2s ease;
+  }
+
+  .legal-link:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      flex-direction: column;
+    }
+
+    .footer-nav {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

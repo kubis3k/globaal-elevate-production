@@ -1,20 +1,41 @@
 ---
-// Subtle decorative radial gradient in the brand accent color. Purely
-// visual, no interactivity — kept very low-opacity by design.
 interface Props {
-  class?: string;
+  top?: string
+  left?: string
+  right?: string
+  size?: string
+  opacity?: string
 }
 
-const { class: className = '' } = Astro.props;
+const {
+  top = '10%',
+  left,
+  right,
+  size = '600px',
+  opacity = '0.15'
+} = Astro.props
 ---
 
 <div
-  class={`pointer-events-none absolute inset-0 -z-10 overflow-hidden ${className}`}
+  class="gradient-orb"
+  style={`
+    width: ${size};
+    height: ${size};
+    top: ${top};
+    ${left ? `left: ${left};` : ''}
+    ${right ? `right: ${right};` : ''}
+    opacity: ${opacity};
+  `}
   aria-hidden="true"
->
-  <div
-    class="absolute left-1/2 top-0 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/3 rounded-full"
-    style="background: radial-gradient(circle, rgba(118,6,255,0.08) 0%, rgba(118,6,255,0) 70%);"
-  >
-  </div>
-</div>
+></div>
+
+<style>
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #F59E0B 0%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

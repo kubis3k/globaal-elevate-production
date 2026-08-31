@@ -1,47 +1,82 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import BaseLayout from './BaseLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { localizePath } from '../i18n/utils';
-
-interface BreadcrumbItem {
-  label: string;
-  href: string;
-}
-
-interface AlternateLink {
-  hreflang: string;
-  href: string;
-}
+import BaseLayout from './BaseLayout.astro'
 
 interface Props {
-  page: CollectionEntry<'pages'>;
-  jsonLd?: object[];
-  breadcrumbs?: BreadcrumbItem[];
-  path?: string;
-  alternates?: AlternateLink[];
+  title: string
+  description?: string
+  badge?: string
+  heading: string
+  lead?: string
+  lang?: string
 }
 
-const { page, jsonLd, breadcrumbs, path, alternates } = Astro.props;
-const { title, description, locale, slug, h1, heroLead, ogImage, noindex } = page.data;
-
-const resolvedPath = path ?? localizePath(slug === '' ? '/' : `/${slug}`, locale);
+const {
+  title,
+  description,
+  badge,
+  heading,
+  lead,
+  lang = 'cs',
+} = Astro.props
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  locale={locale}
-  path={resolvedPath}
-  ogImage={ogImage}
-  jsonLd={jsonLd}
-  alternates={alternates}
-  noindex={noindex}
->
-  {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
-  <div class="mx-auto max-w-content px-4 py-12 sm:px-6">
-    <h1 class="text-3xl font-bold text-ink sm:text-4xl">{h1}</h1>
-    {heroLead && <p class="mt-4 max-w-2xl text-lg text-muted">{heroLead}</p>}
-  </div>
+<BaseLayout title={title} description={description} lang={lang}>
+  <!-- Subpage hero -->
+  <section class="page-hero">
+    <div class="container page-hero-content">
+      {badge && <span class="section-label hero-anim" style="animation-delay:0.1s">{badge}</span>}
+      <h1 class="page-heading hero-anim" style="animation-delay:0.25s">{heading}</h1>
+      {lead && <p class="page-lead hero-anim" style="animation-delay:0.4s">{lead}</p>}
+    </div>
+  </section>
+
+  <!-- Page content -->
   <slot />
 </BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    padding: 9rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+  }
+
+  .page-hero .section-label {
+    color: #F59E0B;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .page-heading {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--fg);
+  }
+
+  .page-lead {
+    font-size: 1.125rem;
+    color: var(--fg-muted);
+    margin-top: 1.25rem;
+    max-width: 540px;
+    line-height: 1.7;
+  }
+
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .hero-anim {
+    opacity: 0;
+    animation: heroFadeUp 0.65s ease forwards;
+  }
+</style>

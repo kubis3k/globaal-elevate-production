@@ -1,38 +1,165 @@
 ---
-import { getEntry } from 'astro:content';
-import PageLayout from '../../layouts/PageLayout.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
-import Prose from '../../components/Prose.astro';
-
-const page = await getEntry('pages', 'about.en');
-if (!page) throw new Error('Missing pages entry "about.en"');
-
-const company = (await getEntry('company', 'main'))?.data;
-if (!company) throw new Error('Missing company entry "main"');
-
-const siteUrl = company.siteUrl;
-
-const breadcrumbs = [
-  { label: 'Home', href: '/en' },
-  { label: page.data.h1, href: '/en/about' },
-];
-
-const alternates = [
-  { hreflang: 'cs', href: `${siteUrl}/o-nas` },
-  { hreflang: 'en', href: `${siteUrl}/en/about` },
-  { hreflang: 'x-default', href: `${siteUrl}/o-nas` },
-];
+import PageLayout from '../../layouts/PageLayout.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
 ---
 
-<PageLayout page={page} breadcrumbs={breadcrumbs} alternates={alternates}>
-  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
-    {page.data.sections.map((section) => (
-      <section id={section.id} class="mt-12 first:mt-0">
-        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
-        <Prose>
-          <p class="mt-4">{section.body}</p>
-        </Prose>
-      </section>
-    ))}
-  </div>
+<PageLayout
+  title="About"
+  description="We are the catalyst for modern brands. A creative holding shaping the future of branding, music and digital business."
+  badge="• Who we are"
+  heading="We are the catalyst for modern brands."
+  lead="Globaal Elevate connects creativity, technology and business into a single ecosystem."
+  lang="en"
+>
+  <!-- Mission -->
+  <section class="section">
+    <div class="container">
+      <div class="asym-grid anim-fade">
+        <div>
+          <SectionLabel text="Our mission" />
+          <p class="meta-text">Since 2026</p>
+        </div>
+        <div class="mission-body">
+          <h2 class="section-heading">Building the brand ecosystem of the future</h2>
+          <p class="body-text">
+            We believe the strongest brands don't emerge in isolation. That's why we connect talents, projects and ideas across disciplines — music meets technology, marketing meets authenticity, local roots meet global ambition.
+          </p>
+          <p class="body-text">
+            Every project under the Globaal Elevate umbrella shares the same values: the courage to be different, the ambition to think ahead, and the ability to deliver real results.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section values-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Our values" />
+        <h2 class="section-heading">What drives us</h2>
+      </div>
+
+      <div class="values-grid anim-stagger">
+        <div class="card value-card">
+          <div class="value-number">01</div>
+          <h3>Innovation</h3>
+          <p>We look for solutions that don't exist yet. Every project is an experiment — methodical but bold.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">02</div>
+          <h3>Authenticity</h3>
+          <p>We don't create brands just to look good. We build them to tell the truth about their founder.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">03</div>
+          <h3>Global reach</h3>
+          <p>Local roots, global ambition. We build projects with the potential to reach the world.</p>
+        </div>
+        <div class="card value-card">
+          <div class="value-number">04</div>
+          <h3>Results</h3>
+          <p>Creativity without results is just intent. We focus on the measurable impact of every project.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands -->
+  <section class="section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Portfolio" />
+        <h2 class="section-heading">Our projects</h2>
+      </div>
+
+      <div class="brands-list anim-stagger">
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Music</span>
+            <strong>3lwave</strong>
+          </div>
+          <p>Alternative music label for a new generation.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Finance</span>
+            <strong>bilanxflow</strong>
+          </div>
+          <p>Business strategy and financial consulting with reach.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">SaaS</span>
+            <strong>gateup</strong>
+          </div>
+          <p>Digital products and platforms for modern business.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Music</span>
+            <strong>Globaal Records</strong>
+          </div>
+          <p>Independent music label.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Media</span>
+            <strong>klipr</strong>
+          </div>
+          <p>Content platform and media production.</p>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </PageLayout>
+
+<style>
+  .section-heading { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-top: 0.5rem; margin-bottom: 1.5rem; }
+  .meta-text { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 1rem; }
+  .body-text { font-size: 1rem; color: var(--fg-muted); line-height: 1.75; margin-bottom: 1rem; }
+  .mission-body { max-width: 640px; }
+
+  .values-section { background: var(--bg-surface); }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .value-card { display: flex; flex-direction: column; gap: 0.5rem; }
+  .value-number { font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+  .value-card h3 { font-size: 1.125rem; font-weight: 700; }
+  .value-card p { font-size: 0.875rem; color: var(--fg-muted); line-height: 1.65; }
+
+  .brands-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
+
+  .brand-row {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+  }
+
+  .brand-info { display: flex; flex-direction: column; gap: 0.25rem; }
+  .brand-tag { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .brand-info strong { font-size: 1.125rem; font-weight: 700; }
+  .brand-row p { font-size: 0.9rem; color: var(--fg-muted); }
+  .arrow { font-size: 1.25rem; color: var(--fg-muted); transition: color 0.2s ease, transform 0.2s ease; display: inline-block; }
+  .brand-row:hover .arrow { color: var(--accent); transform: translateX(4px); }
+
+  @media (max-width: 900px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) {
+    .values-grid { grid-template-columns: 1fr; }
+    .brand-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
+    .brand-row p { grid-column: 1; }
+  }
+</style>

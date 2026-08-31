@@ -1,67 +1,178 @@
 ---
-import { getEntry } from 'astro:content';
-import PageLayout from '../../layouts/PageLayout.astro';
-import CtaTile from '../../components/CtaTile.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
-import Prose from '../../components/Prose.astro';
-import { getAlternateLinks } from '../../i18n/utils';
-
-const page = await getEntry('pages', 'home.en');
-if (!page) throw new Error('Missing pages entry "home.en"');
-
-const company = (await getEntry('company', 'main'))?.data;
-if (!company) throw new Error('Missing company entry "main"');
-
-const siteUrl = company.siteUrl;
-const logoUrl = new URL('/og-default.png', Astro.site).toString();
-
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Globaal Elevate',
-  legalName: company.legalName,
-  url: siteUrl,
-  logo: logoUrl,
-  email: company.emails.general,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: company.city,
-    addressCountry: company.country,
-  },
-  sameAs: company.instagram,
-  identifier: {
-    '@type': 'PropertyValue',
-    name: 'Company ID',
-    value: company.ico,
-  },
-  taxID: company.ico,
-};
-
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  url: siteUrl,
-  name: 'Globaal Elevate',
-};
-
-const alternates = getAlternateLinks('/', siteUrl);
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Hero from '../../components/Hero.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
 ---
 
-<PageLayout page={page} path="/en" jsonLd={[organizationJsonLd, websiteJsonLd]} alternates={alternates}>
-  <div class="mx-auto max-w-content px-4 pb-16 sm:px-6">
-    <div class="grid gap-4 sm:grid-cols-3">
-      {page.data.ctas?.map((cta) => (
-        <CtaTile label={cta.label} href={cta.href} external={cta.external} note={cta.note} />
-      ))}
-    </div>
+<BaseLayout
+  title="Home"
+  description="Globaal Elevate Production is a creative holding shaping a new era of branding, music, and digital business."
+  lang="en"
+>
+  <!-- 1. Hero -->
+  <Hero
+    badge="• Creative Holding"
+    heading="We build the future of brands"
+    accentPhrase="future"
+    lead="Globaal Elevate Production is a creative holding shaping a new era of branding, music and digital business."
+    ctaPrimary="Explore portfolio"
+    ctaSecondary="Contact us"
+    ctaPrimaryHref="/en/portfolio"
+    ctaSecondaryHref="/en/contact"
+  />
 
-    {page.data.sections.map((section) => (
-      <section id={section.id} class="mt-16">
-        {section.heading && <SectionHeading as="h2">{section.heading}</SectionHeading>}
-        <Prose>
-          <p class="mt-4">{section.body}</p>
-        </Prose>
-      </section>
-    ))}
-  </div>
-</PageLayout>
+  <!-- 2. Pillars -->
+  <section class="section pillars-section">
+    <div class="container">
+      <div class="pillars-header anim-fade">
+        <SectionLabel text="What we do" />
+        <h2 class="pillars-title">Three pillars of our work</h2>
+      </div>
+
+      <div class="pillars-grid anim-stagger">
+        <div class="card pillar-card">
+          <div class="pillar-icon">🎵</div>
+          <h3>Music</h3>
+          <p>Label, distribution and artist development under 3lwave and Globaal Records. Sounds for a new generation.</p>
+        </div>
+        <div class="card pillar-card">
+          <div class="pillar-icon">📣</div>
+          <h3>Marketing</h3>
+          <p>Strategic branding, digital campaigns and content creation. We build brands that leave a mark.</p>
+        </div>
+        <div class="card pillar-card">
+          <div class="pillar-icon">⚡</div>
+          <h3>Technology</h3>
+          <p>Events, creative production and project delivery under the Globaal Production brand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. About — asymmetric layout -->
+  <section class="section about-section">
+    <div class="container">
+      <div class="asym-grid anim-fade">
+        <div class="about-meta">
+          <SectionLabel text="Who we are" />
+          <p class="about-date">Founded 2026</p>
+          <p class="about-meta-text">Prague, CZ</p>
+        </div>
+        <div class="about-body">
+          <h2 class="about-heading">Catalyst for modern brands</h2>
+          <p class="about-text">
+            Globaal Elevate Production was built with a clear vision: create an ecosystem of interconnected brands sharing values, creativity and ambition. We are not just an agency — we are a holding, incubator and partner in one.
+          </p>
+          <p class="about-text">
+            Each of our projects is built on authenticity and long-term impact. From music publishing to SaaS products — all under one roof.
+          </p>
+          <a href="/en/about" class="btn btn-outline about-link">More about us →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Brands -->
+  <section class="section brands-section">
+    <div class="container">
+      <div class="brands-header anim-fade">
+        <SectionLabel text="Portfolio" />
+        <h2 class="brands-title">Our brands</h2>
+      </div>
+
+      <div class="brands-grid anim-stagger">
+        <a href="https://3lwave.cz" target="_blank" rel="noopener noreferrer" class="card brand-card">
+          <div class="brand-category">Events</div>
+          <h3 class="brand-name">3lwave</h3>
+          <p class="brand-desc">Next-generation event brand — music, experiences and connecting people.</p>
+          <span class="brand-arrow">→</span>
+        </a>
+        <a href="https://3lwave.cz/label" target="_blank" rel="noopener noreferrer" class="card brand-card">
+          <div class="brand-category">Music</div>
+          <h3 class="brand-name">Globaal Records</h3>
+          <p class="brand-desc">Independent label focused on authentic artists and original sounds.</p>
+          <span class="brand-arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-card">
+          <div class="brand-category">Creative</div>
+          <h3 class="brand-name">Globaal Production</h3>
+          <p class="brand-desc">Creative agency for marketing, branding and graphic design.</p>
+          <span class="brand-arrow">→</span>
+        </a>
+        <a href="https://visiontechnology.cz" target="_blank" rel="noopener noreferrer" class="card brand-card">
+          <div class="brand-category">Technology</div>
+          <h3 class="brand-name">Vision Technology</h3>
+          <p class="brand-desc">AI systems, websites and custom digital development.</p>
+          <span class="brand-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-inner anim-fade">
+        <h2 class="cta-heading">Have a project?<br />Let's make it happen.</h2>
+        <p class="cta-lead">Whether it's branding, music or technology — we'd love to talk.</p>
+        <a href="/en/contact" class="btn btn-filled cta-btn">Contact us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pillars-section { background: var(--bg); }
+  .pillars-header { margin-bottom: 2.5rem; }
+  .pillars-title { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-top: 0.5rem; }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .pillar-card { display: flex; flex-direction: column; gap: 0.75rem; }
+  .pillar-icon { font-size: 2rem; margin-bottom: 0.25rem; }
+  .pillar-card h3 { font-size: 1.25rem; font-weight: 700; }
+  .pillar-card p { font-size: 0.9375rem; color: var(--fg-muted); line-height: 1.65; }
+
+  .about-section { background: var(--bg-surface); }
+  .about-date { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 1rem; font-weight: 500; }
+  .about-meta-text { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 0.25rem; }
+  .about-heading { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: 1.25rem; }
+  .about-text { font-size: 1rem; color: var(--fg-muted); line-height: 1.75; margin-bottom: 1rem; }
+  .about-link { margin-top: 0.5rem; }
+
+  .brands-section { background: var(--bg); }
+  .brands-header { margin-bottom: 2.5rem; }
+  .brands-title { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-top: 0.5rem; }
+
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .brand-card { display: flex; flex-direction: column; gap: 0.5rem; text-decoration: none; }
+  .brand-category { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .brand-name { font-size: 1.375rem; font-weight: 700; }
+  .brand-desc { font-size: 0.875rem; color: var(--fg-muted); line-height: 1.6; flex: 1; }
+  .brand-arrow { font-size: 1.25rem; color: var(--fg-muted); transition: color 0.2s ease, transform 0.2s ease; display: inline-block; margin-top: 0.5rem; }
+  .brand-card:hover .brand-arrow { color: var(--accent); transform: translateX(4px); }
+
+  .cta-section { background: #0a0a0a; padding: 6rem 0; border-top: 1px solid #222222; }
+  .cta-inner { text-align: center; max-width: 600px; margin: 0 auto; }
+  .cta-heading { font-size: clamp(2rem, 4vw, 3rem); color: #f5f5f5; margin-bottom: 1rem; }
+  .cta-lead { font-size: 1.0625rem; color: #999999; margin-bottom: 2rem; line-height: 1.7; }
+  .cta-btn { font-size: 1rem; padding: 0.875rem 2rem; }
+
+  @media (max-width: 900px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+    .brands-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .brands-grid { grid-template-columns: 1fr; }
+  }
+</style>

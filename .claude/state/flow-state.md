@@ -1,33 +1,56 @@
 # FLOW STATE
 
 ## Aktuální úkol
-- cíl: Astro+Tailwind korporátní web globaalelevate.com (CZ/EN, SEO, AI crawlers) — **DONE**
+- cíl: Nový korporátní web Globaal Elevate od nuly — UzOman styl, CZ+EN, 4 stránky
 - tier: T3
-- status: **done**
+- status: scaffold dokončen, build OK
 
-## Finální stav (2026-08-25)
-- poslední krok: Kompletní Astro 5 korporátní web postaven a ověřen (build PASS, critic PASS, vizuální kontrola hotová). ZBÝVÁ: GitHub repo + Vercel deploy (udělá uživatel nebo příští session).
-- Co existuje v projektu:
-  - CZ stránky: /, /o-nas, /marketing, /portfolio, /kariera, /kontakt, /gdpr, /404
-  - EN stránky: /en/, /en/about, /en/marketing (redirect-stub na cs verze pro zbylé)
-  - hreflang alternates na 3 párech (home, o-nas/about, marketing)
-  - JSON-LD: Organization+WebSite na home+kontakt; FAQPage+Service na marketing; JobPosting podmíněné (aktivuje se až bude jobs collection naplněná)
-  - SEO: robots.txt s AI crawlery, llms.txt, sitemap autom., og-default.png
-  - CookieBanner (no-cookie-by-default), ContactForm island + /api/contact Resend endpoint (prerender=false)
-  - Content Collections: pages (CZ+EN verze), brands, jobs (prázdná), company
-  - Logo: src/assets/logo-wordmark.png + logo-mark.png; public/og-default.png
+## Kde jsme skončili (checkpoint)
+- poslední dokončený krok: scaffold dokončen — build OK (8 stránek, 0 chyb)
+- soubory klíčové cesty:
+  - package.json (astro@5.18.2, @astrojs/vercel@9.0.5, tailwindcss@^4.1.0, @tailwindcss/vite@^4.1.0)
+  - astro.config.mjs (static output, vercel adapter, tailwindcss vite plugin)
+  - src/styles/global.css (CSS custom properties, Tailwind v4, animace, karty, buttony)
+  - src/layouts/BaseLayout.astro (html shell, Inter font, IntersectionObserver, theme toggle)
+  - src/layouts/PageLayout.astro (subpage hero s badge/heading/lead)
+  - src/components/Header.astro (logo, nav CZ+EN, lang switcher, theme toggle, hamburger)
+  - src/components/Footer.astro (logo, tagline, links)
+  - src/components/Hero.astro (full-bleed dark hero, badge, heading+accentPhrase, lead, 2x CTA)
+  - src/components/GradientDecor.astro (radial gradient orb)
+  - src/components/SectionLabel.astro (bullet label)
+  - src/pages/index.astro (CZ homepage: hero + pilíře + o firmě + značky + CTA)
+  - src/pages/o-nas.astro (CZ about: mise + hodnoty + značky)
+  - src/pages/portfolio.astro (CZ portfolio: 5 karet)
+  - src/pages/kontakt.astro (CZ contact: info + formulář)
+  - src/pages/en/index.astro, en/about.astro, en/portfolio.astro, en/contact.astro (EN verze)
+  - public/favicon.svg (G v kruhu, accent #7606ff)
+- build status: OK — 8 stránek vygenerováno za 2.29s
+
+## Mapa poznání (co víme o codebase)
+- Astro 5.18.2 + @astrojs/vercel@9.0.5 (pinned)
+- Tailwind CSS v4 CSS-first: @import "tailwindcss" v global.css, @tailwindcss/vite plugin v astro.config.mjs
+- Inter font: Google Fonts link v BaseLayout (variable font, opsz 14..32, wght 300..700)
+- Design tokens: CSS custom properties v :root + [data-theme="dark"] override
+- Animace: IntersectionObserver v BaseLayout <script>, .anim-fade + .anim-stagger třídy v global.css
+- Theme: localStorage 'theme' → data-theme attr na <html>, default dark
+- Lang: lang prop přes BaseLayout → <html lang=...>, Header/Footer reagují na lang prop
+- CZ stránky: /, /o-nas, /portfolio, /kontakt
+- EN stránky: /en/, /en/about, /en/portfolio, /en/contact
+- Layout vzor: asym-grid (280px 1fr), section-label bullet, card hover border-accent
 
 ## Klíčová rozhodnutí (append-only)
 - [2026-08-25] Akcentová barva #7606FF z loga (RGB 118,6,255)
-- [2026-08-25] Astro 5 + @astrojs/vercel@9, Tailwind v4 CSS-first, Inter Variable self-hosted, Vercel Analytics cookieless
-- [2026-08-25] content.config.ts `generateId: ({ entry }) => entry.replace(/\.md$/, '')` pro pages collection — id: "home.cs", "home.en", "marketing.cs" atd., aby se i18n varianty nekomplikly
-- [2026-08-25] PageLayout.astro slouží jako sjednocené "Hero" (jeden <h1> + heroLead na všech stránkách), zamezuje zdvojení h1 a potřebu zvlášť volat Hero komponentu
-- [2026-08-25] company.json bez vyplněných street, postalCode, directorName; kontakt.astro je podmíněně filtruje; ContactForm bez TestimonialsSection (komponenta v codebase neexistuje)
+- [2026-08-25] Astro 5 + @astrojs/vercel@9, Tailwind v4 CSS-first, Inter Variable self-hosted
+- [2026-08-25] PageLayout.astro slouží jako sjednocené hero pro podstránky
+- [2026-08-28] Redesign do UzOman stylu — zachovat brand, změnit layout jazyk sekcí
+- [2026-08-28] Redesign do UzOman corporate stylu dokončen: label-tag třída, asymetrické sekce (280px 1fr grid), anim-fade/stagger na sekcích, bullet section labely
+- [2026-08-28] IntersectionObserver pro animace byl již přítomen v BaseLayout — nebyl duplikován
+- [2026-08-28] Kompletní přestavba od nuly: vše smazáno, nový scaffold bez content collections, bez .md souborů — přímý Astro markup
 
-## Otevřené věci pro příští session
-1. GitHub repo + Vercel deploy (gh CLI nebo Vercel MCP)
-2. Env vars ve Vercel: RESEND_API_KEY, RESEND_TO_BUSINESS, RESEND_TO_BOOKING
-3. Ověřit doménu globaalelevate.com v Resend (from: web@globaalelevate.com)
-4. Naplnit src/content/jobs/ reálnými pozicemi (aktivuje JobPosting JSON-LD)
-5. Doplnit jednatele do company.json až bude vhodné
-6. Aktivovat TestimonialsSection až budou reálné reference
+## Otevřené otázky / následující session
+- GDPR stránka: /gdpr odkaz v Footer ale stránka neexistuje (404) — přidat src/pages/gdpr.astro
+- 404 stránka: neexistuje — přidat src/pages/404.astro
+- Kontaktní formulář: POST na # — zapojit API endpoint nebo Formspree
+- Reálný obsah: texty jsou placeholder, nutno nahradit reálnými
+- Deployment: Vercel project linking + env vars
+- SEO: sitemap, robots.txt, OG image

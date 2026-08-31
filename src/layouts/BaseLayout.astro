@@ -1,79 +1,87 @@
 ---
-import Analytics from '@vercel/analytics/astro';
-import '../styles/global.css';
-// eslint-disable-next-line import/no-unresolved
-import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import Seo from '../components/Seo.astro';
-import JsonLd from '../components/JsonLd.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import CookieBanner from '../components/CookieBanner.astro';
-import type { Locale } from '../i18n/ui';
-
-interface AlternateLink {
-  hreflang: string;
-  href: string;
-}
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
 
 interface Props {
-  title: string;
-  description: string;
-  locale: Locale;
-  path: string;
-  ogImage?: string;
-  jsonLd?: object[];
-  alternates?: AlternateLink[];
-  noindex?: boolean;
+  title: string
+  description?: string
+  lang?: string
 }
 
 const {
   title,
-  description,
-  locale,
-  path,
-  ogImage,
-  jsonLd = [],
-  alternates = [],
-  noindex = false,
-} = Astro.props;
-
-const canonical = new URL(path, Astro.site).toString();
+  description = 'Globaal Elevate Production je kreativní holding formující novou éru brandingu, hudby a digitálního byznysu.',
+  lang = 'cs',
+} = Astro.props
 ---
 
-<!doctype html>
-<html lang={locale}>
+<!DOCTYPE html>
+<html lang={lang} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate icon" href="/favicon-32.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/favicon-180.png" />
 
-    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin="anonymous" />
-
-    <Seo
-      title={title}
-      description={description}
-      canonical={canonical}
-      ogImage={ogImage}
-      locale={locale}
-      alternates={alternates}
-      noindex={noindex}
-    />
-
-    {jsonLd.map((entry) => <JsonLd data={entry} />)}
+    <title>{title} — Globaal Elevate</title>
   </head>
+
   <body>
-    <a href="#main" class="sr-only focus:not-sr-only">
-      Skip to content
-    </a>
-    <Header locale={locale} path={path} />
-    <main id="main">
+    <Header lang={lang} />
+    <main>
       <slot />
     </main>
-    <Footer locale={locale} />
-    <CookieBanner locale={locale} />
-    <Analytics />
+    <Footer lang={lang} />
+
+    <script>
+      // Theme persistence
+      const stored = localStorage.getItem('theme')
+      if (stored) {
+        document.documentElement.setAttribute('data-theme', stored)
+      }
+
+      // IntersectionObserver for scroll animations
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible')
+              observer.unobserve(entry.target)
+            }
+          })
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px',
+        }
+      )
+
+      document.querySelectorAll('.anim-fade, .anim-stagger').forEach((el) => {
+        observer.observe(el)
+      })
+
+      // Trigger elements already in viewport on load
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.anim-fade, .anim-stagger').forEach((el) => {
+          const rect = el.getBoundingClientRect()
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add('is-visible')
+          }
+        })
+      })
+    </script>
   </body>
 </html>
