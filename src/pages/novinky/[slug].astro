@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts
+    .filter(p => p.data.lang === 'cs')
+    .map(p => ({ params: { slug: p.slug }, props: { post: p } }))
+}
+
+const { post } = Astro.props
+const { Content } = await post.render()
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+---
+
+<BaseLayout title={post.data.title} description={post.data.excerpt} lang="cs">
+  <article class="article-page">
+    <header class="article-header">
+      <div class="container">
+        <div class="article-meta anim-fade">
+          <SectionLabel text="Novinky" />
+          <div class="meta-row">
+            <time datetime={post.data.date.toISOString()} class="article-date">
+              {formatDate(post.data.date)}
+            </time>
+            {post.data.tags && post.data.tags.map((tag: string) => (
+              <span class="article-tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+        <h1 class="article-title anim-fade">{post.data.title}</h1>
+        <p class="article-excerpt anim-fade">{post.data.excerpt}</p>
+      </div>
+    </header>
+
+    <div class="article-body section">
+      <div class="container">
+        <div class="prose anim-fade">
+          <Content />
+        </div>
+        <div class="article-footer">
+          <a href="/novinky" class="btn btn-outline">← Zpět na novinky</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-page {
+    padding-top: 80px;
+  }
+
+  .article-header {
+    padding: 4rem 0 3rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article-meta {
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .article-date {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+  }
+
+  .article-tag {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .article-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    max-width: 800px;
+  }
+
+  .article-excerpt {
+    font-size: 1.125rem;
+    color: var(--fg-muted);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  .prose {
+    max-width: 680px;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--fg-muted);
+  }
+
+  .prose :global(h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 2.5rem 0 1rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose :global(strong) {
+    color: var(--fg);
+    font-weight: 700;
+  }
+
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .article-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

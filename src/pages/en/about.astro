@@ -43,23 +43,44 @@ import SectionLabel from '../../components/SectionLabel.astro'
       <div class="values-grid anim-stagger">
         <div class="card value-card">
           <div class="value-number">01</div>
-          <h3>Innovation</h3>
-          <p>We look for solutions that don't exist yet. Every project is an experiment — methodical but bold.</p>
+          <h3>Scene as foundation</h3>
+          <p>We started at music events in northern Bohemia. Experience in logistics, promotion and audiences is embedded in every project we build today.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">02</div>
-          <h3>Authenticity</h3>
-          <p>We don't create brands just to look good. We build them to tell the truth about their founder.</p>
+          <h3>Own problem, own solution</h3>
+          <p>Globaal Production was created because we couldn't find decent branding at a fair price. Every brand under us solves a problem we experienced ourselves.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">03</div>
-          <h3>Global reach</h3>
-          <p>Local roots, global ambition. We build projects with the potential to reach the world.</p>
+          <h3>Connected, not isolated</h3>
+          <p>Events via 3lwave, creative via Globaal Production, technology via Vision Technology — every GEP brand can draw on the capacity of the others. A system, not a coincidence.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">04</div>
-          <h3>Results</h3>
-          <p>Creativity without results is just intent. We focus on the measurable impact of every project.</p>
+          <h3>Numbers over slogans</h3>
+          <p>We don't measure success in followers. We measure it in projects that stand — events that sold out, websites that convert, clients who came back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="section founder-section">
+    <div class="container">
+      <div class="founder-inner anim-fade">
+        <div class="founder-photo">
+          <img src="/zakladatel.jpg" alt="Jakub Lučan — founder of Globaal Elevate Production" class="founder-img" onerror="this.parentElement.classList.add('no-photo')" />
+          <div class="founder-placeholder">JL</div>
+        </div>
+        <div class="founder-text">
+          <SectionLabel text="Founder" />
+          <h2 class="founder-name">Jakub Lučan</h2>
+          <p class="founder-role">Founder & CEO, Globaal Elevate Production</p>
+          <p class="founder-bio">
+            I didn't found Globaal Elevate Production as a business plan. It started with music, friends and events in northern Bohemia — and gradually became something more. Today we bring creativity, technology and music together under one roof, because I believe these worlds belong together. Every brand we launch solves a problem I experienced myself.
+          </p>
+          <a href="/en/contact" class="btn btn-outline founder-cta">Get in touch →</a>
         </div>
       </div>
     </div>
@@ -130,6 +151,18 @@ import SectionLabel from '../../components/SectionLabel.astro'
   .value-number { font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.25rem; }
   .value-card h3 { font-size: 1.125rem; font-weight: 700; }
   .value-card p { font-size: 0.875rem; color: var(--fg-muted); line-height: 1.65; }
+
+  .founder-section { background: var(--bg); }
+  .founder-inner { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start; }
+  .founder-photo { position: relative; }
+  .founder-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.75rem; border: 1px solid var(--border); }
+  .founder-placeholder { display: none; width: 100%; aspect-ratio: 1; border-radius: 0.75rem; background: var(--bg-surface); border: 1px solid var(--border); align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--fg-muted); }
+  .founder-photo.no-photo .founder-img { display: none; }
+  .founder-photo.no-photo .founder-placeholder { display: flex; }
+  .founder-name { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0.5rem 0 0.25rem; }
+  .founder-role { font-size: 0.875rem; color: var(--fg-muted); margin-bottom: 1.25rem; font-weight: 500; }
+  .founder-bio { font-size: 1rem; color: var(--fg-muted); line-height: 1.75; margin-bottom: 1.5rem; }
+  @media (max-width: 640px) { .founder-inner { grid-template-columns: 1fr; } .founder-photo { width: 120px; } }
 
   .brands-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
 

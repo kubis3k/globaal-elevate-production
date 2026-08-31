@@ -43,23 +43,44 @@ import SectionLabel from '../components/SectionLabel.astro'
       <div class="values-grid anim-stagger">
         <div class="card value-card">
           <div class="value-number">01</div>
-          <h3>Inovace</h3>
-          <p>Hledáme řešení, která ještě neexistují. Každý projekt je experimentem — metodickým, ale odvážným.</p>
+          <h3>Scéna jako základ</h3>
+          <p>Začali jsme na hudebních eventech v severních Čechách. Zkušenost s logistikou, promotion a publikem je v každém projektu, který dnes stavíme.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">02</div>
-          <h3>Autenticita</h3>
-          <p>Nevytváříme značky jen proto, aby vypadaly dobře. Tvoříme je tak, aby mluvily pravdu o svém zakladateli.</p>
+          <h3>Vlastní problém, vlastní řešení</h3>
+          <p>Globaal Production vznikl, protože jsme sami neměli kde objednat slušný branding za rozumnou cenu. Každá naše značka řeší problém, který jsme zažili na vlastní kůži.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">03</div>
-          <h3>Globální přesah</h3>
-          <p>Lokální kořeny, globální ambice. Budujeme projekty, které mají potenciál oslovit svět.</p>
+          <h3>Propojené, ne izolované</h3>
+          <p>Eventy přes 3lwave, kreativa přes Globaal Production, technologie přes Vision Technology — každá značka pod GEP může využívat kapacity ostatních. Systém, ne náhoda.</p>
         </div>
         <div class="card value-card">
           <div class="value-number">04</div>
-          <h3>Výsledky</h3>
-          <p>Kreativita bez výsledků je jen záměr. Soustředíme se na měřitelný dopad každého projektu.</p>
+          <h3>Čísla nad slogany</h3>
+          <p>Neměříme úspěch followerama. Měříme ho projekty, které stojí — eventy, které se zaplnily, weby, které konvertují, klienty, kteří se vrátili.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zakladatel -->
+  <section class="section founder-section">
+    <div class="container">
+      <div class="founder-inner anim-fade">
+        <div class="founder-photo">
+          <img src="/zakladatel.jpg" alt="Jakub Lučan — zakladatel Globaal Elevate Production" class="founder-img" onerror="this.parentElement.classList.add('no-photo')" />
+          <div class="founder-placeholder">JL</div>
+        </div>
+        <div class="founder-text">
+          <SectionLabel text="Zakladatel" />
+          <h2 class="founder-name">Jakub Lučan</h2>
+          <p class="founder-role">Founder & CEO, Globaal Elevate Production</p>
+          <p class="founder-bio">
+            Globaal Elevate Production jsem nezaložil jako byznysový plán. Začalo to hudbou, přáteli a událostmi v severních Čechách — a postupně se z toho stalo něco víc. Dnes pod jednou střechou spojujeme kreativu, technologii a hudbu, protože věřím, že tyhle světy k sobě patří. Každá značka, kterou spouštíme, řeší problém, který jsem sám zažil.
+          </p>
+          <a href="/kontakt" class="btn btn-outline founder-cta">Napište mi →</a>
         </div>
       </div>
     </div>
@@ -169,6 +190,81 @@ import SectionLabel from '../components/SectionLabel.astro'
     font-size: 0.875rem;
     color: var(--fg-muted);
     line-height: 1.65;
+  }
+
+  .founder-section {
+    background: var(--bg);
+  }
+
+  .founder-inner {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .founder-photo {
+    position: relative;
+  }
+
+  .founder-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+  }
+
+  .founder-placeholder {
+    display: none;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 0.75rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--fg-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .founder-photo.no-photo .founder-img {
+    display: none;
+  }
+
+  .founder-photo.no-photo .founder-placeholder {
+    display: flex;
+  }
+
+  .founder-name {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .founder-role {
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+  }
+
+  .founder-bio {
+    font-size: 1rem;
+    color: var(--fg-muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .founder-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .founder-photo {
+      width: 120px;
+    }
   }
 
   .brands-list {
