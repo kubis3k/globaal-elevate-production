@@ -43,6 +43,13 @@ const currentFlag = lang === 'en' ? '🇬🇧' : '🇨🇿'
 
       <!-- Actions -->
       <div class="header-actions">
+        <a href="https://klient.globaalelevate.com" class="client-login" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          {lang === 'en' ? 'Client portal' : 'Klientský portál'}
+        </a>
+
         <a href={switcherHref} class="lang-switcher" aria-label="Přepnout jazyk">
           <span class="lang-flag">{switcherFlag}</span>
           <span class="lang-code">{switcherLabel}</span>
@@ -73,6 +80,9 @@ const currentFlag = lang === 'en' ? '🇬🇧' : '🇨🇿'
       {nav.map(item => (
         <a href={item.href} class="nav-mobile-link">{item.label}</a>
       ))}
+      <a href="https://klient.globaalelevate.com" class="nav-mobile-link client-mobile" target="_blank" rel="noopener noreferrer">
+        {lang === 'en' ? '→ Client portal' : '→ Klientský portál'}
+      </a>
       <a href={switcherHref} class="nav-mobile-link lang-mobile">{switcherLabel === 'EN' ? 'English version' : 'Česká verze'}</a>
     </nav>
   </div>
@@ -196,6 +206,30 @@ const currentFlag = lang === 'en' ? '🇬🇧' : '🇨🇿'
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .client-login {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--bg);
+    background: var(--fg);
+    border-radius: 0.375rem;
+    transition: opacity 0.2s ease;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .client-login:hover {
+    opacity: 0.85;
+  }
+
+  .client-mobile {
+    color: var(--fg) !important;
+    font-weight: 600;
   }
 
   .lang-switcher {
