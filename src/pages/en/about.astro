@@ -65,22 +65,40 @@ import SectionLabel from '../../components/SectionLabel.astro'
     </div>
   </section>
 
-  <!-- Founder -->
-  <section class="section founder-section">
+  <!-- Management -->
+  <section class="section management-section">
     <div class="container">
-      <div class="founder-inner anim-fade">
-        <div class="founder-photo">
-          <img src="/zakladatel.jpg" alt="Jakub Lučan — founder of Globaal Elevate Production" class="founder-img" onerror="this.parentElement.classList.add('no-photo')" />
-          <div class="founder-placeholder">JL</div>
+      <div class="anim-fade">
+        <SectionLabel text="Management" />
+        <h2 class="section-heading">Three directors, one vision</h2>
+      </div>
+      <div class="mgmt-grid anim-stagger">
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/zakladatel.jpg" alt="Jakub Lučan" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">JL</div>
+          </div>
+          <h3 class="mgmt-name">Jakub Lučan</h3>
+          <p class="mgmt-role">Director / CEO</p>
+          <p class="mgmt-bio">Founder of the holding, strategy and vision. Started on the music scene in northern Bohemia, now leads the entire GEP ecosystem.</p>
         </div>
-        <div class="founder-text">
-          <SectionLabel text="Founder" />
-          <h2 class="founder-name">Jakub Lučan</h2>
-          <p class="founder-role">Founder & CEO, Globaal Elevate Production</p>
-          <p class="founder-bio">
-            I didn't found Globaal Elevate Production as a business plan. It started with music, friends and events in northern Bohemia — and gradually became something more. Today we bring creativity, technology and music together under one roof, because I believe these worlds belong together. Every brand we launch solves a problem I experienced myself.
-          </p>
-          <a href="/en/contact" class="btn btn-outline founder-cta">Get in touch →</a>
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/stepan-lisa.jpg" alt="Štěpán Lísa" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">ŠL</div>
+          </div>
+          <h3 class="mgmt-name">Štěpán Lísa</h3>
+          <p class="mgmt-role">Director / COO</p>
+          <p class="mgmt-bio">Operations, partnerships and brand development. Ensures every project works in practice as well as it does on paper.</p>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/jan-lestina.jpg" alt="Jan Leština" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">JL</div>
+          </div>
+          <h3 class="mgmt-name">Jan Leština</h3>
+          <p class="mgmt-role">Director / CTO</p>
+          <p class="mgmt-bio">Technology, IT development and digital products. Behind the technological backbone of GEP and Vision Technology.</p>
         </div>
       </div>
     </div>
@@ -155,17 +173,20 @@ import SectionLabel from '../../components/SectionLabel.astro'
   .value-item h3 { font-size: 1.0625rem; font-weight: 700; }
   .value-item p { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
 
-  .founder-section { background: var(--bg); }
-  .founder-inner { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; align-items: start; }
-  .founder-photo { position: relative; }
-  .founder-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.75rem; border: 1px solid var(--border); }
-  .founder-placeholder { display: none; width: 100%; aspect-ratio: 1; border-radius: 0.75rem; background: var(--bg-surface); border: 1px solid var(--border); align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--fg-muted); }
-  .founder-photo.no-photo .founder-img { display: none; }
-  .founder-photo.no-photo .founder-placeholder { display: flex; }
-  .founder-name { font-size: clamp(1.5rem, 2.5vw, 2rem); margin: 0.5rem 0 0.25rem; }
-  .founder-role { font-size: 0.875rem; color: var(--fg-muted); margin-bottom: 1.25rem; font-weight: 500; }
-  .founder-bio { font-size: 1rem; color: var(--fg-muted); line-height: 1.75; margin-bottom: 1.5rem; }
-  @media (max-width: 640px) { .founder-inner { grid-template-columns: 1fr; } .founder-photo { width: 120px; } }
+  .management-section { background: var(--bg); }
+
+  .mgmt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2.5rem; }
+  .mgmt-card { display: flex; flex-direction: column; gap: 0.5rem; }
+  .mgmt-photo { position: relative; width: 100%; aspect-ratio: 1; border-radius: 0.75rem; overflow: hidden; margin-bottom: 1rem; background: var(--bg-surface); border: 1px solid var(--border); }
+  .mgmt-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .mgmt-placeholder { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: var(--fg-muted); letter-spacing: 0.05em; }
+  .mgmt-photo.no-photo .mgmt-img { display: none; }
+  .mgmt-photo.no-photo .mgmt-placeholder { display: flex; }
+  .mgmt-name { font-size: 1.25rem; font-weight: 700; }
+  .mgmt-role { font-size: 0.8125rem; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
+  .mgmt-bio { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
+  @media (max-width: 768px) { .mgmt-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .mgmt-grid { grid-template-columns: 1fr; } }
 
   .brands-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
 

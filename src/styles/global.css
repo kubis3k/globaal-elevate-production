@@ -10,15 +10,25 @@
   --fg-muted: #5C6470;
   --border: #DDE1E7;
   --radius: 1rem;
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif;
 }
 
 [data-theme="dark"] {
-  --bg: #0F1729;
-  --bg-surface: #1B2438;
+  --bg: #0A0A0A;
+  --bg-surface: #141414;
   --fg: #F0F2F5;
   --fg-muted: #8A919E;
-  --border: #2A3347;
+  --border: #252525;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A0A0A;
+    --bg-surface: #141414;
+    --fg: #F0F2F5;
+    --fg-muted: #8A919E;
+    --border: #252525;
+  }
 }
 
 /* ---- Base reset ---- */
@@ -165,8 +175,8 @@ a {
 
 /* ---- Dark section (used for CTA bands etc.) ---- */
 .dark-band {
-  background: #0F1729;
-  border-top: 1px solid #2A3347;
+  background: #0A0A0A;
+  border-top: 1px solid #252525;
 }
 
 /* ---- Image placeholder ---- */

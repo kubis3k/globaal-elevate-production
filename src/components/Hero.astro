@@ -1,6 +1,4 @@
 ---
-import GradientDecor from './GradientDecor.astro'
-
 interface Props {
   badge?: string
   heading: string
@@ -22,7 +20,6 @@ const {
   ctaSecondary,
   ctaPrimaryHref = '/',
   ctaSecondaryHref = '/',
-  bgPhoto,
 } = Astro.props
 
 let headingBefore = heading
@@ -36,38 +33,103 @@ if (accentPhrase && heading.includes(accentPhrase)) {
 ---
 
 <section class="hero">
-  <!-- Background: real photo if provided, else logo blur -->
-  {bgPhoto ? (
-    <img src={bgPhoto} class="hero-bg-photo" alt="" aria-hidden="true" loading="eager" />
-  ) : (
-    <img src="/logo.png" class="hero-logo-bg" alt="" aria-hidden="true" />
-  )}
+  <div class="container hero-inner">
+    <!-- Left: text -->
+    <div class="hero-text">
+      {badge && (
+        <span class="section-label hero-anim" style="animation-delay:0.1s">{badge}</span>
+      )}
 
-  <div class="container hero-content">
-    {badge && (
-      <span class="section-label hero-anim" style="animation-delay:0.1s">{badge}</span>
-    )}
+      <h1 class="hero-heading hero-anim" style="animation-delay:0.25s">
+        {accentPhrase ? (
+          <>
+            {headingBefore}<em class="h-accent">{accentPhrase}</em>{headingAfter}
+          </>
+        ) : heading}
+      </h1>
 
-    <h1 class="hero-heading hero-anim" style="animation-delay:0.25s">
-      {accentPhrase ? (
-        <>
-          {headingBefore}<em class="h-accent">{accentPhrase}</em>{headingAfter}
-        </>
-      ) : heading}
-    </h1>
+      <p class="hero-lead hero-anim" style="animation-delay:0.4s">{lead}</p>
 
-    <p class="hero-lead hero-anim" style="animation-delay:0.4s">{lead}</p>
+      {(ctaPrimary || ctaSecondary) && (
+        <div class="hero-ctas hero-anim" style="animation-delay:0.55s">
+          {ctaPrimary && (
+            <a href={ctaPrimaryHref} class="btn btn-filled">{ctaPrimary}</a>
+          )}
+          {ctaSecondary && (
+            <a href={ctaSecondaryHref} class="btn btn-outline hero-btn-outline">{ctaSecondary}</a>
+          )}
+        </div>
+      )}
+    </div>
 
-    {(ctaPrimary || ctaSecondary) && (
-      <div class="hero-ctas hero-anim" style="animation-delay:0.55s">
-        {ctaPrimary && (
-          <a href={ctaPrimaryHref} class="btn btn-filled">{ctaPrimary}</a>
-        )}
-        {ctaSecondary && (
-          <a href={ctaSecondaryHref} class="btn btn-outline hero-btn-outline">{ctaSecondary}</a>
-        )}
-      </div>
-    )}
+    <!-- Right: abstract geometric visual -->
+    <div class="hero-visual hero-anim" style="animation-delay:0.3s" aria-hidden="true">
+      <svg class="geo-svg" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Gradient definitions -->
+        <defs>
+          <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#B8935A" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#B8935A" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D4A96A" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#B8935A" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#B8935A" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#B8935A" stop-opacity="0.05"/>
+          </linearGradient>
+          <filter id="blur1">
+            <feGaussianBlur stdDeviation="30"/>
+          </filter>
+        </defs>
+
+        <!-- Soft gradient blobs -->
+        <ellipse cx="280" cy="240" rx="220" ry="220" fill="url(#glow1)" filter="url(#blur1)"/>
+        <ellipse cx="340" cy="300" rx="140" ry="140" fill="url(#glow2)" filter="url(#blur1)"/>
+
+        <!-- Large circle outline -->
+        <circle cx="260" cy="260" r="220" stroke="#B8935A" stroke-opacity="0.15" stroke-width="1"/>
+        <circle cx="260" cy="260" r="170" stroke="#B8935A" stroke-opacity="0.1" stroke-width="1"/>
+        <circle cx="260" cy="260" r="120" stroke="#B8935A" stroke-opacity="0.08" stroke-width="1"/>
+
+        <!-- Diamond / rotated square (corporate geometric) -->
+        <rect x="160" y="160" width="200" height="200" rx="2"
+          stroke="url(#lineGrad)" stroke-width="1.5"
+          transform="rotate(45 260 260)"/>
+
+        <!-- Smaller inner diamond -->
+        <rect x="200" y="200" width="120" height="120" rx="1"
+          stroke="#B8935A" stroke-opacity="0.25" stroke-width="1"
+          transform="rotate(45 260 260)"/>
+
+        <!-- Horizontal rule lines -->
+        <line x1="40" y1="130" x2="480" y2="130" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+        <line x1="40" y1="260" x2="480" y2="260" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+        <line x1="40" y1="390" x2="480" y2="390" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+
+        <!-- Vertical rule lines -->
+        <line x1="130" y1="40" x2="130" y2="480" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+        <line x1="260" y1="40" x2="260" y2="480" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+        <line x1="390" y1="40" x2="390" y2="480" stroke="#B8935A" stroke-opacity="0.06" stroke-width="1"/>
+
+        <!-- Dot grid (3×3 key intersections) -->
+        <circle cx="130" cy="130" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="260" cy="130" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="390" cy="130" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="130" cy="260" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="260" cy="260" r="4"   fill="#B8935A" fill-opacity="0.5"/>
+        <circle cx="390" cy="260" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="130" cy="390" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="260" cy="390" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+        <circle cx="390" cy="390" r="2.5" fill="#B8935A" fill-opacity="0.3"/>
+
+        <!-- Corner accent bracket (top-left) -->
+        <path d="M 80 80 L 80 140 M 80 80 L 140 80" stroke="#B8935A" stroke-opacity="0.4" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Corner accent bracket (bottom-right) -->
+        <path d="M 440 440 L 440 380 M 440 440 L 380 440" stroke="#B8935A" stroke-opacity="0.4" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
   </div>
 </section>
 
@@ -76,82 +138,53 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     position: relative;
     overflow: hidden;
     background: var(--bg);
-    padding: 10rem 0 6rem;
-    min-height: 90vh;
+    min-height: 100svh;
     display: flex;
+    align-items: center;
+    padding: 8rem 0 5rem;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
     align-items: center;
   }
 
-  /* Decorative logo blur (default, when no real photo) */
-  .hero-logo-bg {
-    position: absolute;
-    width: 90%;
-    max-width: 1100px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(80px) invert(1);
-    mix-blend-mode: screen;
-    opacity: 0.08;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  :global([data-theme="light"]) .hero-logo-bg {
-    filter: blur(80px);
-    mix-blend-mode: multiply;
-    opacity: 0.04;
-  }
-
-  /* Real hero background photo */
-  .hero-bg-photo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    opacity: 0.18;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .hero-content {
+  .hero-text {
     position: relative;
     z-index: 1;
-    max-width: 820px;
   }
 
-  /* Section label in hero — keep neutral (muted), same as global .section-label */
   .hero .section-label {
     display: block;
     margin-bottom: 1.5rem;
   }
 
   .hero-heading {
-    font-size: clamp(2.75rem, 8vw, 6rem);
-    line-height: 1.05;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.06;
     letter-spacing: -0.03em;
     font-weight: 800;
     color: var(--fg);
   }
 
-  /* Accent phrase: Playfair Display italic — distinguishes from sans-serif heading */
   .h-accent {
     color: var(--accent);
     font-family: var(--font-serif);
     font-style: italic;
-    font-weight: 700;
-    font-size: 0.95em;
-    letter-spacing: -0.02em;
+    font-weight: 400;
+    font-size: 1em;
+    letter-spacing: -0.01em;
+    display: inline-block;
   }
 
   .hero-lead {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
     color: var(--fg-muted);
-    max-width: 580px;
-    margin-top: 1.5rem;
-    line-height: 1.7;
+    max-width: 520px;
+    margin-top: 1.75rem;
+    line-height: 1.75;
   }
 
   .hero-ctas {
@@ -171,6 +204,21 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     color: var(--accent);
   }
 
+  /* Abstract geometric visual */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .geo-svg {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+  }
+
   @keyframes heroFadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: none; }
@@ -179,5 +227,32 @@ if (accentPhrase && heading.includes(accentPhrase)) {
   .hero-anim {
     opacity: 0;
     animation: heroFadeUp 0.7s ease forwards;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .hero {
+      min-height: auto;
+      padding: 8rem 0 4rem;
+    }
+
+    .hero-visual {
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .hero-heading {
+      font-size: clamp(2.25rem, 8vw, 3.5rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-visual {
+      display: none;
+    }
   }
 </style>
