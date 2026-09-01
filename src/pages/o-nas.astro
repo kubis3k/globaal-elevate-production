@@ -41,22 +41,22 @@ import SectionLabel from '../components/SectionLabel.astro'
       </div>
 
       <div class="values-grid anim-stagger">
-        <div class="card value-card">
+        <div class="value-item">
           <div class="value-number">01</div>
           <h3>Scéna jako základ</h3>
           <p>Začali jsme na hudebních eventech v severních Čechách. Zkušenost s logistikou, promotion a publikem je v každém projektu, který dnes stavíme.</p>
         </div>
-        <div class="card value-card">
+        <div class="value-item">
           <div class="value-number">02</div>
           <h3>Vlastní problém, vlastní řešení</h3>
           <p>Globaal Production vznikl, protože jsme sami neměli kde objednat slušný branding za rozumnou cenu. Každá naše značka řeší problém, který jsme zažili na vlastní kůži.</p>
         </div>
-        <div class="card value-card">
+        <div class="value-item">
           <div class="value-number">03</div>
           <h3>Propojené, ne izolované</h3>
           <p>Eventy přes 3lwave, kreativa přes Globaal Production, technologie přes Vision Technology — každá značka pod GEP může využívat kapacity ostatních. Systém, ne náhoda.</p>
         </div>
-        <div class="card value-card">
+        <div class="value-item">
           <div class="value-number">04</div>
           <h3>Čísla nad slogany</h3>
           <p>Neměříme úspěch followerama. Měříme ho projekty, které stojí — eventy, které se zaplnily, weby, které konvertují, klienty, kteří se vrátili.</p>
@@ -160,34 +160,48 @@ import SectionLabel from '../components/SectionLabel.astro'
     background: var(--bg-surface);
   }
 
+  /* Values: editorial grid-with-rules — lighter than clickable portfolio cards */
   .values-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
     margin-top: 2rem;
+    border-top: 1px solid var(--border);
   }
 
-  .value-card {
+  .value-item {
+    padding: 2rem 2rem 2rem 0;
+    border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
+  .value-item:nth-child(odd) {
+    padding-right: 3rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .value-item:nth-child(even) {
+    padding-left: 3rem;
+    padding-right: 0;
+  }
+
   .value-number {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    letter-spacing: 0.15em;
     margin-bottom: 0.25rem;
   }
 
-  .value-card h3 {
-    font-size: 1.125rem;
+  .value-item h3 {
+    font-size: 1.0625rem;
     font-weight: 700;
   }
 
-  .value-card p {
-    font-size: 0.875rem;
+  .value-item p {
+    font-size: 0.9rem;
     color: var(--fg-muted);
     line-height: 1.65;
   }
@@ -318,15 +332,18 @@ import SectionLabel from '../components/SectionLabel.astro'
     transform: translateX(4px);
   }
 
-  @media (max-width: 900px) {
-    .values-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   @media (max-width: 640px) {
     .values-grid {
       grid-template-columns: 1fr;
+    }
+
+    .value-item:nth-child(odd) {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .value-item:nth-child(even) {
+      padding-left: 0;
     }
 
     .brand-row {

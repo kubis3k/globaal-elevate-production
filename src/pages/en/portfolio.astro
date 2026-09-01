@@ -51,6 +51,7 @@ const brands = [
       <div class="brands-grid anim-stagger">
         {brands.map(brand => (
           <a href={brand.href} target="_blank" rel="noopener noreferrer" class="card brand-card">
+            <div class="brand-top-accent" style={`background: ${brand.color}`}></div>
             <div class="brand-header">
               <span class="brand-dot" style={`background: ${brand.color}`}></span>
               <span class="brand-category">{brand.category}</span>
@@ -91,9 +92,11 @@ const brands = [
     grid-column: 1;
   }
 
-  .brand-card { display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; }
+  .brand-card { display: flex; flex-direction: column; gap: 0.75rem; text-decoration: none; color: inherit; position: relative; overflow: hidden; }
 
-  .brand-header { display: flex; align-items: center; gap: 0.75rem; }
+  .brand-top-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; margin: -1.75rem -1.75rem 0; opacity: 0.9; }
+
+  .brand-header { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; }
   .brand-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .brand-category { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; flex: 1; }
   .brand-year { font-size: 0.75rem; color: var(--fg-muted); }
