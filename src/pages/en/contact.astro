@@ -41,44 +41,75 @@ import SectionLabel from '../../components/SectionLabel.astro'
 
         <!-- Right: form -->
         <div class="contact-form-wrap anim-fade">
-          <form class="contact-form" id="contact-form">
-            <div class="form-group">
-              <label for="name">Name</label>
+          <!-- Topic selector -->
+          <div class="topic-group">
+            <p class="topic-label">What's this about?</p>
+            <div class="topic-pills">
+              <button type="button" class="topic-pill active" data-topic="project">Project</button>
+              <button type="button" class="topic-pill" data-topic="booking">Booking</button>
+              <button type="button" class="topic-pill" data-topic="collaboration">Collaboration</button>
+              <button type="button" class="topic-pill" data-topic="other">Other</button>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <input type="hidden" id="topic" name="topic" value="project" />
+
+            <div class="field">
               <input
                 type="text"
                 id="name"
                 name="name"
-                placeholder="John Smith"
+                placeholder=" "
                 required
+                autocomplete="name"
               />
+              <label for="name">Name</label>
+              <span class="field-line"></span>
             </div>
 
-            <div class="form-group">
-              <label for="email">Email</label>
+            <div class="field">
               <input
                 type="email"
                 id="email"
                 name="email"
-                placeholder="john@company.com"
+                placeholder=" "
                 required
+                autocomplete="email"
               />
+              <label for="email">Email</label>
+              <span class="field-line"></span>
             </div>
 
-            <div class="form-group">
-              <label for="message">Message</label>
+            <div class="field field-textarea">
               <textarea
                 id="message"
                 name="message"
-                rows="6"
-                placeholder="Tell us about your project or question..."
+                placeholder=" "
+                rows="5"
                 required
+                maxlength="1200"
               ></textarea>
+              <label for="message">Message</label>
+              <span class="field-line"></span>
+              <span class="char-count" id="char-count">0 / 1200</span>
             </div>
 
             <div id="form-status" class="form-status" aria-live="polite"></div>
 
-            <button type="submit" class="btn btn-filled submit-btn" id="submit-btn">
-              Send message
+            <button type="submit" class="submit-btn" id="submit-btn">
+              <span class="btn-text">Send message</span>
+              <span class="btn-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </span>
+              <span class="btn-check" hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
             </button>
           </form>
         </div>
@@ -90,69 +121,207 @@ import SectionLabel from '../../components/SectionLabel.astro'
 <style>
   .contact-grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 4rem;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 5rem;
     align-items: start;
   }
 
-  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
-  .info-block { display: flex; flex-direction: column; gap: 0.375rem; }
-  .info-block p { font-size: 0.9375rem; color: var(--fg); }
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .info-block { display: flex; flex-direction: column; gap: 0.4rem; }
+  .info-block p { font-size: 0.9375rem; color: var(--fg); line-height: 1.6; }
   .muted { color: var(--fg-muted) !important; font-size: 0.875rem !important; }
-  .contact-link { font-size: 0.9375rem; color: var(--accent); transition: opacity 0.2s ease; }
-  .contact-link:hover { opacity: 0.8; }
 
-  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
-  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-  label { font-size: 0.875rem; font-weight: 600; color: var(--fg); }
-
-  input, textarea {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 0.75rem 1rem;
+  .contact-link {
     font-size: 0.9375rem;
     color: var(--fg);
-    font-family: inherit;
-    transition: border-color 0.2s ease;
-    width: 100%;
-    resize: vertical;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s ease;
   }
 
-  input::placeholder, textarea::placeholder { color: var(--fg-muted); }
-  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
-  .submit-btn { align-self: flex-start; padding: 0.875rem 2rem; font-size: 0.9375rem; }
+  .contact-link:hover {
+    text-decoration-color: var(--fg);
+  }
 
-  .form-status {
+  .topic-group { margin-bottom: 2rem; }
+
+  .topic-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .topic-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .topic-pill {
+    padding: 0.5rem 1.125rem;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg-muted);
     font-size: 0.875rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    display: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
   }
-  .form-status.success { display: block; background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
-  .form-status.error { display: block; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
 
-  @media (max-width: 768px) {
-    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .topic-pill:hover { border-color: var(--fg); color: var(--fg); }
+  .topic-pill.active { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  .field { position: relative; }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    padding: 1.25rem 0 0.625rem;
+    font-size: 1rem;
+    color: var(--fg);
+    font-family: inherit;
+    transition: border-color 0.25s ease;
+    outline: none;
+    resize: none;
+    display: block;
+  }
+
+  .field textarea { min-height: 120px; }
+
+  .field label {
+    position: absolute;
+    left: 0;
+    top: 1.25rem;
+    font-size: 1rem;
+    color: var(--fg-muted);
+    font-weight: 400;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    transform-origin: left top;
+  }
+
+  .field input:not(:placeholder-shown) ~ label,
+  .field input:focus ~ label,
+  .field textarea:not(:placeholder-shown) ~ label,
+  .field textarea:focus ~ label {
+    transform: translateY(-1.25rem) scale(0.75);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .field-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    display: block;
+  }
+
+  .field input:focus ~ .field-line,
+  .field textarea:focus ~ .field-line { width: 100%; }
+
+  .char-count {
+    position: absolute;
+    bottom: 0.35rem;
+    right: 0;
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+    pointer-events: none;
+  }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    align-self: flex-start;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(184, 147, 90, 0.35);
+  }
+
+  .submit-btn:active:not(:disabled) { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+  .submit-btn.sent { background: #22c55e; }
+
+  .form-status { font-size: 0.875rem; padding: 0.75rem 1rem; border-radius: 0.5rem; display: none; }
+  .form-status.success { display: block; background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+  .form-status.error { display: block; background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  @media (max-width: 640px) {
+    .topic-pill { font-size: 0.8125rem; padding: 0.4rem 0.875rem; }
   }
 </style>
 
 <script>
+  const pills = document.querySelectorAll<HTMLButtonElement>('.topic-pill')
+  const topicInput = document.getElementById('topic') as HTMLInputElement
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'))
+      pill.classList.add('active')
+      topicInput.value = pill.dataset.topic ?? ''
+    })
+  })
+
+  const textarea = document.getElementById('message') as HTMLTextAreaElement
+  const counter = document.getElementById('char-count') as HTMLElement
+  textarea.addEventListener('input', () => {
+    counter.textContent = `${textarea.value.length} / 1200`
+  })
+
   const form = document.getElementById('contact-form') as HTMLFormElement
   const statusEl = document.getElementById('form-status') as HTMLElement
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement
+  const btnText = submitBtn.querySelector('.btn-text') as HTMLElement
+  const btnIcon = submitBtn.querySelector('.btn-icon') as HTMLElement
+  const btnCheck = submitBtn.querySelector('.btn-check') as HTMLElement
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     submitBtn.disabled = true
-    submitBtn.textContent = 'Sending…'
+    btnText.textContent = 'Sending…'
     statusEl.className = 'form-status'
     statusEl.textContent = ''
 
     const data = {
       name: (document.getElementById('name') as HTMLInputElement).value,
       email: (document.getElementById('email') as HTMLInputElement).value,
-      message: (document.getElementById('message') as HTMLTextAreaElement).value,
+      message: textarea.value,
+      topic: topicInput.value,
       lang: 'en',
     }
 
@@ -162,19 +331,29 @@ import SectionLabel from '../../components/SectionLabel.astro'
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
+
       if (res.ok) {
-        statusEl.className = 'form-status success'
-        statusEl.textContent = 'Message sent! We\'ll get back to you as soon as possible.'
+        submitBtn.classList.add('sent')
+        btnText.textContent = 'Sent!'
+        btnIcon.hidden = true
+        btnCheck.hidden = false
         form.reset()
+        counter.textContent = '0 / 1200'
+        setTimeout(() => {
+          submitBtn.disabled = false
+          submitBtn.classList.remove('sent')
+          btnText.textContent = 'Send message'
+          btnIcon.hidden = false
+          btnCheck.hidden = true
+        }, 4000)
       } else {
-        throw new Error('Server error')
+        throw new Error()
       }
     } catch {
+      submitBtn.disabled = false
+      btnText.textContent = 'Send message'
       statusEl.className = 'form-status error'
       statusEl.textContent = 'Something went wrong. Please try again or contact us directly.'
-    } finally {
-      submitBtn.disabled = false
-      submitBtn.textContent = 'Send message'
     }
   })
 </script>
