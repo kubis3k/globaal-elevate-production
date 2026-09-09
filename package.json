@@ -7,6 +7,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@astrojs/vercel": "9.0.5",
     "@tailwindcss/vite": "^4.1.0",
     "astro": "5.18.2",
@@ -14,6 +15,7 @@
     "tailwindcss": "^4.1.0"
   },
   "allowScripts": {
-    "resend@6.25.0": true
+    "resend@6.25.0": true,
+    "@astrojs/sitemap@3.7.4": true
   }
 }
