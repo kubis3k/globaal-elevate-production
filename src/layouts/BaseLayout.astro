@@ -18,7 +18,7 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang={lang} data-theme="dark">
+<html lang={lang} data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,9 +51,7 @@ const {
     <script>
       // Theme persistence
       const stored = localStorage.getItem('theme')
-      if (stored) {
-        document.documentElement.setAttribute('data-theme', stored)
-      }
+      document.documentElement.setAttribute('data-theme', stored || 'light')
 
       // IntersectionObserver for scroll animations
       const observer = new IntersectionObserver(
