@@ -1,9 +1,9 @@
 # FLOW STATE
 
 ## Aktuální úkol
-- cíl: Nový korporátní web Globaal Elevate od nuly — UzOman styl, CZ+EN, 4 stránky
-- tier: T3
-- status: scaffold dokončen, build OK
+- cíl: Homepage hero — vycentrovat text na střed, roztáhnout, SVG jako bg; mobile optimalizace
+- tier: T1
+- status: running
 
 ## Kde jsme skončili (checkpoint)
 - poslední dokončený krok: scaffold dokončen — build OK (8 stránek, 0 chyb)
