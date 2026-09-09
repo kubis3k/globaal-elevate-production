@@ -46,14 +46,7 @@ const isEn = lang === 'en'
 
       <!-- Logo -->
       <div class="nl-logo">
-        <svg viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Globaal Elevate Production">
-          <!-- G mark -->
-          <rect x="0" y="4" width="32" height="32" rx="6" fill="#B8935A"/>
-          <text x="16" y="26" font-family="'Inter',sans-serif" font-size="18" font-weight="800" fill="#ffffff" text-anchor="middle" dominant-baseline="auto">G</text>
-          <!-- Wordmark -->
-          <text x="40" y="15" font-family="'Inter',sans-serif" font-size="10" font-weight="800" fill="#ffffff" letter-spacing="0.08em">GLOBAAL ELEVATE</text>
-          <text x="40" y="29" font-family="'Inter',sans-serif" font-size="7.5" font-weight="500" fill="#B8935A" letter-spacing="0.2em">PRODUCTION</text>
-        </svg>
+        <img src="/logo.png" alt="Globaal Elevate Production" class="nl-logo-img" />
       </div>
 
       <!-- Copy -->
@@ -235,10 +228,12 @@ const isEn = lang === 'en'
     z-index: 1;
   }
 
-  .nl-logo svg {
+  .nl-logo-img {
     width: 100%;
     height: auto;
     display: block;
+    filter: invert(1) brightness(2);
+    mix-blend-mode: screen;
   }
 
   .nl-eyebrow {
