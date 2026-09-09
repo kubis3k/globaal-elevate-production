@@ -63,7 +63,7 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     </div>
 
     <!-- Right: abstract geometric visual -->
-    <div class="hero-visual hero-anim" style="animation-delay:0.3s" aria-hidden="true">
+    <div class="hero-visual" aria-hidden="true">
       <svg class="geo-svg" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Gradient definitions -->
         <defs>
@@ -145,15 +145,19 @@ if (accentPhrase && heading.includes(accentPhrase)) {
   }
 
   .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
   }
 
   .hero-text {
     position: relative;
     z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .hero .section-label {
@@ -162,7 +166,7 @@ if (accentPhrase && heading.includes(accentPhrase)) {
   }
 
   .hero-heading {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(3rem, 7vw, 6.5rem);
     line-height: 1.06;
     letter-spacing: -0.03em;
     font-weight: 800;
@@ -179,9 +183,10 @@ if (accentPhrase && heading.includes(accentPhrase)) {
   .hero-lead {
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     color: var(--fg-muted);
-    max-width: 520px;
-    margin-top: 1.75rem;
+    max-width: 640px;
+    margin: 1.75rem auto 0;
     line-height: 1.75;
+    text-align: center;
   }
 
   .hero-ctas {
@@ -189,6 +194,7 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     gap: 1rem;
     margin-top: 2.5rem;
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .hero-btn-outline {
@@ -201,18 +207,22 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     color: var(--accent);
   }
 
-  /* Abstract geometric visual */
+  /* Abstract geometric visual — fade only, no transform (centering uses translate) */
   .hero-visual {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    width: 700px;
+    height: 700px;
+    opacity: 0;
+    animation: heroFadeOnly 1s ease 0.3s forwards;
   }
 
   .geo-svg {
     width: 100%;
-    max-width: 480px;
-    height: auto;
+    height: 100%;
     display: block;
   }
 
@@ -221,35 +231,43 @@ if (accentPhrase && heading.includes(accentPhrase)) {
     to   { opacity: 1; transform: none; }
   }
 
+  @keyframes heroFadeOnly {
+    from { opacity: 0; }
+    to   { opacity: 0.6; }
+  }
+
   .hero-anim {
     opacity: 0;
     animation: heroFadeUp 0.7s ease forwards;
   }
 
   @media (max-width: 900px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
+    .hero-visual {
+      width: 500px;
+      height: 500px;
+      opacity: 0.4;
     }
 
+    .hero-heading {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+    }
+  }
+
+  @media (max-width: 640px) {
     .hero {
-      min-height: auto;
-      padding: 8rem 0 4rem;
+      padding: 6rem 0 3rem;
     }
 
     .hero-visual {
-      max-width: 340px;
-      margin: 0 auto;
+      display: none;
     }
 
     .hero-heading {
       font-size: clamp(2.25rem, 8vw, 3.5rem);
     }
-  }
 
-  @media (max-width: 640px) {
-    .hero-visual {
-      display: none;
+    .hero-lead {
+      font-size: 1rem;
     }
   }
 </style>

@@ -430,11 +430,29 @@ import ImagePlaceholder from '../components/ImagePlaceholder.astro'
   }
 
   @media (max-width: 640px) {
-    .brands-grid {
+    .section {
+      padding: 3rem 0;
+    }
+
+    .pillars-grid {
       grid-template-columns: 1fr;
     }
 
+    .brands-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
     .events-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-heading {
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .brands-grid {
       grid-template-columns: 1fr;
     }
   }

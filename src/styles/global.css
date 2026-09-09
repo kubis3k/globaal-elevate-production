@@ -271,3 +271,10 @@ a {
   letter-spacing: -0.02em;
   font-weight: 700;
 }
+
+/* ---- Mobile optimizations ---- */
+@media (max-width: 640px) {
+  .section { padding: 3rem 0; }
+  .container { padding: 0 1.25rem; }
+  .asym-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+}
