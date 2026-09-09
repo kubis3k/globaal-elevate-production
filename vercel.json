@@ -1,5 +1,11 @@
 {
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.globaalelevate.com" }],
+      "destination": "https://globaalelevate.com/:path*",
+      "permanent": true
+    },
     { "source": "/akce/:path*", "destination": "/", "permanent": true },
     { "source": "/grafika", "destination": "/portfolio", "permanent": true },
     { "source": "/grafika/:path*", "destination": "/portfolio", "permanent": true },
