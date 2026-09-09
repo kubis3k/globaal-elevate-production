@@ -1,0 +1,114 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro'
+---
+
+<PageLayout
+  title="Privacy Policy"
+  description="Privacy Policy of Globaal Elevate Production s.r.o. — what personal data we process, why and what rights you have."
+  badge="• Legal"
+  heading="Privacy Policy"
+  lead="We care about your privacy. Here you will find what personal data we process, why and what rights you have."
+  lang="en"
+>
+  <section class="section gdpr-section">
+    <div class="container">
+      <div class="gdpr-wrap">
+
+        <p class="updated">Effective / last updated: 8 July 2026</p>
+
+        <div class="gdpr-block">
+          <h2>1. Data Controller</h2>
+          <p>The data controller is <strong>Globaal Elevate Production s.r.o.</strong>, ID No.&nbsp;24972070, registered office Dlouhá&nbsp;715/38, Staré Město, 110&nbsp;00 Prague&nbsp;1, Czech Republic, registered in the Commercial Register under file no. C&nbsp;446827, Municipal Court in Prague.</p>
+          <p>Contact for data protection matters: <a href="mailto:info@globaalelevate.com">info@globaalelevate.com</a></p>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>2. Data We Collect</h2>
+          <p>We only process data you provide to us via forms on the website:</p>
+          <ul>
+            <li><strong>Contact form:</strong> name, email, subject and message content.</li>
+            <li><strong>Newsletter subscription:</strong> email address.</li>
+            <li><strong>Technical data:</strong> anonymous, cookieless website analytics (no identification of individual persons).</li>
+          </ul>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>3. Purposes and Legal Basis</h2>
+          <ul>
+            <li><strong>Handling enquiries / collaboration / booking</strong> — legal basis: legitimate interest of the controller in handling the enquiry you initiated (Art.&nbsp;6(1)(f) GDPR).</li>
+            <li><strong>Newsletter</strong> — based on your consent (Art.&nbsp;6(1)(a) GDPR), which you may withdraw at any time.</li>
+            <li><strong>Website security and operation</strong> — we briefly process IP addresses to protect forms against spam and diagnose technical errors. Legal basis: legitimate interest (Art.&nbsp;6(1)(f) GDPR).</li>
+          </ul>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>4. Recipients and Processors</h2>
+          <p>We do not share personal data with anyone outside the necessary service providers who process it on our behalf:</p>
+          <ul>
+            <li><strong>Resend</strong> (Resend, Inc., USA) — delivery of emails from forms and newsletter.</li>
+            <li><strong>Vercel</strong> (Vercel, Inc., USA) — website hosting and operation.</li>
+          </ul>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>5. Transfers Outside the EU</h2>
+          <p>Some processors (Resend, Vercel) may process data outside the EU/EEA (particularly in the USA). In such cases, the transfer is safeguarded by EU Standard Contractual Clauses or another appropriate mechanism under the GDPR.</p>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>6. Retention Periods</h2>
+          <ul>
+            <li><strong>Enquiries and communications:</strong> 1 year from the last communication.</li>
+            <li><strong>Newsletter:</strong> until consent is withdrawn.</li>
+          </ul>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>7. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>access your data and receive a copy,</li>
+            <li>rectify inaccurate data,</li>
+            <li>erasure (right to be forgotten),</li>
+            <li>restriction of processing,</li>
+            <li>data portability,</li>
+            <li>object to processing,</li>
+            <li>withdraw consent at any time (without affecting the lawfulness of prior processing).</li>
+          </ul>
+          <p>Exercise your rights by email at <a href="mailto:info@globaalelevate.com">info@globaalelevate.com</a>.</p>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>8. Right to Lodge a Complaint</h2>
+          <p>If you believe we are processing your data in breach of the GDPR, you have the right to lodge a complaint with the supervisory authority — <strong>Office for Personal Data Protection</strong> (Úřad pro ochranu osobních údajů), Pplk. Sochora 27, 170&nbsp;00 Prague&nbsp;7, <a href="https://www.uoou.cz" target="_blank" rel="noopener noreferrer">www.uoou.cz</a>.</p>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>9. Cookies</h2>
+          <p>The website uses exclusively anonymous, cookieless visitor analytics without storing cookies in your browser. We do not use any advertising or tracking cookies.</p>
+        </div>
+
+        <div class="gdpr-block">
+          <h2>10. Changes to This Policy</h2>
+          <p>We may update this policy. The current version is always available on this page with the effective date.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .gdpr-section { background: var(--bg); }
+  .gdpr-wrap { max-width: 720px; }
+  .updated { font-size: 0.8125rem; color: var(--fg-muted); margin-bottom: 3rem; font-weight: 500; letter-spacing: 0.02em; }
+  .gdpr-block { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+  .gdpr-block:last-child { border-bottom: none; }
+  .gdpr-block h2 { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--fg-muted); margin: 0 0 1rem; }
+  .gdpr-block p { font-size: 0.9375rem; color: var(--fg); line-height: 1.8; margin: 0 0 0.875rem; }
+  .gdpr-block p:last-child { margin-bottom: 0; }
+  .gdpr-block ul { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .gdpr-block li { font-size: 0.9375rem; color: var(--fg); line-height: 1.7; }
+  .gdpr-block a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 3px; transition: text-decoration-color 0.2s ease; }
+  .gdpr-block a:hover { text-decoration-color: var(--fg); }
+</style>

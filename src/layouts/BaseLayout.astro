@@ -22,34 +22,51 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://globaalelevate.com').h
 const ogImageUrl = new URL(image, 'https://globaalelevate.com').href
 const fullTitle = `${title} — Globaal Elevate Production`
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Globaal Elevate Production s.r.o.',
-  alternateName: 'GEP',
-  url: 'https://globaalelevate.com',
-  logo: 'https://globaalelevate.com/logo.png',
-  description: lang === 'en'
-    ? 'Creative group combining music, marketing and technology under one vision.'
-    : 'Kreativní skupina spojující hudbu, marketing a technologii pod jednou vizí.',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Dlouhá 715/38',
-    addressLocality: 'Praha',
-    postalCode: '110 00',
-    addressCountry: 'CZ',
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': 'https://globaalelevate.com/#organization',
+    name: 'Globaal Elevate Production',
+    legalName: 'Globaal Elevate Production s.r.o.',
+    alternateName: 'GEP',
+    url: 'https://globaalelevate.com',
+    logo: 'https://globaalelevate.com/logo.png',
+    taxID: '24972070',
+    vatID: 'CZ24972070',
+    foundingDate: '2026-04-20',
+    description: lang === 'en'
+      ? 'Creative group combining music, marketing and technology under one vision.'
+      : 'Kreativní skupina spojující hudbu, marketing a technologii pod jednou vizí.',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Dlouhá 715/38',
+      addressLocality: 'Praha',
+      addressRegion: 'Staré Město',
+      postalCode: '110 00',
+      addressCountry: 'CZ',
+    },
+    sameAs: [
+      'https://3lwave.cz',
+      'https://visiontechnology.cz',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'info@globaalelevate.com',
+      contactType: 'customer service',
+      availableLanguage: ['Czech', 'English'],
+    },
   },
-  sameAs: [
-    'https://3lwave.cz',
-    'https://visiontechnology.cz',
-  ],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    email: 'info@globaalelevate.com',
-    contactType: 'customer service',
-    availableLanguage: ['Czech', 'English'],
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': 'https://globaalelevate.com/#website',
+    url: 'https://globaalelevate.com',
+    name: 'Globaal Elevate Production',
+    inLanguage: ['cs-CZ', 'en-US'],
+    publisher: { '@id': 'https://globaalelevate.com/#organization' },
   },
-}
+]
 ---
 
 <!DOCTYPE html>
