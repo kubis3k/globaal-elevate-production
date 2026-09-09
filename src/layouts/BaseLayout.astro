@@ -8,13 +8,48 @@ interface Props {
   title: string
   description?: string
   lang?: string
+  image?: string
 }
 
 const {
   title,
   description = 'Od severočeské rapové scény po firmy s vlastním IT a marketingovým motorem — Globaal Elevate Production je kreativní skupina, která spojuje hudbu, kreativu a technologii pod jednou vizí.',
   lang = 'cs',
+  image = '/og-image.jpg',
 } = Astro.props
+
+const canonicalUrl = new URL(Astro.url.pathname, 'https://globaalelevate.com').href
+const ogImageUrl = new URL(image, 'https://globaalelevate.com').href
+const fullTitle = `${title} — Globaal Elevate Production`
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Globaal Elevate Production s.r.o.',
+  alternateName: 'GEP',
+  url: 'https://globaalelevate.com',
+  logo: 'https://globaalelevate.com/logo.png',
+  description: lang === 'en'
+    ? 'Creative group combining music, marketing and technology under one vision.'
+    : 'Kreativní skupina spojující hudbu, marketing a technologii pod jednou vizí.',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Dlouhá 715/38',
+    addressLocality: 'Praha',
+    postalCode: '110 00',
+    addressCountry: 'CZ',
+  },
+  sameAs: [
+    'https://3lwave.cz',
+    'https://visiontechnology.cz',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'info@globaalelevate.com',
+    contactType: 'customer service',
+    availableLanguage: ['Czech', 'English'],
+  },
+}
 ---
 
 <!DOCTYPE html>
@@ -24,11 +59,29 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'cs_CZ'} />
+    <meta property="og:site_name" content="Globaal Elevate Production" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Alternate language -->
+    {lang === 'cs' && <link rel="alternate" hreflang="en" href={`https://globaalelevate.com/en${Astro.url.pathname}`} />}
+    {lang === 'en' && <link rel="alternate" hreflang="cs" href={`https://globaalelevate.com${Astro.url.pathname.replace(/^\/en/, '')}`} />}
+    <link rel="alternate" hreflang="x-default" href="https://globaalelevate.com/" />
 
     <!-- Inter font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +90,10 @@ const {
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <title>{title} — Globaal Elevate</title>
+    <title>{fullTitle}</title>
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>

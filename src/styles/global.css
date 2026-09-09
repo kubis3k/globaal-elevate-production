@@ -273,8 +273,25 @@ a {
 }
 
 /* ---- Mobile optimizations ---- */
-@media (max-width: 640px) {
-  .section { padding: 3rem 0; }
+@media (max-width: 768px) {
+  .section { padding: 3.5rem 0; }
   .container { padding: 0 1.25rem; }
   .asym-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+  /* Prevent horizontal overflow */
+  body { overflow-x: hidden; }
+
+  /* Cards: less padding on small screens */
+  .card { padding: 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 2.5rem 0; }
+  .container { padding: 0 1rem; }
+
+  .hero-heading { font-size: clamp(2rem, 10vw, 3rem); }
+  .page-heading { font-size: clamp(1.75rem, 8vw, 2.5rem); }
+
+  /* Buttons full-width on tiny screens */
+  .btn { justify-content: center; }
 }

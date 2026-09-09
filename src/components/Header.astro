@@ -367,16 +367,27 @@ const currentFlag = lang === 'en' ? '🇬🇧' : '🇨🇿'
   }
 
   @media (max-width: 768px) {
-    .nav-desktop {
-      display: none;
-    }
+    .nav-desktop { display: none; }
+    .hamburger { display: flex; }
+    .nav-mobile { display: block; }
 
-    .hamburger {
-      display: flex;
-    }
+    /* Hide from header bar — both items live in the mobile menu */
+    .client-login { display: none; }
+    .lang-switcher { display: none; }
+
+    .header-inner { height: 56px; }
 
     .nav-mobile {
-      display: block;
+      background: var(--bg);
+    }
+
+    .nav-mobile nav {
+      padding: 0.75rem 1.25rem 1.25rem;
+    }
+
+    .nav-mobile-link {
+      font-size: 1.0625rem;
+      padding: 0.875rem 0.5rem;
     }
   }
 </style>
