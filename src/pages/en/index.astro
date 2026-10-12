@@ -1,243 +1,443 @@
 ---
+import { readdirSync } from 'fs'
+import { resolve } from 'path'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import Hero from '../../components/Hero.astro'
 import SectionLabel from '../../components/SectionLabel.astro'
-import ImagePlaceholder from '../../components/ImagePlaceholder.astro'
+import Stat from '../../components/Stat.astro'
 import NewsletterSignup from '../../components/NewsletterSignup.astro'
+import { partners } from '../../data/partners'
+
+let eventImages: string[] = []
+try {
+  const eventsDir = resolve('./public/events')
+  eventImages = readdirSync(eventsDir)
+    .filter(f => /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(f))
+    .map(f => `/events/${f}`)
+} catch {
+  // Directory doesn't exist — section hidden
+}
+
+let hasTeamPhoto = false
+try {
+  readdirSync('./public').includes('team.jpg') && (hasTeamPhoto = true)
+} catch {}
 ---
 
 <BaseLayout
-  title="Globaal Elevate Production — Creative Group | Music, Events & Marketing"
-  description="Globaal Elevate Production — creative group from northern Bohemia. We organise events and clubs (3lwave), develop artists and build brands in marketing and IT."
+  title="Globaal Elevate Production — Creative Group | Music, Events, Technology"
+  description="Globaal Elevate Production — creative group from northern Bohemia. We organise events (3lwave), develop artists and build brands in marketing and IT."
   lang="en"
 >
-  <!-- 1. Hero -->
-  <Hero
-    badge="• Creative Group"
-    heading="We build brands with real foundations"
-    accentPhrase="real foundations"
-    lead="From northern Bohemia's rap scene to companies with their own IT and marketing engine — Globaal Elevate Production is a creative group that unites music, creativity and technology under one vision."
-    ctaPrimary="Explore portfolio"
-    ctaSecondary="Contact us"
-    ctaPrimaryHref="/en/portfolio"
-    ctaSecondaryHref="/en/contact"
-  />
 
-  <!-- 2. Pillars -->
-  <section class="section pillars-section">
-    <div class="container">
-      <div class="pillars-header anim-fade">
-        <SectionLabel text="What we do" />
-        <h2 class="pillars-title">Three pillars of our work</h2>
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<section class="hero section" id="main-content">
+  <div class="hero-watermark" aria-hidden="true">
+    <img src="/logo-watermark.png" alt="" width="900" height="225" />
+  </div>
+  <div class="container">
+    <p class="hero-label">Creative Group · Northern Bohemia</p>
+
+    <h1 class="hero-h1 anim-fade">
+      MUSIC.<br />
+      EVENTS.<br />
+      TECHNOLOGY.
+    </h1>
+
+    <div class="hero-bottom">
+      <div class="hero-text">
+        <p class="hero-lead">
+          From northern Bohemia's rap scene to companies with their own IT and marketing engine — Globaal Elevate Production is a creative group that unites music, creativity and technology under one vision.
+        </p>
       </div>
-
-      <div class="pillars-grid anim-stagger">
-        <!-- Music -->
-        <div class="card pillar-card">
-          <div class="pillar-icon-wrap">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
-            </svg>
-          </div>
-          <h3>Music</h3>
-          <p>Label, distribution and artist development under 3lwave and Globaal Records. Sounds for a new generation.</p>
-        </div>
-        <!-- Marketing -->
-        <div class="card pillar-card">
-          <div class="pillar-icon-wrap">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 11l19-9v18L3 13"/>
-              <path d="M11 18a1 1 0 002 0v-5"/>
-            </svg>
-          </div>
-          <h3>Marketing</h3>
-          <p>Strategic branding, digital campaigns and content creation. We build brands that leave a mark.</p>
-        </div>
-        <!-- Technology -->
-        <div class="card pillar-card">
-          <div class="pillar-icon-wrap">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </div>
-          <h3>Technology</h3>
-          <p>Events, creative production and project delivery under the Globaal Production brand.</p>
-        </div>
+      <div class="hero-cta">
+        <a href="/en/portfolio" class="btn btn-primary">
+          Explore portfolio <span class="btn-arrow">→</span>
+        </a>
+        <a href="/en/contact" class="btn btn-secondary">
+          Free consultation
+        </a>
       </div>
     </div>
-  </section>
 
-  <!-- 3. About — asymmetric layout -->
-  <section class="section about-section">
-    <div class="container">
-      <div class="asym-grid anim-fade">
-        <div class="about-meta">
-          <SectionLabel text="Who we are" />
-          <p class="about-date">Founded 2026</p>
-          <p class="about-meta-text">Prague, CZ</p>
+    <div class="hero-stats-row hairline" style="padding-top:2rem;margin-top:2.5rem">
+      <Stat value="2026" label="Founded" />
+      <Stat value="4" label="Active brands" />
+      <Stat value="Prague · CZ" label="HQ" />
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MARQUEE
+     ═══════════════════════════════════════════ -->
+{partners.length > 0 && (
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+      {[...partners, ...partners].map(p => (
+        <img src={p.logo} alt={p.name} />
+      ))}
+    </div>
+  </div>
+)}
+
+<!-- ═══════════════════════════════════════════
+     BRANDS — white surface, BrandRow list
+     ═══════════════════════════════════════════ -->
+<section class="section surface-white brands-section">
+  <div class="container">
+    <SectionLabel num="01" text="Portfolio" onLight />
+    <h2 class="brands-h2 anim-fade">Our brands</h2>
+
+    <div class="brands-list anim-stagger" role="list">
+
+      <a href="https://3lwave.cz" class="brand-row" role="listitem" target="_blank" rel="noopener">
+        <span class="violet-sq" aria-hidden="true"></span>
+        <span class="brand-row-num">01</span>
+        <span class="brand-row-name">3lwave</span>
+        <div class="brand-row-desc">
+          <span class="brand-row-cat">Events</span>
+          <p class="brand-row-text">Next-generation event brand — music, experiences and connecting people. Latin clubs and concerts in northern Bohemia.</p>
         </div>
-        <div class="about-body">
-          <h2 class="about-heading">We grew out of the scene.</h2>
-          <p class="about-text">
-            Globaal Elevate Production was born from a real scene, not a spreadsheet. Before we became a creative group, we were people around music and events in northern Bohemia — and from that foundation we grew into marketing and creative work, our own IT development and SaaS products. Every project under us solves a problem we lived through ourselves.
+        <span class="brand-row-link">Visit <span class="arrow">→</span></span>
+      </a>
+
+      <a href="#" class="brand-row" role="listitem" target="_blank" rel="noopener">
+        <span class="violet-sq" aria-hidden="true"></span>
+        <span class="brand-row-num">02</span>
+        <span class="brand-row-name">Globaal Records</span>
+        <div class="brand-row-desc">
+          <span class="brand-row-cat">Music</span>
+          <p class="brand-row-text">Independent music label focused on authentic artists and original sounds. Distribution, development and publishing.</p>
+        </div>
+        <span class="brand-row-link">Visit <span class="arrow">→</span></span>
+      </a>
+
+      <a href="#" class="brand-row" role="listitem" target="_blank" rel="noopener">
+        <span class="violet-sq" aria-hidden="true"></span>
+        <span class="brand-row-num">03</span>
+        <span class="brand-row-name">Globaal Production</span>
+        <div class="brand-row-desc">
+          <span class="brand-row-cat">Creative</span>
+          <p class="brand-row-text">Creative and marketing agency — branding, web development and telesales for small and medium-sized businesses.</p>
+        </div>
+        <span class="brand-row-link">Visit <span class="arrow">→</span></span>
+      </a>
+
+      <a href="https://visiontechnology.cz" class="brand-row" role="listitem" target="_blank" rel="noopener">
+        <span class="violet-sq" aria-hidden="true"></span>
+        <span class="brand-row-num">04</span>
+        <span class="brand-row-name">Vision Technology</span>
+        <div class="brand-row-desc">
+          <span class="brand-row-cat">Technology</span>
+          <p class="brand-row-text">AI systems, websites and custom digital development. Modern tech solutions for businesses of all sizes.</p>
+        </div>
+        <span class="brand-row-link">Visit <span class="arrow">→</span></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ABOUT — navy surface
+     ═══════════════════════════════════════════ -->
+<section class="section about-section">
+  <div class="container">
+    <SectionLabel num="02" text="Who we are" />
+
+    <div class={`about-inner ${hasTeamPhoto ? 'about-has-photo' : 'about-no-photo'}`}>
+      <div class="about-text">
+        <p class="about-statement anim-fade">
+          Globaal Elevate Production was born from a real scene, not a spreadsheet.
+        </p>
+        <div class="about-body anim-fade">
+          <p>
+            Before we became a creative group, we were people around music and events in northern Bohemia — and from that foundation we grew into marketing creativity, our own IT development and SaaS products. Every project under us solves a problem we lived through ourselves.
           </p>
-          <a href="/en/about" class="btn btn-outline about-link">More about us →</a>
+          <p>
+            We don't build for the portfolio. We build because we love it and care about the result.
+          </p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Brands -->
-  <section class="section brands-section">
-    <div class="container">
-      <div class="brands-header anim-fade">
-        <SectionLabel text="Portfolio" />
-        <h2 class="brands-title">Our brands</h2>
-      </div>
-
-      <div class="brands-grid anim-stagger">
-        <a href="https://3lwave.cz" target="_blank" rel="noopener noreferrer" class="card brand-card">
-          <div class="brand-accent" style="background:#F59E0B"></div>
-          <div class="brand-category">Events</div>
-          <h3 class="brand-name">3lwave</h3>
-          <p class="brand-desc">Next-generation event brand — music, experiences and connecting people.</p>
-          <span class="brand-arrow">→</span>
-        </a>
-        <a href="https://3lwave.cz/label" target="_blank" rel="noopener noreferrer" class="card brand-card">
-          <div class="brand-accent" style="background:#ff6600"></div>
-          <div class="brand-category">Music</div>
-          <h3 class="brand-name">Globaal Records</h3>
-          <p class="brand-desc">Independent label focused on authentic artists and original sounds.</p>
-          <span class="brand-arrow">→</span>
-        </a>
-        <a href="/en/portfolio" class="card brand-card">
-          <div class="brand-accent" style="background:#6366f1"></div>
-          <div class="brand-category">Creative</div>
-          <h3 class="brand-name">Globaal Production</h3>
-          <p class="brand-desc">Creative and marketing agency — branding, web development and telesales for SMBs.</p>
-          <span class="brand-arrow">→</span>
-        </a>
-        <a href="https://visiontechnology.cz" target="_blank" rel="noopener noreferrer" class="card brand-card">
-          <div class="brand-accent" style="background:#10b981"></div>
-          <div class="brand-category">Technology</div>
-          <h3 class="brand-name">Vision Technology</h3>
-          <p class="brand-desc">AI systems, websites and custom digital development.</p>
-          <span class="brand-arrow">→</span>
+        <a href="/en/about" class="btn btn-secondary" style="margin-top:2rem">
+          About us <span class="btn-arrow">→</span>
         </a>
       </div>
-    </div>
-  </section>
 
-  <!-- 5. Event photos gallery -->
-  <section class="section events-section">
-    <div class="container">
-      <div class="events-header anim-fade">
-        <SectionLabel text="3lwave — behind the scenes" />
-        <h2 class="events-title">From the events we create</h2>
-      </div>
-      <div class="events-grid anim-stagger">
-        <ImagePlaceholder src="/events/event-1.jpg" alt="3lwave event — main stage" ratio="4/3" label="Event photo" class="event-photo" />
-        <ImagePlaceholder src="/events/event-2.jpg" alt="3lwave event — crowd" ratio="4/3" label="Event photo" class="event-photo" />
-        <ImagePlaceholder src="/events/event-3.jpg" alt="3lwave event — artists" ratio="4/3" label="Event photo" class="event-photo" />
-      </div>
+      {hasTeamPhoto && (
+        <div class="about-photo">
+          <img
+            src="/team.jpg"
+            alt="Globaal Elevate Production team"
+            style="border-radius:var(--radius-img);width:100%;aspect-ratio:4/5;object-fit:cover;"
+          />
+        </div>
+      )}
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 6. Newsletter -->
-  <section class="section newsletter-section">
+<!-- ═══════════════════════════════════════════
+     EVENTS — white, only if event photos exist
+     ═══════════════════════════════════════════ -->
+{eventImages.length > 0 && (
+  <section class="section surface-white events-section">
     <div class="container">
-      <NewsletterSignup lang="en" />
-    </div>
-  </section>
+      <SectionLabel num="03" text="Events" onLight />
+      <h2 class="anim-fade" style="color:var(--text-light);margin-bottom:3rem">From the events</h2>
 
-  <!-- 7. CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <div class="cta-inner anim-fade">
-        <h2 class="cta-heading">Have a project?<br />Let's make it happen.</h2>
-        <p class="cta-lead">Whether it's branding, music or technology — we'd love to talk.</p>
-        <a href="/en/contact" class="btn btn-filled cta-btn">Contact us</a>
+      <div class="events-grid">
+        {eventImages.map((src, i) => (
+          <a href={src} class="event-item" data-lightbox="events">
+            <img
+              src={src}
+              alt={`Event photo ${i + 1}`}
+              style="border-radius:var(--radius-img);width:100%;height:100%;object-fit:cover;"
+              loading="lazy"
+            />
+          </a>
+        ))}
       </div>
     </div>
   </section>
+)}
+
+<!-- ═══════════════════════════════════════════
+     NEWSLETTER
+     ═══════════════════════════════════════════ -->
+<section class="section nl-section surface-grey">
+  <div class="container">
+    <div class="nl-row">
+      <div class="nl-copy">
+        <h2 class="nl-h2">Newsletter</h2>
+        <p class="nl-lead">Projects, events, music and behind-the-scenes — straight to your inbox. No spam.</p>
+      </div>
+      <div class="nl-form-wrap">
+        <NewsletterSignup lang="en" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA — navy surface
+     ═══════════════════════════════════════════ -->
+<section class="section cta-section">
+  <div class="container">
+    <h2 class="cta-h2 anim-fade">Have a project?</h2>
+    <p class="cta-lead anim-fade">
+      Whether it's branding, music or technology — we'd love to talk. No formalities, just an honest conversation.
+    </p>
+    <a href="/en/contact" class="btn btn-primary" style="margin-top:2.5rem">
+      Contact us <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</section>
+
 </BaseLayout>
 
 <style>
-  .pillars-section { background: var(--bg-surface); }
-  .pillars-header { margin-bottom: 2.5rem; }
-  .pillars-title { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-top: 0.5rem; }
-
-  .pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
+  /* ── Hero ── */
+  .hero {
+    background: var(--navy);
+    padding-top: 5rem;
+    position: relative;
+    overflow: hidden;
   }
 
-  .pillar-card { display: flex; flex-direction: column; gap: 0.75rem; }
+  .hero-watermark {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    user-select: none;
+    opacity: 1;
+  }
 
-  .pillar-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--bg);
-    border: 1px solid var(--border);
+  .hero-watermark img {
+    width: min(500px, 42vw);
+    height: auto;
+    display: block;
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    font-family: var(--font);
+    font-weight: 600;
+    font-stretch: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted-dark);
+    margin-bottom: 2.5rem;
+    max-width: none;
+  }
+
+  .hero-h1 {
+    color: var(--white);
+    margin-bottom: 3.5rem;
+  }
+
+  .hero-bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 0;
+  }
+
+  .hero-lead {
+    font-size: 1.0625rem;
+    color: var(--muted-dark);
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+
+  .hero-cta {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.25rem;
-    color: var(--accent);
+    flex-direction: column;
+    gap: .875rem;
     flex-shrink: 0;
   }
 
-  .pillar-card h3 { font-size: 1.25rem; font-weight: 700; }
-  .pillar-card p { font-size: 0.9375rem; color: var(--fg-muted); line-height: 1.65; }
+  .hero-stats-row {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
 
-  .about-section { background: var(--bg); }
-  .about-date { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 1rem; font-weight: 500; }
-  .about-meta-text { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 0.25rem; }
-  .about-heading { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-bottom: 1.25rem; }
-  .about-text { font-size: 1rem; color: var(--fg-muted); line-height: 1.75; margin-bottom: 1rem; }
-  .about-link { margin-top: 0.5rem; }
+  /* ── Brands ── */
+  .brands-section { background: var(--white); }
 
-  .brands-section { background: var(--bg-surface); }
-  .brands-header { margin-bottom: 2.5rem; }
-  .brands-title { font-size: clamp(1.75rem, 3vw, 2.5rem); margin-top: 0.5rem; }
+  .brands-h2 {
+    color: var(--text-light);
+    margin-bottom: 3rem;
+  }
 
-  .brands-grid {
+  /* ── About ── */
+  .about-section { background: var(--navy); }
+
+  .about-inner.about-has-photo {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 380px;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-inner.about-no-photo {
+    max-width: 720px;
+  }
+
+  .about-statement {
+    font-family: var(--font);
+    font-weight: 700;
+    font-stretch: 100%;
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+    line-height: 1.15;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    max-width: 22ch;
+  }
+
+  .about-body {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
   }
 
-  .brand-card { display: flex; flex-direction: column; gap: 0.5rem; text-decoration: none; position: relative; overflow: hidden; padding-top: 0.25rem; }
-  .brand-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 3px 3px 0 0; margin: -1.75rem -1.75rem 0; opacity: 0.8; }
-  .brand-category { font-size: 0.6875rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); font-weight: 600; margin-top: 0.5rem; }
-  .brand-name { font-size: 1.375rem; font-weight: 700; }
-  .brand-desc { font-size: 0.875rem; color: var(--fg-muted); line-height: 1.6; flex: 1; }
-  .brand-arrow { font-size: 1.125rem; color: var(--fg-muted); transition: color 0.2s ease, transform 0.2s ease; display: inline-block; margin-top: 0.5rem; }
-  .brand-card:hover .brand-arrow { color: var(--accent); transform: translateX(4px); }
-
-  .events-section { background: var(--bg); }
-  .events-header { margin-bottom: 2.5rem; }
-  .events-title { font-size: clamp(1.5rem, 3vw, 2rem); margin-top: 0.5rem; }
-  .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .event-photo { min-height: 200px; }
-
-  .cta-section { background: #0A0A0A; padding: 6rem 0; border-top: 1px solid #252525; }
-  .cta-inner { text-align: center; max-width: 600px; margin: 0 auto; }
-  .cta-heading { font-size: clamp(2rem, 4vw, 3rem); color: #F0F2F5; margin-bottom: 1rem; }
-  .cta-lead { font-size: 1.0625rem; color: #8A919E; margin-bottom: 2rem; line-height: 1.7; }
-  .cta-btn { font-size: 1rem; padding: 0.875rem 2rem; }
-
-  @media (max-width: 900px) {
-    .pillars-grid { grid-template-columns: 1fr; }
-    .brands-grid { grid-template-columns: repeat(2, 1fr); }
-    .events-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-body p {
+    font-size: 1.0625rem;
+    color: var(--muted-dark);
+    line-height: 1.7;
   }
-  @media (max-width: 640px) {
-    .brands-grid { grid-template-columns: 1fr; }
-    .events-grid { grid-template-columns: 1fr; }
+
+  /* ── Events ── */
+  .events-section { background: var(--white); }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 280px;
+    gap: .75rem;
+  }
+
+  .events-grid .event-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .event-item {
+    display: block;
+    overflow: hidden;
+  }
+
+  /* ── Newsletter ── */
+  .nl-section { background: var(--grey-100); }
+
+  .nl-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .nl-h2 {
+    font-family: var(--font);
+    font-weight: 800;
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: .93;
+    letter-spacing: -.01em;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+  }
+
+  .nl-lead {
+    font-size: 1rem;
+    color: var(--muted-light);
+    line-height: 1.6;
+    max-width: 44ch;
+  }
+
+  /* ── CTA ── */
+  .cta-section { background: var(--navy); }
+
+  .cta-h2 {
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-lead {
+    font-size: 1.0625rem;
+    color: var(--muted-dark);
+    line-height: 1.7;
+    max-width: 52ch;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-cta { flex-direction: row; }
+    .about-inner.about-has-photo { grid-template-columns: 1fr; }
+    .nl-row { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding-top: 3rem; }
+    .hero-cta { flex-direction: column; }
+    .events-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 220px;
+    }
+    .events-grid .event-item:first-child {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
   }
 </style>

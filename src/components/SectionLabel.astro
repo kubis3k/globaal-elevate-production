@@ -1,6 +1,6 @@
 ---
 interface Props {
-  num: string        // e.g. "01"
+  num?: string       // e.g. "01" — optional
   text: string       // e.g. "Portfolio"
   onLight?: boolean  // true when section has light background
   class?: string
@@ -12,7 +12,7 @@ const { num, text, onLight = false, class: className = '' } = Astro.props
   <div class="section-label-line"></div>
   <div class="section-label-row">
     <span class="section-label-dot" aria-hidden="true"></span>
-    <span class="section-label-num">({num})</span>
+    {num && <span class="section-label-num">({num})</span>}
     <span class="section-label-text">{text}</span>
   </div>
 </div>

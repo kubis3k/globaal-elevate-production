@@ -41,77 +41,78 @@ import SectionLabel from '../../components/SectionLabel.astro'
 
         <!-- Right: form -->
         <div class="contact-form-wrap anim-fade">
-          <!-- Topic selector -->
-          <div class="topic-group">
-            <p class="topic-label">What's this about?</p>
-            <div class="topic-pills">
-              <button type="button" class="topic-pill active" data-topic="project">Project</button>
-              <button type="button" class="topic-pill" data-topic="booking">Booking</button>
-              <button type="button" class="topic-pill" data-topic="collaboration">Collaboration</button>
-              <button type="button" class="topic-pill" data-topic="other">Other</button>
+          <div class="form-card">
+            <!-- Topic selector -->
+            <div class="topic-group">
+              <p class="topic-label">What's this about?</p>
+              <div class="topic-pills">
+                <button type="button" class="topic-pill active" data-topic="project">Project</button>
+                <button type="button" class="topic-pill" data-topic="booking">Booking</button>
+                <button type="button" class="topic-pill" data-topic="collaboration">Collaboration</button>
+                <button type="button" class="topic-pill" data-topic="other">Other</button>
+              </div>
             </div>
+
+            <form class="contact-form" id="contact-form" novalidate>
+              <input type="hidden" id="topic" name="topic" value="project" />
+
+              <div class="fields-row">
+                <div class="field">
+                  <label for="name">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="John Smith"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="john@company.com"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+              </div>
+
+              <div class="field field-textarea">
+                <label for="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Describe your project or question…"
+                  rows="6"
+                  required
+                  maxlength="1200"
+                ></textarea>
+                <span class="char-count" id="char-count">0 / 1200</span>
+              </div>
+
+              <div id="form-status" class="form-status" aria-live="polite"></div>
+
+              <button type="submit" class="submit-btn" id="submit-btn">
+                <span class="btn-text">Send message</span>
+                <span class="btn-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </span>
+                <span class="btn-check" hidden>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+              </button>
+            </form>
           </div>
-
-          <form class="contact-form" id="contact-form" novalidate>
-            <input type="hidden" id="topic" name="topic" value="project" />
-
-            <div class="field">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder=" "
-                required
-                autocomplete="name"
-              />
-              <label for="name">Name</label>
-              <span class="field-line"></span>
-            </div>
-
-            <div class="field">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder=" "
-                required
-                autocomplete="email"
-              />
-              <label for="email">Email</label>
-              <span class="field-line"></span>
-            </div>
-
-            <div class="field field-textarea">
-              <textarea
-                id="message"
-                name="message"
-                placeholder=" "
-                rows="5"
-                required
-                maxlength="1200"
-              ></textarea>
-              <label for="message">Message</label>
-              <span class="field-line"></span>
-              <span class="char-count" id="char-count">0 / 1200</span>
-            </div>
-
-            <div id="form-status" class="form-status" aria-live="polite"></div>
-
-            <button type="submit" class="submit-btn" id="submit-btn">
-              <span class="btn-text">Send message</span>
-              <span class="btn-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </span>
-              <span class="btn-check" hidden>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </span>
-            </button>
-          </form>
         </div>
       </div>
     </div>
@@ -126,6 +127,7 @@ import SectionLabel from '../../components/SectionLabel.astro'
     align-items: start;
   }
 
+  /* ---- Left column ---- */
   .contact-info {
     display: flex;
     flex-direction: column;
@@ -133,9 +135,22 @@ import SectionLabel from '../../components/SectionLabel.astro'
     padding-top: 0.5rem;
   }
 
-  .info-block { display: flex; flex-direction: column; gap: 0.4rem; }
-  .info-block p { font-size: 0.9375rem; color: var(--fg); line-height: 1.6; }
-  .muted { color: var(--fg-muted) !important; font-size: 0.875rem !important; }
+  .info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .info-block p {
+    font-size: 0.9375rem;
+    color: var(--fg);
+    line-height: 1.6;
+  }
+
+  .muted {
+    color: var(--fg-muted) !important;
+    font-size: 0.875rem !important;
+  }
 
   .contact-link {
     font-size: 0.9375rem;
@@ -144,109 +159,142 @@ import SectionLabel from '../../components/SectionLabel.astro'
     text-decoration: underline;
     text-decoration-color: var(--border);
     text-underline-offset: 3px;
-    transition: text-decoration-color 0.2s ease;
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
   }
 
   .contact-link:hover {
+    color: var(--fg);
     text-decoration-color: var(--fg);
   }
 
-  .topic-group { margin-bottom: 2rem; }
+  /* ---- Form card wrapper ---- */
+  .form-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2.25rem 2.25rem;
+  }
+
+  /* ---- Topic pills ---- */
+  .topic-group {
+    margin-bottom: 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
 
   .topic-label {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--fg-muted);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 0.75rem;
   }
 
-  .topic-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .topic-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
 
   .topic-pill {
-    padding: 0.5rem 1.125rem;
-    border-radius: 99px;
+    padding: 0.4375rem 1rem;
+    border-radius: 6px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--fg-muted);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
   }
 
-  .topic-pill:hover { border-color: var(--fg); color: var(--fg); }
-  .topic-pill.active { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+  .topic-pill:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--fg);
+  }
 
-  .contact-form { display: flex; flex-direction: column; gap: 1.75rem; }
+  .topic-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
 
-  .field { position: relative; }
+  /* ---- Fields ---- */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .fields-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
   .field input,
   .field textarea {
     width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    padding: 1.25rem 0 0.625rem;
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
     color: var(--fg);
     font-family: inherit;
-    transition: border-color 0.25s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
     outline: none;
     resize: none;
-    display: block;
   }
 
-  .field textarea { min-height: 120px; }
-
-  .field label {
-    position: absolute;
-    left: 0;
-    top: 1.25rem;
-    font-size: 1rem;
-    color: var(--fg-muted);
-    font-weight: 400;
-    pointer-events: none;
-    transition: all 0.2s ease;
-    transform-origin: left top;
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
   }
 
-  .field input:not(:placeholder-shown) ~ label,
-  .field input:focus ~ label,
-  .field textarea:not(:placeholder-shown) ~ label,
-  .field textarea:focus ~ label {
-    transform: translateY(-1.25rem) scale(0.75);
-    color: var(--accent);
-    font-weight: 600;
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+    background: rgba(108, 43, 217, 0.07);
   }
 
-  .field-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-    display: block;
+  .field textarea {
+    min-height: 140px;
   }
-
-  .field input:focus ~ .field-line,
-  .field textarea:focus ~ .field-line { width: 100%; }
 
   .char-count {
     position: absolute;
-    bottom: 0.35rem;
-    right: 0;
-    font-size: 0.75rem;
+    bottom: 0.625rem;
+    right: 0.875rem;
+    font-size: 0.6875rem;
     color: var(--fg-muted);
     pointer-events: none;
+    opacity: 0.7;
   }
 
+  @media (max-width: 640px) {
+    .fields-row { grid-template-columns: 1fr; }
+    .form-card { padding: 1.5rem; }
+  }
+
+  /* ---- Submit button ---- */
   .submit-btn {
     display: inline-flex;
     align-items: center;
@@ -262,25 +310,50 @@ import SectionLabel from '../../components/SectionLabel.astro'
     cursor: pointer;
     transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     align-self: flex-start;
+    position: relative;
+    overflow: hidden;
   }
 
   .submit-btn:hover:not(:disabled) {
     background: var(--accent-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(184, 147, 90, 0.35);
+    box-shadow: 0 4px 16px rgba(108, 43, 217, 0.35);
   }
 
   .submit-btn:active:not(:disabled) { transform: translateY(0); }
   .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+  .submit-btn.sending { background: var(--accent-dark); }
   .submit-btn.sent { background: #22c55e; }
 
-  .form-status { font-size: 0.875rem; padding: 0.75rem 1rem; border-radius: 0.5rem; display: none; }
-  .form-status.success { display: block; background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
-  .form-status.error { display: block; background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+  /* ---- Status ---- */
+  .form-status {
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    display: none;
+  }
 
-  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .form-status.success {
+    display: block;
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .form-status.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
 
   @media (max-width: 640px) {
+    .topic-pills { gap: 0.375rem; }
     .topic-pill { font-size: 0.8125rem; padding: 0.4rem 0.875rem; }
   }
 </style>
@@ -313,6 +386,7 @@ import SectionLabel from '../../components/SectionLabel.astro'
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     submitBtn.disabled = true
+    submitBtn.classList.add('sending')
     btnText.textContent = 'Sending…'
     statusEl.className = 'form-status'
     statusEl.textContent = ''
@@ -333,6 +407,7 @@ import SectionLabel from '../../components/SectionLabel.astro'
       })
 
       if (res.ok) {
+        submitBtn.classList.remove('sending')
         submitBtn.classList.add('sent')
         btnText.textContent = 'Sent!'
         btnIcon.hidden = true
@@ -347,10 +422,11 @@ import SectionLabel from '../../components/SectionLabel.astro'
           btnCheck.hidden = true
         }, 4000)
       } else {
-        throw new Error()
+        throw new Error('Server error')
       }
     } catch {
       submitBtn.disabled = false
+      submitBtn.classList.remove('sending')
       btnText.textContent = 'Send message'
       statusEl.className = 'form-status error'
       statusEl.textContent = 'Something went wrong. Please try again or contact us directly.'
