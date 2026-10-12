@@ -5,11 +5,6 @@ interface Props {
 const { lang = 'cs' } = Astro.props
 const isEn = lang === 'en'
 
-// Logo: logo.png has no alpha channel (all-white pixels, no transparency).
-// The filter brightness(0) invert(1) produces a solid white rectangle.
-// TEMPORARY: text-based logo. Provide logo-transparent.png or logo.svg for production.
-// See output #7 in the brief.
-
 const nav = isEn
   ? [
       { href: '/en/', label: 'Home' },
@@ -33,16 +28,42 @@ const currentPath = Astro.url.pathname
   {isEn ? 'Skip to content' : 'Přejít na obsah'}
 </a>
 
+<!-- Pre-header: Instagram + contact, hides on scroll -->
+<div class="pre-header" id="pre-header">
+  <div class="pre-header-inner container">
+    <a
+      href="https://instagram.com/globaalelevate"
+      class="pre-header-ig"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Instagram @globaalelevate"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      @globaalelevate
+    </a>
+    <div class="pre-header-contact">
+      <a href="mailto:info@globaalelevate.com" class="pre-header-link">
+        info@globaalelevate.com
+      </a>
+      <span class="pre-header-sep" aria-hidden="true">·</span>
+      <a href="https://portal.globaalelevate.com" class="pre-header-link" target="_blank" rel="noopener">
+        {isEn ? 'Client portal' : 'Klientský portál'} ↗
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Main sticky header -->
 <header class="site-header" id="site-header">
   <div class="header-inner container">
 
     <!-- Logo -->
     <a href={isEn ? '/en/' : '/'} class="logo-link" aria-label={isEn ? 'Globaal Elevate — Home' : 'Globaal Elevate — Domů'}>
-      <!-- Text fallback: see comment above about logo.png transparency issue -->
-      <span class="logo-wordmark" aria-hidden="false">
-        <span class="logo-g">GE</span><span class="logo-rest">P</span>
-      </span>
-      <span class="logo-name">Globaal Elevate</span>
+      <img src="/logo-white.png" alt="Globaal Elevate Production" class="logo-img" width="120" height="30" />
     </a>
 
     <!-- Desktop nav -->
@@ -75,10 +96,6 @@ const currentPath = Astro.url.pathname
         }
       </div>
 
-      <a href="https://portal.globaalelevate.com" class="portal-link" target="_blank" rel="noopener">
-        {isEn ? 'Client portal' : 'Klientský portál'} ↗
-      </a>
-
       <a href={isEn ? '/en/kontakt' : '/kontakt'} class="btn btn-primary">
         {isEn ? 'Get in touch' : 'Napište nám'} <span class="btn-arrow">→</span>
       </a>
@@ -97,7 +114,7 @@ const currentPath = Astro.url.pathname
 <div class="nav-mobile" id="nav-mobile" hidden aria-label={isEn ? 'Mobile navigation' : 'Mobilní navigace'} role="dialog" aria-modal="true">
   <div class="nav-mobile-inner">
     <div class="nav-mobile-header">
-      <span class="logo-wordmark" aria-hidden="true"><span class="logo-g">GE</span><span class="logo-rest">P</span></span>
+      <img src="/logo-white.png" alt="Globaal Elevate Production" class="logo-img" width="100" height="25" />
       <button class="nav-close" id="nav-close" aria-label={isEn ? 'Close menu' : 'Zavřít menu'}>✕</button>
     </div>
 
@@ -116,13 +133,16 @@ const currentPath = Astro.url.pathname
 </div>
 
 <script>
-  const header    = document.getElementById('site-header')!
-  const hamburger = document.getElementById('hamburger')!
-  const navClose  = document.getElementById('nav-close')!
-  const navMobile = document.getElementById('nav-mobile')!
+  const header     = document.getElementById('site-header')!
+  const preHeader  = document.getElementById('pre-header')!
+  const hamburger  = document.getElementById('hamburger')!
+  const navClose   = document.getElementById('nav-close')!
+  const navMobile  = document.getElementById('nav-mobile')!
 
-  // Scroll: shrink header
+  // Scroll: hide pre-header, shrink main header
   const scrollHandler = () => {
+    const scrolled = window.scrollY > 8
+    preHeader.classList.toggle('hidden', scrolled)
     header.classList.toggle('is-scrolled', window.scrollY > 40)
   }
   window.addEventListener('scroll', scrollHandler, { passive: true })
@@ -133,7 +153,6 @@ const currentPath = Astro.url.pathname
     navMobile.hidden = false
     hamburger.setAttribute('aria-expanded', 'true')
     document.body.style.overflow = 'hidden'
-    // Focus first link
     const firstLink = navMobile.querySelector<HTMLElement>('.nav-mobile-link')
     firstLink?.focus()
   }
@@ -148,12 +167,10 @@ const currentPath = Astro.url.pathname
   hamburger.addEventListener('click', openMenu)
   navClose.addEventListener('click', closeMenu)
 
-  // Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !navMobile.hidden) closeMenu()
   })
 
-  // Focus trap
   navMobile.addEventListener('keydown', (e) => {
     if (e.key !== 'Tab') return
     const focusable = navMobile.querySelectorAll<HTMLElement>(
@@ -168,26 +185,83 @@ const currentPath = Astro.url.pathname
     }
   })
 
-  // Close on nav link click
   navMobile.querySelectorAll('.nav-mobile-link').forEach(link => {
     link.addEventListener('click', closeMenu)
   })
 </script>
 
 <style>
+  /* ── Pre-header ── */
+  .pre-header {
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    height: 36px;
+    overflow: hidden;
+    transition: height 0.25s ease, opacity 0.25s ease;
+  }
+
+  .pre-header.hidden {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .pre-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .pre-header-ig {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .pre-header-ig:hover { color: var(--violet-400); }
+
+  .pre-header-contact {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-family: var(--font);
+    font-size: 12px;
+  }
+
+  .pre-header-link {
+    color: rgba(255,255,255,.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .pre-header-link:hover { color: rgba(255,255,255,.9); }
+
+  .pre-header-sep { color: rgba(255,255,255,.2); }
+
   /* ── Header shell ── */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
     width: 100%;
-    background: var(--ink);
-    border-bottom: 1px solid var(--line-dark);
-    height: 72px;
-    transition: height 0.2s ease;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    height: 68px;
+    transition: height 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .site-header.is-scrolled { height: 56px; }
+  .site-header.is-scrolled {
+    height: 56px;
+    background: rgba(13, 9, 40, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 4px 24px rgba(0,0,0,.4);
+  }
 
   .header-inner {
     display: flex;
@@ -200,34 +274,16 @@ const currentPath = Astro.url.pathname
   .logo-link {
     display: flex;
     align-items: center;
-    gap: .625rem;
     flex-shrink: 0;
-    color: var(--white);
     text-decoration: none;
   }
 
-  .logo-wordmark {
-    font-family: var(--font);
-    font-weight: 800;
-    font-stretch: 75%;
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: -.02em;
-    line-height: 1;
-    color: var(--white);
-  }
-
-  .logo-g { color: var(--violet-400); }
-  .logo-rest { color: var(--white); opacity: .6; }
-
-  .logo-name {
-    font-family: var(--font);
-    font-weight: 600;
-    font-stretch: 100%;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--muted-dark);
+  .logo-img {
+    height: 26px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    display: block;
   }
 
   /* ── Desktop nav ── */
@@ -245,7 +301,7 @@ const currentPath = Astro.url.pathname
     font-weight: 500;
     font-stretch: 100%;
     font-size: 14px;
-    color: var(--muted-dark);
+    color: rgba(255,255,255,.6);
     text-decoration: none;
     padding-bottom: 3px;
     border-bottom: 2px solid transparent;
@@ -253,7 +309,7 @@ const currentPath = Astro.url.pathname
   }
 
   .nav-link:hover { color: var(--white); }
-  .nav-link.is-active { color: var(--white); border-bottom-color: var(--violet-600); }
+  .nav-link.is-active { color: var(--white); border-bottom-color: var(--violet-500); }
   .nav-link:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
 
   /* ── Actions ── */
@@ -264,7 +320,6 @@ const currentPath = Astro.url.pathname
     gap: 1.25rem;
   }
 
-  /* Lang switcher */
   .lang-switcher {
     display: flex;
     align-items: center;
@@ -277,28 +332,10 @@ const currentPath = Astro.url.pathname
     letter-spacing: .08em;
   }
 
-  .lang-link {
-    color: var(--muted-dark);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
+  .lang-link { color: rgba(255,255,255,.5); text-decoration: none; transition: color 0.15s; }
   .lang-link:hover { color: var(--white); }
-
   .lang-current { color: var(--white); }
-  .lang-div { color: var(--line-dark); }
-
-  /* Portal link */
-  .portal-link {
-    font-family: var(--font);
-    font-weight: 500;
-    font-stretch: 100%;
-    font-size: 13px;
-    color: var(--muted-dark);
-    text-decoration: none;
-    transition: color 0.15s;
-    white-space: nowrap;
-  }
-  .portal-link:hover { color: var(--white); }
+  .lang-div { color: rgba(255,255,255,.2); }
 
   /* Hamburger */
   .hamburger {
@@ -319,7 +356,6 @@ const currentPath = Astro.url.pathname
     height: 1.5px;
     background: var(--white);
     border-radius: 1px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
   .hamburger:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
@@ -328,7 +364,7 @@ const currentPath = Astro.url.pathname
   .nav-mobile {
     position: fixed;
     inset: 0;
-    background: var(--ink);
+    background: var(--navy);
     z-index: 200;
     display: flex;
     flex-direction: column;
@@ -348,7 +384,7 @@ const currentPath = Astro.url.pathname
     align-items: center;
     justify-content: space-between;
     padding-bottom: 2rem;
-    border-bottom: 1px solid var(--line-dark);
+    border-bottom: 1px solid rgba(255,255,255,.08);
     margin-bottom: 2rem;
   }
 
@@ -378,7 +414,7 @@ const currentPath = Astro.url.pathname
     color: var(--white);
     text-decoration: none;
     padding: 1.25rem 0;
-    border-bottom: 1px solid var(--line-dark);
+    border-bottom: 1px solid rgba(255,255,255,.08);
     transition: color 0.15s ease;
     letter-spacing: -.01em;
   }
@@ -386,13 +422,24 @@ const currentPath = Astro.url.pathname
   .nav-mobile-link:hover { color: var(--violet-400); }
   .nav-mobile-link:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
 
-  .nav-mobile-footer {
-    padding-top: 2rem;
-  }
+  .nav-mobile-footer { padding-top: 2rem; }
 
-  /* ── Responsive breakpoints ── */
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 1rem;
+    background: var(--violet-600);
+    color: #fff;
+    padding: .5rem 1rem;
+    z-index: 9999;
+    font-family: var(--font);
+    font-size: 14px;
+  }
+  .skip-link:focus { left: 1rem; }
+
+  /* ── Responsive ── */
   @media (max-width: 1024px) {
-    .portal-link { display: none; }
     .nav-desktop { gap: 1.25rem; }
   }
 
@@ -401,5 +448,6 @@ const currentPath = Astro.url.pathname
     .hamburger { display: flex; }
     .header-actions .btn { display: none; }
     .lang-switcher { display: none; }
+    .pre-header-contact { display: none; }
   }
 </style>

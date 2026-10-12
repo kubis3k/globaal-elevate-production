@@ -11,7 +11,9 @@
   /* Colors — dark surfaces */
   --ink:        #0A0A0A;
   --ink-2:      #151515;
-  --line-dark:  rgba(255, 255, 255, .16);
+  --navy:       #0D0928;   /* deep indigo — hero, header */
+  --navy-2:     #160C40;   /* slightly lighter navy for hover/cards */
+  --line-dark:  rgba(255, 255, 255, .10);
 
   /* Colors — light surfaces */
   --white:      #FFFFFF;
@@ -45,8 +47,8 @@
   --radius-img:  4px;
 
   /* ── Legacy aliases (inner pages compatibility) ── */
-  --bg:         var(--ink);
-  --bg-surface: var(--ink-2);
+  --bg:         var(--navy);
+  --bg-surface: var(--navy-2);
   --fg:         var(--text-dark);
   --fg-muted:   var(--muted-dark);
   --border:     var(--line-dark);
@@ -75,7 +77,7 @@ html {
 }
 
 body {
-  background: var(--ink);
+  background: var(--navy);
   color: var(--text-dark);
   min-height: 100dvh;
   overflow-x: hidden;
@@ -120,8 +122,8 @@ p {
 }
 
 /* ── Surface classes ── */
-.surface-ink   { background: var(--ink);    color: var(--text-dark);  }
-.surface-ink-2 { background: var(--ink-2);  color: var(--text-dark);  }
+.surface-ink   { background: var(--navy);   color: var(--text-dark);  }
+.surface-ink-2 { background: var(--navy-2); color: var(--text-dark);  }
 .surface-white { background: var(--white);  color: var(--text-light); }
 .surface-grey  { background: var(--grey-100); color: var(--text-light); }
 
