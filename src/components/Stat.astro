@@ -2,85 +2,44 @@
 interface Props {
   value: string
   label: string
-  small?: boolean
+  onLight?: boolean
 }
-
-const { value, label, small = false } = Astro.props
+const { value, label, onLight = false } = Astro.props
 ---
 
-<div class={`stat-item ${small ? 'stat-small' : ''}`}>
-  <span class="stat-value" data-target={value}>{value}</span>
+<div class={`stat-item ${onLight ? 'on-light' : ''}`}>
+  <span class="stat-value">{value}</span>
   <span class="stat-label">{label}</span>
 </div>
-
-<script>
-  // Progressive-enhancement counter animation
-  // Final value is always rendered in HTML (SEO + no-JS safe)
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  if (!reducedMotion) {
-    document.querySelectorAll<HTMLElement>('.stat-value[data-target]').forEach(el => {
-      const raw = el.dataset.target ?? ''
-      const numStr = raw.replace(/\D/g, '')
-      const suffix = raw.replace(/[\d]/g, '')
-      const target = parseInt(numStr, 10)
-
-      if (isNaN(target) || target === 0) return
-
-      const observer = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) return
-        observer.disconnect()
-
-        const duration = 1200
-        const start = performance.now()
-
-        const tick = (now: number) => {
-          const t = Math.min((now - start) / duration, 1)
-          const eased = 1 - Math.pow(1 - t, 3)
-          el.textContent = Math.round(eased * target) + suffix
-          if (t < 1) requestAnimationFrame(tick)
-          else el.textContent = raw
-        }
-
-        requestAnimationFrame(tick)
-      }, { threshold: 0.5 })
-
-      observer.observe(el)
-    })
-  }
-</script>
 
 <style>
   .stat-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: .25rem;
   }
 
   .stat-value {
-    font-family: var(--font-sans);
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-family: var(--font);
     font-weight: 800;
-    color: var(--text-on-dark);
+    font-stretch: 75%;
+    text-transform: uppercase;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: -.02em;
+    color: var(--text-dark);
   }
 
   .stat-label {
-    font-size: 0.875rem;
-    color: var(--muted-on-dark);
-    line-height: 1.4;
+    font-family: var(--font);
+    font-weight: 600;
+    font-stretch: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted-dark);
   }
 
-  /* Small variant for hero row */
-  .stat-small .stat-value {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .stat-small .stat-label {
-    font-size: 0.8125rem;
-  }
-
-  .section-light .stat-value { color: var(--ink-text); }
-  .section-light .stat-label { color: #6b7489; }
+  .on-light .stat-value { color: var(--text-light); }
+  .on-light .stat-label { color: var(--muted-light); }
 </style>

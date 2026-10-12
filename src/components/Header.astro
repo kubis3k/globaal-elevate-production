@@ -2,228 +2,233 @@
 interface Props {
   lang?: string
 }
-
 const { lang = 'cs' } = Astro.props
+const isEn = lang === 'en'
 
-const navCs = [
-  { label: 'Domů', href: '/' },
-  { label: 'O nás', href: '/o-nas' },
-  { label: 'Portfolio', href: '/portfolio' },
-  { label: 'Novinky', href: '/novinky' },
-  { label: 'Kontakt', href: '/kontakt' },
-]
+// Logo: logo.png has no alpha channel (all-white pixels, no transparency).
+// The filter brightness(0) invert(1) produces a solid white rectangle.
+// TEMPORARY: text-based logo. Provide logo-transparent.png or logo.svg for production.
+// See output #7 in the brief.
 
-const navEn = [
-  { label: 'Home', href: '/en/' },
-  { label: 'About', href: '/en/about' },
-  { label: 'Portfolio', href: '/en/portfolio' },
-  { label: 'News', href: '/en/news' },
-  { label: 'Contact', href: '/en/contact' },
-]
+const nav = isEn
+  ? [
+      { href: '/en/', label: 'Home' },
+      { href: '/en/o-nas', label: 'About' },
+      { href: '/en/portfolio', label: 'Portfolio' },
+      { href: '/en/novinky', label: 'News' },
+      { href: '/en/kontakt', label: 'Contact' },
+    ]
+  : [
+      { href: '/', label: 'Domů' },
+      { href: '/o-nas', label: 'O nás' },
+      { href: '/portfolio', label: 'Portfolio' },
+      { href: '/novinky', label: 'Novinky' },
+      { href: '/kontakt', label: 'Kontakt' },
+    ]
 
-const nav = lang === 'en' ? navEn : navCs
-const otherLangHref = lang === 'en' ? '/' : '/en/'
-const currentLang = lang === 'en' ? 'EN' : 'CS'
-const otherLang = lang === 'en' ? 'CS' : 'EN'
-const contactHref = lang === 'en' ? '/en/contact' : '/kontakt'
-const contactLabel = lang === 'en' ? 'Contact us' : 'Napište nám'
+const currentPath = Astro.url.pathname
 ---
 
-<header class="site-header" id="site-header" role="banner">
-  <div class="header-capsule">
-    <div class="header-inner">
-      <!-- Logo -->
-      <a href={lang === 'en' ? '/en/' : '/'} class="logo-link" aria-label="Globaal Elevate Production — Domů">
-        <img src="/logo.png" class="logo-img" alt="Globaal Elevate Production" width="120" height="28" />
+<a href="#main-content" class="skip-link">
+  {isEn ? 'Skip to content' : 'Přejít na obsah'}
+</a>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner container">
+
+    <!-- Logo -->
+    <a href={isEn ? '/en/' : '/'} class="logo-link" aria-label={isEn ? 'Globaal Elevate — Home' : 'Globaal Elevate — Domů'}>
+      <!-- Text fallback: see comment above about logo.png transparency issue -->
+      <span class="logo-wordmark" aria-hidden="false">
+        <span class="logo-g">GE</span><span class="logo-rest">P</span>
+      </span>
+      <span class="logo-name">Globaal Elevate</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="nav-desktop" aria-label={isEn ? 'Main navigation' : 'Hlavní navigace'}>
+      {nav.map(item => {
+        const isActive = currentPath === item.href || (item.href !== '/' && item.href !== '/en/' && currentPath.startsWith(item.href))
+        return (
+          <a href={item.href} class={`nav-link ${isActive ? 'is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>
+            {item.label}
+          </a>
+        )
+      })}
+    </nav>
+
+    <!-- Right group -->
+    <div class="header-actions">
+      <!-- Language switcher -->
+      <div class="lang-switcher" aria-label="Jazyk / Language">
+        {isEn
+          ? <>
+              <a href={currentPath.replace(/^\/en/, '') || '/'} class="lang-link" lang="cs">CS</a>
+              <span class="lang-div" aria-hidden="true">/</span>
+              <span class="lang-current" lang="en" aria-current="true">EN</span>
+            </>
+          : <>
+              <span class="lang-current" lang="cs" aria-current="true">CS</span>
+              <span class="lang-div" aria-hidden="true">/</span>
+              <a href={`/en${currentPath}`} class="lang-link" lang="en">EN</a>
+            </>
+        }
+      </div>
+
+      <a href="https://portal.globaalelevate.com" class="portal-link" target="_blank" rel="noopener">
+        {isEn ? 'Client portal' : 'Klientský portál'} ↗
       </a>
 
-      <!-- Desktop navigation -->
-      <nav class="nav-desktop" aria-label={lang === 'en' ? 'Main navigation' : 'Hlavní navigace'}>
-        {nav.map(item => (
-          <a href={item.href} class="nav-link">{item.label}</a>
-        ))}
-      </nav>
+      <a href={isEn ? '/en/kontakt' : '/kontakt'} class="btn btn-primary">
+        {isEn ? 'Get in touch' : 'Napište nám'} <span class="btn-arrow">→</span>
+      </a>
 
-      <!-- Right actions -->
-      <div class="header-actions">
-        <!-- Language switcher -->
-        <div class="lang-switch" role="group" aria-label={lang === 'en' ? 'Language' : 'Jazyk'}>
-          <span class="lang-current" aria-current="true">{currentLang}</span>
-          <span class="lang-divider" aria-hidden="true">/</span>
-          <a href={otherLangHref} class="lang-other" aria-label={lang === 'en' ? 'Přepnout na češtinu' : 'Switch to English'}>
-            {otherLang}
-          </a>
-        </div>
-
-        <!-- Client portal ghost link -->
-        <a
-          href="https://klient.globaalelevate.com"
-          class="client-portal"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={lang === 'en' ? 'Client portal (opens in new tab)' : 'Klientský portál (otevře novou kartu)'}
-        >
-          {lang === 'en' ? 'Client portal' : 'Klientský portál'}
-        </a>
-
-        <!-- Primary CTA -->
-        <a href={contactHref} class="btn btn-primary header-cta">
-          {contactLabel}
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
-
-        <!-- Hamburger -->
-        <button class="hamburger" id="hamburger" aria-label={lang === 'en' ? 'Open menu' : 'Otevřít menu'} aria-expanded="false" aria-controls="nav-mobile">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
+      <!-- Hamburger -->
+      <button class="hamburger" id="hamburger" aria-label={isEn ? 'Open menu' : 'Otevřít menu'} aria-expanded="false" aria-controls="nav-mobile">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
     </div>
   </div>
+</header>
 
-  <!-- Mobile fullscreen menu -->
-  <div class="nav-mobile" id="nav-mobile" role="dialog" aria-modal="true" aria-label={lang === 'en' ? 'Navigation menu' : 'Navigační menu'} hidden>
-    <button class="nav-mobile-close" id="nav-mobile-close" aria-label={lang === 'en' ? 'Close menu' : 'Zavřít menu'}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
+<!-- Mobile nav -->
+<div class="nav-mobile" id="nav-mobile" hidden aria-label={isEn ? 'Mobile navigation' : 'Mobilní navigace'} role="dialog" aria-modal="true">
+  <div class="nav-mobile-inner">
+    <div class="nav-mobile-header">
+      <span class="logo-wordmark" aria-hidden="true"><span class="logo-g">GE</span><span class="logo-rest">P</span></span>
+      <button class="nav-close" id="nav-close" aria-label={isEn ? 'Close menu' : 'Zavřít menu'}>✕</button>
+    </div>
 
-    <nav aria-label={lang === 'en' ? 'Mobile navigation' : 'Mobilní navigace'}>
+    <nav class="nav-mobile-links" aria-label={isEn ? 'Mobile navigation' : 'Mobilní navigace'}>
       {nav.map(item => (
         <a href={item.href} class="nav-mobile-link">{item.label}</a>
       ))}
     </nav>
 
     <div class="nav-mobile-footer">
-      <a href={contactHref} class="btn btn-primary nav-mobile-cta">
-        {contactLabel} <span aria-hidden="true">→</span>
-      </a>
-      <a href={otherLangHref} class="nav-mobile-lang">
-        {otherLang}
+      <a href={isEn ? '/en/kontakt' : '/kontakt'} class="btn btn-primary" style="width:100%;justify-content:center">
+        {isEn ? 'Get in touch' : 'Napište nám'} <span class="btn-arrow">→</span>
       </a>
     </div>
   </div>
-</header>
+</div>
 
 <script>
-  const header = document.getElementById('site-header')!
+  const header    = document.getElementById('site-header')!
   const hamburger = document.getElementById('hamburger')!
+  const navClose  = document.getElementById('nav-close')!
   const navMobile = document.getElementById('nav-mobile')!
-  const closeBtn = document.getElementById('nav-mobile-close')!
 
-  // Focus trap helpers
-  const focusable = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
-  let prevFocus: HTMLElement | null = null
+  // Scroll: shrink header
+  const scrollHandler = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 40)
+  }
+  window.addEventListener('scroll', scrollHandler, { passive: true })
+  scrollHandler()
 
-  function openMenu() {
+  // Mobile menu open
+  const openMenu = () => {
     navMobile.hidden = false
     hamburger.setAttribute('aria-expanded', 'true')
     document.body.style.overflow = 'hidden'
-    prevFocus = document.activeElement as HTMLElement
-    // Move focus to close button
-    closeBtn.focus()
-    // Trap focus
-    navMobile.addEventListener('keydown', trapFocus)
-    document.addEventListener('keydown', handleEsc)
+    // Focus first link
+    const firstLink = navMobile.querySelector<HTMLElement>('.nav-mobile-link')
+    firstLink?.focus()
   }
 
-  function closeMenu() {
+  const closeMenu = () => {
     navMobile.hidden = true
     hamburger.setAttribute('aria-expanded', 'false')
     document.body.style.overflow = ''
-    navMobile.removeEventListener('keydown', trapFocus)
-    document.removeEventListener('keydown', handleEsc)
-    prevFocus?.focus()
-  }
-
-  function trapFocus(e: KeyboardEvent) {
-    const els = Array.from(navMobile.querySelectorAll<HTMLElement>(focusable))
-    const first = els[0]
-    const last = els[els.length - 1]
-    if (e.key === 'Tab') {
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault()
-        last.focus()
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault()
-        first.focus()
-      }
-    }
-  }
-
-  function handleEsc(e: KeyboardEvent) {
-    if (e.key === 'Escape') closeMenu()
+    hamburger.focus()
   }
 
   hamburger.addEventListener('click', openMenu)
-  closeBtn.addEventListener('click', closeMenu)
+  navClose.addEventListener('click', closeMenu)
 
-  // Close on mobile link click
-  navMobile.querySelectorAll('.nav-mobile-link, .nav-mobile-cta').forEach(el => {
-    el.addEventListener('click', closeMenu)
+  // Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !navMobile.hidden) closeMenu()
   })
 
-  // Scroll-aware header opacity boost
-  const onScroll = () => {
-    header.classList.toggle('is-scrolled', window.scrollY > 60)
-  }
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
+  // Focus trap
+  navMobile.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return
+    const focusable = navMobile.querySelectorAll<HTMLElement>(
+      'a, button, input, [tabindex]:not([tabindex="-1"])'
+    )
+    const first = focusable[0]
+    const last  = focusable[focusable.length - 1]
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus()
+    }
+  })
+
+  // Close on nav link click
+  navMobile.querySelectorAll('.nav-mobile-link').forEach(link => {
+    link.addEventListener('click', closeMenu)
+  })
 </script>
 
 <style>
-  /* ── Floating header container ── */
+  /* ── Header shell ── */
   .site-header {
     position: sticky;
-    top: 16px;
-    z-index: 200;
-    padding: 0 var(--container-px);
-    pointer-events: none; /* Let clicks pass through the gap */
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background: var(--ink);
+    border-bottom: 1px solid var(--line-dark);
+    height: 72px;
+    transition: height 0.2s ease;
   }
 
-  .header-capsule {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    background: rgba(11, 16, 32, 0.72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 0 20px;
-    pointer-events: all;
-    transition: background 0.3s ease, border-color 0.3s ease;
-  }
-
-  .is-scrolled .header-capsule {
-    background: rgba(11, 16, 32, 0.92);
-    border-color: rgba(255, 255, 255, 0.14);
-  }
+  .site-header.is-scrolled { height: 56px; }
 
   .header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    gap: 1rem;
+    height: 100%;
+    gap: 2rem;
   }
 
   /* ── Logo ── */
   .logo-link {
     display: flex;
     align-items: center;
+    gap: .625rem;
     flex-shrink: 0;
+    color: var(--white);
+    text-decoration: none;
   }
 
-  .logo-img {
-    height: 28px;
-    width: auto;
-    filter: brightness(0) invert(1);
-    transition: opacity 0.2s ease;
+  .logo-wordmark {
+    font-family: var(--font);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    line-height: 1;
+    color: var(--white);
   }
 
-  .logo-link:hover .logo-img { opacity: 0.8; }
+  .logo-g { color: var(--violet-400); }
+  .logo-rest { color: var(--white); opacity: .6; }
+
+  .logo-name {
+    font-family: var(--font);
+    font-weight: 600;
+    font-stretch: 100%;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted-dark);
+  }
 
   /* ── Desktop nav ── */
   .nav-desktop {
@@ -232,86 +237,68 @@ const contactLabel = lang === 'en' ? 'Contact us' : 'Napište nám'
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 0.125rem;
+    gap: 2rem;
   }
 
   .nav-link {
-    padding: 6px 14px;
-    font-size: 0.875rem;
+    font-family: var(--font);
     font-weight: 500;
-    color: var(--muted-on-dark);
-    border-radius: 10px;
-    transition: color 0.2s ease, background 0.2s ease;
+    font-stretch: 100%;
+    font-size: 14px;
+    color: var(--muted-dark);
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
-  .nav-link:hover {
-    color: var(--text-on-dark);
-    background: var(--navy-700);
-  }
-
-  /* Active link — determined server-side ideally, or JS */
-  .nav-link[aria-current="page"] {
-    color: var(--gold-400);
-    background: var(--navy-700);
-  }
+  .nav-link:hover { color: var(--white); }
+  .nav-link.is-active { color: var(--white); border-bottom-color: var(--violet-600); }
+  .nav-link:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
 
   /* ── Actions ── */
   .header-actions {
+    margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 0.625rem;
-    flex-shrink: 0;
+    gap: 1.25rem;
   }
 
-  /* Language switcher */
-  .lang-switch {
+  /* Lang switcher */
+  .lang-switcher {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 0.8125rem;
+    gap: .375rem;
+    font-family: var(--font);
     font-weight: 600;
-    letter-spacing: 0.05em;
+    font-stretch: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
   }
 
-  .lang-current {
-    color: var(--gold-400);
+  .lang-link {
+    color: var(--muted-dark);
+    text-decoration: none;
+    transition: color 0.15s;
   }
+  .lang-link:hover { color: var(--white); }
 
-  .lang-divider {
-    color: var(--muted-on-dark);
-    opacity: 0.5;
-  }
+  .lang-current { color: var(--white); }
+  .lang-div { color: var(--line-dark); }
 
-  .lang-other {
-    color: var(--muted-on-dark);
-    transition: color 0.2s ease;
-  }
-
-  .lang-other:hover { color: var(--text-on-dark); }
-
-  /* Client portal ghost */
-  .client-portal {
-    font-size: 0.8125rem;
+  /* Portal link */
+  .portal-link {
+    font-family: var(--font);
     font-weight: 500;
-    color: var(--muted-on-dark);
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: color 0.2s ease, border-color 0.2s ease;
+    font-stretch: 100%;
+    font-size: 13px;
+    color: var(--muted-dark);
+    text-decoration: none;
+    transition: color 0.15s;
     white-space: nowrap;
   }
-
-  .client-portal:hover {
-    color: var(--text-on-dark);
-    border-color: rgba(255, 255, 255, 0.25);
-  }
-
-  /* Primary CTA */
-  .header-cta {
-    height: 38px;
-    padding: 0 16px;
-    font-size: 0.875rem;
-  }
+  .portal-link:hover { color: var(--white); }
 
   /* Hamburger */
   .hamburger {
@@ -319,114 +306,100 @@ const contactLabel = lang === 'en' ? 'Contact us' : 'Napište nám'
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 38px;
-    height: 38px;
-    background: transparent;
-    border: 1px solid var(--line);
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    padding: 0 2px;
     cursor: pointer;
-    padding: 0 9px;
-    transition: border-color 0.2s ease;
-    flex-shrink: 0;
   }
 
-  .hamburger:hover { border-color: rgba(255,255,255,.25); }
-  .hamburger:focus-visible { outline: 3px solid rgba(181,151,106,.45); outline-offset: 2px; }
-
-  .hamburger span {
+  .ham-line {
     display: block;
-    width: 100%;
     height: 1.5px;
-    background: var(--text-on-dark);
-    border-radius: 2px;
-    transition: all 0.25s ease;
-    transform-origin: center;
+    background: var(--white);
+    border-radius: 1px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
-  /* ── Mobile full-screen menu ── */
+  .hamburger:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
+
+  /* ── Mobile nav ── */
   .nav-mobile {
     position: fixed;
     inset: 0;
-    background: var(--navy-900);
-    z-index: 300;
+    background: var(--ink);
+    z-index: 200;
     display: flex;
     flex-direction: column;
-    padding: 2rem var(--container-px-mobile);
   }
 
   .nav-mobile[hidden] { display: none; }
 
-  .nav-mobile-close {
-    align-self: flex-end;
-    width: 44px;
-    height: 44px;
+  .nav-mobile-inner {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--navy-800);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    color: var(--text-on-dark);
-    cursor: pointer;
-    margin-bottom: 2rem;
-    transition: border-color 0.2s ease;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem var(--pad);
   }
 
-  .nav-mobile-close:hover { border-color: rgba(255,255,255,.25); }
-  .nav-mobile-close:focus-visible { outline: 3px solid rgba(181,151,106,.45); }
+  .nav-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line-dark);
+    margin-bottom: 2rem;
+  }
 
-  .nav-mobile nav {
+  .nav-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .nav-mobile-links {
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 0;
   }
 
   .nav-mobile-link {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--muted-on-dark);
-    padding: 0.875rem 0;
-    border-bottom: 1px solid var(--line);
-    transition: color 0.2s ease;
-    font-family: var(--font-sans);
-    letter-spacing: -0.01em;
+    font-family: var(--font);
+    font-weight: 800;
+    font-stretch: 75%;
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--white);
+    text-decoration: none;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line-dark);
+    transition: color 0.15s ease;
+    letter-spacing: -.01em;
   }
 
-  .nav-mobile-link:first-child { border-top: 1px solid var(--line); }
-  .nav-mobile-link:hover { color: var(--text-on-dark); }
+  .nav-mobile-link:hover { color: var(--violet-400); }
+  .nav-mobile-link:focus-visible { outline: 2px solid var(--violet-400); outline-offset: 4px; }
 
   .nav-mobile-footer {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
     padding-top: 2rem;
   }
 
-  .nav-mobile-cta {
-    height: 52px;
-    padding: 0 24px;
+  /* ── Responsive breakpoints ── */
+  @media (max-width: 1024px) {
+    .portal-link { display: none; }
+    .nav-desktop { gap: 1.25rem; }
   }
 
-  .nav-mobile-lang {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--muted-on-dark);
-    letter-spacing: 0.05em;
-    transition: color 0.2s ease;
-  }
-
-  .nav-mobile-lang:hover { color: var(--text-on-dark); }
-
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     .nav-desktop { display: none; }
-    .client-portal { display: none; }
     .hamburger { display: flex; }
-    .header-cta { display: none; }
-  }
-
-  @media (max-width: 480px) {
-    .site-header { padding: 0 12px; }
-    .lang-switch { display: none; }
+    .header-actions .btn { display: none; }
+    .lang-switcher { display: none; }
   }
 </style>

@@ -6,20 +6,8 @@ const { lang = 'cs' } = Astro.props
 const isEn = lang === 'en'
 ---
 
-<div class="newsletter-wrap anim-fade">
+<div class="newsletter-wrap">
   <div class="newsletter-inner">
-    <div class="newsletter-copy">
-      <p class="nl-label">{isEn ? '• Newsletter' : '• Newsletter'}</p>
-      <h2 class="nl-heading">
-        {isEn ? 'Stay in the loop.' : 'Zůstaňte v obraze.'}
-      </h2>
-      <p class="nl-lead">
-        {isEn
-          ? 'Projects, events, music and what\'s happening behind the scenes — straight to your inbox.'
-          : 'Projekty, eventy, hudba a co se děje za kulisami — přímo do vaší schránky.'}
-      </p>
-    </div>
-
     <!-- Form state -->
     <div class="nl-form-area" id="nl-inline-form-area">
       <form class="nl-form" id="nl-form" novalidate>
@@ -93,43 +81,12 @@ const isEn = lang === 'en'
 </div>
 
 <style>
-  .newsletter-wrap {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 3rem;
-  }
+  .newsletter-wrap { width: 100%; }
 
   .newsletter-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .nl-label {
-    font-size: 0.6875rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-    font-weight: 600;
-    margin: 0 0 0.75rem;
-  }
-
-  .nl-heading {
-    font-size: clamp(1.5rem, 2.5vw, 2rem);
-    font-weight: 800;
-    color: var(--fg);
-    letter-spacing: -0.02em;
-    margin: 0 0 0.75rem;
-    line-height: 1.15;
-  }
-
-  .nl-lead {
-    font-size: 0.9375rem;
-    color: var(--fg-muted);
-    line-height: 1.7;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   /* Form area */
@@ -157,49 +114,54 @@ const isEn = lang === 'en'
 
   .nl-field input {
     width: 100%;
-    height: 48px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    height: 52px;
+    background: var(--white);
+    border: 1px solid var(--line-light);
+    border-radius: var(--radius-btn);
     padding: 0 1rem;
-    font-size: 0.9375rem;
-    color: var(--fg);
+    font-size: 1rem;
+    color: var(--text-light);
     font-family: inherit;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease;
     outline: none;
     box-sizing: border-box;
   }
 
-  .nl-field input::placeholder { color: var(--fg-muted); }
+  .nl-field input::placeholder { color: var(--muted-light); }
 
   .nl-field input:focus {
-    border-color: #B5976A;
-    box-shadow: 0 0 0 3px rgba(181, 151, 106, 0.2);
+    border-color: var(--violet-600);
+    outline: 3px solid var(--violet-400);
+    outline-offset: 0;
   }
 
-  .nl-field input.nl-invalid { border-color: #D64545; }
+  .nl-field input.nl-invalid { border-color: var(--danger); }
 
   .nl-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
-    height: 48px;
-    padding: 0 1.5rem;
-    background: #B5976A;
+    height: 52px;
+    padding: 0 1.75rem;
+    background: var(--violet-600);
     color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 0.9375rem;
-    font-weight: 700;
+    border-radius: var(--radius-btn);
     font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.2s ease;
+    transition: background 0.15s ease;
     flex-shrink: 0;
   }
 
-  .nl-btn:hover:not(:disabled) { background: #A3845A; }
+  .nl-btn:hover:not(:disabled) { background: var(--violet-500); }
+  .nl-btn:active:not(:disabled) { background: var(--violet-700); }
+  .nl-btn:focus-visible { outline: 3px solid var(--violet-400); outline-offset: 2px; }
   .nl-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
   .nl-spinner-svg { animation: inlineSpin 0.8s linear infinite; }
@@ -215,20 +177,20 @@ const isEn = lang === 'en'
 
   .nl-fine {
     font-size: 0.75rem;
-    color: var(--fg-muted);
+    color: var(--muted-light);
     margin: 0;
     line-height: 1.5;
+    max-width: none;
   }
 
   .nl-privacy-link {
-    color: var(--fg-muted);
+    color: var(--muted-light);
     text-decoration: underline;
-    text-decoration-color: var(--border);
     text-underline-offset: 2px;
     transition: color 0.15s ease;
   }
 
-  .nl-privacy-link:hover { color: var(--fg); }
+  .nl-privacy-link:hover { color: var(--text-light); }
 
   /* Screen-reader-only label */
   .sr-only {
@@ -252,56 +214,41 @@ const isEn = lang === 'en'
   .nl-success-area[hidden] { display: none; }
 
   .nl-success-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: #FDF8F2;
-    border: 1px solid rgba(181, 151, 106, 0.25);
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--violet-600);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #B5976A;
+    color: var(--violet-600);
     margin-bottom: 4px;
   }
 
   .nl-success-title {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--fg);
+    color: var(--text-light);
     margin: 0;
   }
 
   .nl-success-text {
-    font-size: 0.9375rem;
-    color: var(--fg-muted);
+    font-size: .9375rem;
+    color: var(--muted-light);
     line-height: 1.65;
     margin: 0;
   }
 
   .nl-success-hint {
-    font-size: 0.8125rem;
-    color: var(--fg-muted);
+    font-size: .8125rem;
+    color: var(--muted-light);
     margin: 0;
-    opacity: 0.75;
-  }
-
-  @media (max-width: 768px) {
-    .newsletter-inner {
-      grid-template-columns: 1fr;
-      gap: 1.75rem;
-    }
-    .newsletter-wrap {
-      padding: 2rem 1.5rem;
-    }
+    opacity: .75;
+    max-width: none;
   }
 
   @media (max-width: 480px) {
-    .nl-field-row {
-      flex-direction: column;
-    }
-    .nl-btn {
-      width: 100%;
-    }
+    .nl-field-row { flex-direction: column; }
+    .nl-btn { width: 100%; }
   }
 </style>
 

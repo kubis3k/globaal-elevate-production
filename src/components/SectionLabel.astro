@@ -1,9 +1,55 @@
 ---
 interface Props {
-  text: string
+  num: string        // e.g. "01"
+  text: string       // e.g. "Portfolio"
+  onLight?: boolean  // true when section has light background
+  class?: string
 }
-
-const { text } = Astro.props
+const { num, text, onLight = false, class: className = '' } = Astro.props
 ---
 
-<span class="section-label">• {text}</span>
+<div class={`section-label ${onLight ? 'on-light' : ''} ${className}`}>
+  <div class="section-label-line"></div>
+  <div class="section-label-row">
+    <span class="section-label-dot" aria-hidden="true"></span>
+    <span class="section-label-num">({num})</span>
+    <span class="section-label-text">{text}</span>
+  </div>
+</div>
+
+<style>
+  .section-label { margin-bottom: 3rem; }
+
+  .section-label-line {
+    height: 1px;
+    background: var(--line-dark);
+    margin-bottom: .875rem;
+  }
+
+  .on-light .section-label-line { background: var(--line-light); }
+
+  .section-label-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: var(--font);
+    font-weight: 600;
+    font-stretch: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted-dark);
+  }
+
+  .on-light .section-label-row { color: var(--muted-light); }
+
+  .section-label-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--violet-600);
+    flex-shrink: 0;
+  }
+
+  .section-label-num { opacity: .7; }
+</style>
