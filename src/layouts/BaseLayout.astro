@@ -132,11 +132,15 @@ const jsonLd = [
     <script>
       // Page loader
       const loader = document.getElementById('page-loader')
+      const firstVisit = !sessionStorage.getItem('gep_visited')
+      if (firstVisit) sessionStorage.setItem('gep_visited', '1')
+      const delay = firstVisit ? 2000 : 450
+
       const hideLoader = () => loader?.classList.add('loaded')
       if (document.readyState === 'complete') {
-        setTimeout(hideLoader, 2000)
+        setTimeout(hideLoader, delay)
       } else {
-        window.addEventListener('load', () => setTimeout(hideLoader, 2000))
+        window.addEventListener('load', () => setTimeout(hideLoader, delay))
       }
 
       // IntersectionObserver for scroll animations
