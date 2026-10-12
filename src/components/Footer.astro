@@ -9,11 +9,8 @@ const isEn = lang === 'en'
 <footer class="site-footer">
   <div class="footer-top container">
     <div class="footer-col footer-brand">
-      <a href={isEn ? '/en/' : '/'} class="footer-logo-link" aria-label={isEn ? 'Home' : 'Domů'}>
-        <span class="footer-wordmark" aria-hidden="true">
-          <span style="color:var(--violet-400)">GE</span>P
-        </span>
-        <span class="footer-name">Globaal Elevate</span>
+      <a href={isEn ? '/en/' : '/'} class="footer-logo-link" aria-label={isEn ? 'Globaal Elevate — Home' : 'Globaal Elevate — Domů'}>
+        <img src="/logo-white.png" alt="Globaal Elevate Production" class="footer-logo-img" width="140" height="25" />
       </a>
       <p class="footer-tagline">
         {isEn
@@ -73,7 +70,7 @@ const isEn = lang === 'en'
 
 <style>
   .site-footer {
-    background: var(--ink);
+    background: var(--navy);
     border-top: 1px solid var(--line-dark);
   }
 
@@ -96,31 +93,17 @@ const isEn = lang === 'en'
   .footer-logo-link {
     display: flex;
     align-items: center;
-    gap: .5rem;
     text-decoration: none;
-    color: var(--white);
     margin-bottom: 1rem;
   }
 
-  .footer-wordmark {
-    font-family: var(--font);
-    font-weight: 800;
-    font-stretch: 75%;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: -.02em;
-    color: var(--white);
+  .footer-logo-img {
+    height: 22px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
     opacity: .85;
-  }
-
-  .footer-name {
-    font-family: var(--font);
-    font-weight: 600;
-    font-stretch: 100%;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--muted-dark);
   }
 
   .footer-tagline {
