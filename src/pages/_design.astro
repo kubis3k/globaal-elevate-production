@@ -1,0 +1,289 @@
+---
+// /_design — komponenty a design system showcase
+// Pouze v DEV prostředí. V produkci vrací 404.
+if (import.meta.env.PROD) {
+  return Astro.redirect('/404', 404)
+}
+
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Pill from '../components/Pill.astro'
+import SectionHeader from '../components/SectionHeader.astro'
+import Stat from '../components/Stat.astro'
+---
+
+<BaseLayout title="Design System" lang="cs" noindex>
+  <div class="ds-wrap">
+
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h1 class="ds-page-title">Design System</h1>
+        <p class="ds-subtitle">Globaal Elevate Production — Phase 1 komponenty</p>
+      </div>
+    </section>
+
+    <!-- BARVY -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Barvy</h2>
+        <div class="ds-colors">
+          <div class="ds-swatch" style="background:#070B16"><span>ink-950<br/>#070B16</span></div>
+          <div class="ds-swatch" style="background:#0B1020"><span>navy-900<br/>#0B1020</span></div>
+          <div class="ds-swatch" style="background:#111830"><span>navy-800<br/>#111830</span></div>
+          <div class="ds-swatch" style="background:#1A2342"><span>navy-700<br/>#1A2342</span></div>
+          <div class="ds-swatch" style="background:#B5976A"><span style="color:#070B16">gold-500<br/>#B5976A</span></div>
+          <div class="ds-swatch" style="background:#CDB287"><span style="color:#070B16">gold-400<br/>#CDB287</span></div>
+          <div class="ds-swatch" style="background:#9C7F55"><span>gold-600<br/>#9C7F55</span></div>
+          <div class="ds-swatch" style="background:#F6F4EF;border:1px solid #ddd"><span style="color:#0E1428">paper<br/>#F6F4EF</span></div>
+          <div class="ds-swatch" style="background:#FFFFFF;border:1px solid #ddd"><span style="color:#0E1428">paper-card<br/>#FFFFFF</span></div>
+          <div class="ds-swatch" style="background:#D64545"><span>danger<br/>#D64545</span></div>
+          <div class="ds-swatch" style="background:#3FA672"><span>success<br/>#3FA672</span></div>
+        </div>
+
+        <!-- Kontrast tabulka -->
+        <h3 class="ds-subheading" style="margin-top:2rem">Kontrast (WCAG AA vyžaduje ≥ 4.5:1 pro text, ≥ 3:1 pro velký text)</h3>
+        <table class="ds-table">
+          <thead>
+            <tr><th>Text</th><th>Pozadí</th><th>Poměr</th><th>AA</th><th>AAA</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>text-on-dark rgba(255,255,255,.92)</td><td>navy-900 #0B1020</td><td>≈ 14.8 : 1</td><td>✅</td><td>✅</td></tr>
+            <tr><td>muted-on-dark rgba(255,255,255,.62)</td><td>navy-900 #0B1020</td><td>≈ 7.1 : 1</td><td>✅</td><td>✅</td></tr>
+            <tr><td>gold-400 #CDB287 (velký text/ikony)</td><td>navy-900 #0B1020</td><td>≈ 5.2 : 1</td><td>✅ (velký)</td><td>❌</td></tr>
+            <tr><td>gold-500 #B5976A (malý text — ZAKÁZÁNO na světlém bg)</td><td>navy-900 #0B1020</td><td>≈ 4.1 : 1</td><td>⚠️ hranice</td><td>❌</td></tr>
+            <tr><td>ink-text #0E1428</td><td>paper #F6F4EF</td><td>≈ 15.6 : 1</td><td>✅</td><td>✅</td></tr>
+            <tr><td>#5a6478 (body text on paper)</td><td>paper #F6F4EF</td><td>≈ 5.0 : 1</td><td>✅</td><td>❌</td></tr>
+            <tr><td>ink-950 #070B16 (btn text)</td><td>gold-500 #B5976A</td><td>≈ 4.6 : 1</td><td>✅</td><td>❌</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TYPOGRAFIE -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Typografie</h2>
+        <h1>H1 — clamp(2.5rem, 5vw, 4.5rem) Manrope 800</h1>
+        <h2 style="margin-top:1rem">H2 — clamp(2rem, 3.4vw, 3rem) Manrope 800</h2>
+        <h3 style="margin-top:1rem">H3 — 1.5rem Manrope 700</h3>
+        <p style="margin-top:1rem">Body — 1.0625rem Inter 400 — Od severočeské rapové scény po firmy s vlastním IT a marketingovým motorem.</p>
+        <p style="margin-top:0.5rem;font-size:0.875rem">Small — 0.875rem Inter 400 — Drobný text, patičky, popisky.</p>
+        <p style="margin-top:1rem;font-size:2rem;font-weight:800">Nadpis s <em class="accent-word">italic serif</em> akcentem</p>
+      </div>
+    </section>
+
+    <!-- PILL -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Pill / Badge</h2>
+        <div class="ds-row" style="gap:1rem;flex-wrap:wrap;">
+          <Pill text="S tečkou (výchozí)" dot />
+          <Pill text="Bez tečky" dot={false} />
+          <Pill text="Newsletter" />
+          <Pill text="Portfolio" />
+        </div>
+      </div>
+    </section>
+
+    <!-- BUTTONS -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Tlačítka — tmavé pozadí</h2>
+        <div class="ds-row">
+          <a href="#" class="btn btn-primary">Primary <span class="btn-arrow">→</span></a>
+          <a href="#" class="btn btn-secondary">Secondary</a>
+          <a href="#" class="btn btn-ghost">Ghost / Link →</a>
+        </div>
+        <h2 class="ds-heading" style="margin-top:2rem">Tlačítka — světlé pozadí</h2>
+        <div class="ds-row" style="background:var(--paper);padding:2rem;border-radius:16px;">
+          <a href="#" class="btn btn-navy">Navy →</a>
+          <a href="#" class="btn btn-primary">Primary (i na světlém)</a>
+        </div>
+
+        <!-- Focus state demo -->
+        <p style="margin-top:1.5rem;font-size:0.875rem;color:var(--muted-on-dark)">Focus-visible ring: klikni Tab po kliknutí</p>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Karta</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;max-width:800px">
+          <div class="card">
+            <span class="brand-num" style="position:absolute;top:1.5rem;right:1.75rem;font-size:3rem;font-weight:800;color:rgba(255,255,255,.05);font-family:var(--font-sans);line-height:1">01</span>
+            <span class="pill pill-sm" style="margin-bottom:1rem;font-size:.6875rem;padding:5px 12px;align-self:flex-start">Kategorie</span>
+            <h3 style="color:var(--text-on-dark);margin-bottom:.75rem">Název karty</h3>
+            <p>Popis obsahu karty. Hover přidá zlatý okraj a translateY(-4px).</p>
+          </div>
+          <div class="card" style="opacity:0.7">
+            <h3 style="color:var(--text-on-dark)">Výchozí</h3>
+            <p>Další karta bez čísla.</p>
+          </div>
+          <div class="card" style="border-color:rgba(181,151,106,.5);transform:translateY(-4px)">
+            <h3 style="color:var(--text-on-dark)">Hover stav</h3>
+            <p>Zlatý okraj + posun nahoru.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION HEADER -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">SectionHeader</h2>
+        <SectionHeader
+          pill="Portfolio"
+          heading='Čtyři značky. <em class="accent-word">Jedna vize.</em>'
+          lead="Volitelný úvodní odstavec pod nadpisem sekce."
+        />
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Stat — animovaný counter</h2>
+        <div class="ds-row" style="gap:3rem">
+          <Stat value="2026" label="Rok vzniku" />
+          <Stat value="4" label="Aktivní značky" />
+          <Stat value="Praha · CZ" label="Sídlo" />
+        </div>
+        <h3 style="margin-top:2rem;font-size:1rem;color:var(--muted-on-dark)">Small varianta (hero row)</h3>
+        <div class="ds-row" style="gap:2rem;margin-top:1rem">
+          <Stat value="2026" label="Rok vzniku" small />
+          <Stat value="4" label="Aktivní značky" small />
+        </div>
+      </div>
+    </section>
+
+    <!-- REVEAL ANIMATIONS -->
+    <section class="ds-section section-dark">
+      <div class="container">
+        <h2 class="ds-heading">Reveal animace (scroll do view)</h2>
+        <div class="ds-row anim-stagger" style="gap:1rem">
+          <div class="card" style="min-width:200px"><h3 style="color:var(--text-on-dark)">Karta 1</h3><p>Stagger 0ms</p></div>
+          <div class="card" style="min-width:200px"><h3 style="color:var(--text-on-dark)">Karta 2</h3><p>Stagger 80ms</p></div>
+          <div class="card" style="min-width:200px"><h3 style="color:var(--text-on-dark)">Karta 3</h3><p>Stagger 160ms</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER PREVIEW -->
+    <section class="ds-section section-dark" style="padding-bottom:1rem">
+      <div class="container">
+        <h2 class="ds-heading">Grain + Glow overlay</h2>
+        <div style="position:relative;overflow:hidden;background:var(--navy-800);border-radius:24px;padding:3rem;min-height:200px;" class="grain">
+          <div class="glow-topleft" aria-hidden="true"></div>
+          <p style="position:relative;z-index:1">Tento panel má grain texturu + zlatý glow v rohu. Overlay je přes ::before, opacity 0.05.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .ds-wrap {
+    min-height: 100vh;
+  }
+
+  .ds-section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ds-page-title {
+    font-size: 3rem;
+    color: var(--text-on-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .ds-subtitle {
+    color: var(--muted-on-dark);
+    font-size: 1.0625rem;
+    margin: 0;
+  }
+
+  .ds-heading {
+    font-size: 1.25rem;
+    color: var(--gold-400);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.75rem;
+  }
+
+  .ds-subheading {
+    font-size: 0.875rem;
+    color: var(--muted-on-dark);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .ds-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .ds-colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .ds-swatch {
+    width: 120px;
+    height: 80px;
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px;
+  }
+
+  .ds-swatch span {
+    font-size: 0.625rem;
+    font-family: monospace;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+  }
+
+  .ds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    color: var(--text-on-dark);
+    margin-top: 1rem;
+  }
+
+  .ds-table th {
+    text-align: left;
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted-on-dark);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .ds-table td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+    font-family: monospace;
+    font-size: 0.8125rem;
+    color: var(--muted-on-dark);
+  }
+
+  .ds-table td:nth-child(3),
+  .ds-table td:nth-child(4),
+  .ds-table td:nth-child(5) {
+    text-align: center;
+    font-family: inherit;
+    font-size: 0.875rem;
+  }
+</style>

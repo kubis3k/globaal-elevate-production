@@ -1,0 +1,39 @@
+---
+interface Props {
+  pill?: string
+  heading: string
+  lead?: string
+  class?: string
+}
+
+const { pill, heading, lead, class: className = '' } = Astro.props
+---
+
+<div class={`section-header ${className}`}>
+  {pill && (
+    <span class="pill">
+      <span class="pill-dot" aria-hidden="true"></span>
+      {pill}
+    </span>
+  )}
+  <h2 class="section-heading" set:html={heading} />
+  {lead && <p class="section-lead">{lead}</p>}
+</div>
+
+<style>
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading {
+    margin-top: 0;
+  }
+
+  .section-lead {
+    margin-top: 1rem;
+    max-width: 560px;
+    font-size: 1.0625rem;
+    color: var(--muted-on-dark);
+    line-height: 1.75;
+  }
+</style>

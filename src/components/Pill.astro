@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string
+  dot?: boolean
+  class?: string
+}
+
+const { text, dot = true, class: className = '' } = Astro.props
+---
+
+<span class={`pill ${className}`}>
+  {dot && <span class="pill-dot" aria-hidden="true"></span>}
+  {text}
+</span>

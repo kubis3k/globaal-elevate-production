@@ -4,41 +4,98 @@ interface Props {
 }
 
 const { lang = 'cs' } = Astro.props
+const isEn = lang === 'en'
 ---
 
-<footer class="site-footer">
+<footer class="site-footer" role="contentinfo">
   <div class="container">
-    <div class="footer-inner">
+    <div class="footer-grid">
+
+      <!-- Col 1: Brand -->
       <div class="footer-brand">
-        <a href={lang === 'en' ? '/en/' : '/'} class="logo-link">
-          <img src="/logo.png" class="footer-logo-img" alt="Globaal Elevate Production" />
+        <a href={isEn ? '/en/' : '/'} class="footer-logo-link" aria-label="Globaal Elevate Production">
+          <img src="/logo.png" alt="Globaal Elevate Production" class="footer-logo" width="120" height="28" />
         </a>
-        <p class="tagline">Tvoříme brand, který zanechá stopu.</p>
+        <p class="footer-tagline">
+          {isEn ? 'Building brands that leave a mark.' : 'Tvoříme brand, který zanechá stopu.'}
+        </p>
+        <div class="footer-social">
+          <a
+            href="https://www.instagram.com/globaalelevate"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link"
+            aria-label="Instagram @globaalelevate"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <!-- LinkedIn: add href when profile exists -->
+          <!-- <a href="https://linkedin.com/company/globaal-elevate" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn"> -->
+        </div>
       </div>
 
-      <nav class="footer-nav" aria-label="Patičková navigace">
-        {lang === 'en' ? (
-          <>
-            <a href="/en/about">About</a>
-            <a href="/en/portfolio">Portfolio</a>
-            <a href="/en/news">News</a>
-            <a href="/en/contact">Contact</a>
-          </>
-        ) : (
-          <>
-            <a href="/o-nas">O nás</a>
-            <a href="/portfolio">Portfolio</a>
-            <a href="/novinky">Novinky</a>
-            <a href="/kontakt">Kontakt</a>
-          </>
-        )}
-      </nav>
+      <!-- Col 2: Navigation -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">{isEn ? 'Navigation' : 'Navigace'}</h3>
+        <nav aria-label={isEn ? 'Footer navigation' : 'Patičková navigace'}>
+          {isEn ? (
+            <>
+              <a href="/en/" class="footer-link">Home</a>
+              <a href="/en/about" class="footer-link">About</a>
+              <a href="/en/portfolio" class="footer-link">Portfolio</a>
+              <a href="/en/news" class="footer-link">News</a>
+              <a href="/en/contact" class="footer-link">Contact</a>
+            </>
+          ) : (
+            <>
+              <a href="/" class="footer-link">Domů</a>
+              <a href="/o-nas" class="footer-link">O nás</a>
+              <a href="/portfolio" class="footer-link">Portfolio</a>
+              <a href="/novinky" class="footer-link">Novinky</a>
+              <a href="/kontakt" class="footer-link">Kontakt</a>
+            </>
+          )}
+        </nav>
+      </div>
+
+      <!-- Col 3: Brands -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">{isEn ? 'Our brands' : 'Naše značky'}</h3>
+        <nav aria-label={isEn ? 'Brand links' : 'Odkazy na značky'}>
+          <a href="https://3lwave.cz" target="_blank" rel="noopener noreferrer" class="footer-link footer-link-external">3lwave.cz</a>
+          <a href="https://3lwave.cz/label" target="_blank" rel="noopener noreferrer" class="footer-link footer-link-external">Globaal Records</a>
+          <a href="/portfolio" class="footer-link">Globaal Production</a>
+          <a href="https://visiontechnology.cz" target="_blank" rel="noopener noreferrer" class="footer-link footer-link-external">Vision Technology</a>
+        </nav>
+      </div>
+
+      <!-- Col 4: Contact -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">{isEn ? 'Contact' : 'Kontakt'}</h3>
+        <address class="footer-address">
+          <a href="mailto:info@globaalelevate.com" class="footer-link">info@globaalelevate.com</a>
+          <a href="tel:+420725628044" class="footer-link">+420 725 628 044</a>
+          <span class="footer-location">Praha · Chomutov</span>
+        </address>
+      </div>
+
     </div>
 
+    <!-- Bottom bar -->
     <div class="footer-bottom">
-      <p class="copyright">© 2026 Globaal Elevate Production s.r.o. · IČO 24972070 · C 446827, Městský soud v Praze</p>
-      <div class="footer-legal">
-        <a href="/gdpr" class="legal-link">GDPR</a>
+      <p class="footer-copy">
+        © 2026 Globaal Elevate Production s.r.o.
+        <span class="footer-legal-sep" aria-hidden="true">·</span>
+        IČO 24972070
+        <span class="footer-legal-sep" aria-hidden="true">·</span>
+        C 446827, Městský soud v Praze
+      </p>
+      <div class="footer-legal-links">
+        <a href={isEn ? '/en/gdpr' : '/gdpr'} class="footer-legal-link">GDPR</a>
       </div>
     </div>
   </div>
@@ -46,112 +103,198 @@ const { lang = 'cs' } = Astro.props
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--border);
-    padding: 3rem 0 2rem;
-    margin-top: auto;
+    background: var(--ink-950);
+    border-top: 1px solid var(--line);
+    padding: 5rem 0 2.5rem;
   }
 
-  .footer-inner {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
-    margin-bottom: 2.5rem;
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--line);
   }
 
+  /* Brand column */
   .footer-brand {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
-  .logo-link {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-  }
+  .footer-logo-link { display: inline-flex; }
 
-  .footer-logo-img {
-    height: 22px;
+  .footer-logo {
+    height: 28px;
     width: auto;
-    filter: invert(1);
-    mix-blend-mode: screen;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
     transition: opacity 0.2s ease;
   }
 
-  :global([data-theme="light"]) .footer-logo-img {
-    filter: none;
-    mix-blend-mode: multiply;
-  }
+  .footer-logo-link:hover .footer-logo { opacity: 1; }
 
-  .logo-link:hover .footer-logo-img {
-    opacity: 0.7;
-  }
-
-  .tagline {
-    font-size: 0.875rem;
-    color: var(--fg-muted);
-    max-width: 260px;
-  }
-
-  .footer-nav {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .footer-nav a {
+  .footer-tagline {
     font-size: 0.9rem;
-    color: var(--fg-muted);
+    color: var(--muted-on-dark);
+    line-height: 1.6;
+    max-width: 240px;
+    margin: 0;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.625rem;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--muted-on-dark);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .social-link:hover {
+    color: var(--gold-400);
+    border-color: rgba(181, 151, 106, 0.4);
+  }
+
+  .social-link:focus-visible {
+    outline: 3px solid rgba(181, 151, 106, 0.45);
+    outline-offset: 2px;
+  }
+
+  /* Nav columns */
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-col-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-on-dark);
+    opacity: 0.6;
+    margin-bottom: 0.25rem;
+    font-family: var(--font-sans);
+    line-height: 1;
+  }
+
+  .footer-col nav,
+  .footer-address {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-style: normal;
+  }
+
+  .footer-link {
+    font-size: 0.9rem;
+    color: var(--muted-on-dark);
     transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
-  .footer-nav a:hover {
-    color: var(--accent);
+  .footer-link:hover { color: var(--text-on-dark); }
+
+  .footer-link:focus-visible {
+    outline: 2px solid rgba(181, 151, 106, 0.45);
+    outline-offset: 2px;
+    border-radius: 3px;
   }
 
+  .footer-link-external::after {
+    content: '↗';
+    font-size: 0.7rem;
+    opacity: 0.4;
+  }
+
+  .footer-location {
+    font-size: 0.875rem;
+    color: var(--muted-on-dark);
+    opacity: 0.6;
+    margin-top: 0.25rem;
+  }
+
+  /* Bottom bar */
   .footer-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
+    padding-top: 2rem;
     gap: 1rem;
+    flex-wrap: wrap;
   }
 
-  .copyright {
+  .footer-copy {
     font-size: 0.8125rem;
-    color: var(--fg-muted);
+    color: var(--muted-on-dark);
+    opacity: 0.6;
+    line-height: 1.5;
+    margin: 0;
   }
 
-  .footer-legal {
+  .footer-legal-sep {
+    margin: 0 0.375rem;
+    opacity: 0.4;
+  }
+
+  .footer-legal-links {
     display: flex;
     gap: 1.5rem;
   }
 
-  .legal-link {
+  .footer-legal-link {
     font-size: 0.8125rem;
-    color: var(--fg-muted);
-    transition: color 0.2s ease;
+    color: var(--muted-on-dark);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
   }
 
-  .legal-link:hover {
-    color: var(--accent);
+  .footer-legal-link:hover { opacity: 1; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
   }
 
-  @media (max-width: 640px) {
-    .footer-inner {
-      flex-direction: column;
+  @media (max-width: 580px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
     }
 
-    .footer-nav {
-      flex-wrap: wrap;
-      gap: 1rem 1.5rem;
-    }
+    .footer-brand { grid-column: auto; }
 
     .footer-bottom {
       flex-direction: column;
       align-items: flex-start;
     }
+
+    .footer-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-legal-sep { display: none; }
   }
 </style>
