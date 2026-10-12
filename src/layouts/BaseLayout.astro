@@ -116,8 +116,11 @@ const jsonLd = [
   </head>
 
   <body>
-    <!-- Stone/fabric noise texture overlay -->
+    <!-- Stone/fabric noise texture overlay — two complementary layers -->
+    <!-- screen: adds grain on dark surfaces (navy), no effect on white -->
     <div class="noise-overlay" aria-hidden="true"></div>
+    <!-- multiply: adds grain on light surfaces (white/grey), no change to dark -->
+    <div class="noise-overlay-light" aria-hidden="true"></div>
 
     <!-- Page loader splash -->
     <div id="page-loader" aria-hidden="true">
