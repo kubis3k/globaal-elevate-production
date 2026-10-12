@@ -83,7 +83,7 @@
 }
 
 #page-loader img {
-  width: 160px;
+  width: 280px;
   height: auto;
   animation: loaderPulse 1.2s ease-in-out infinite;
 }

@@ -134,9 +134,9 @@ const jsonLd = [
       const loader = document.getElementById('page-loader')
       const hideLoader = () => loader?.classList.add('loaded')
       if (document.readyState === 'complete') {
-        setTimeout(hideLoader, 200)
+        setTimeout(hideLoader, 2000)
       } else {
-        window.addEventListener('load', () => setTimeout(hideLoader, 200))
+        window.addEventListener('load', () => setTimeout(hideLoader, 2000))
       }
 
       // IntersectionObserver for scroll animations
