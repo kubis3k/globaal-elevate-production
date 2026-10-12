@@ -11,8 +11,8 @@
   /* Colors — dark surfaces */
   --ink:        #0A0A0A;
   --ink-2:      #151515;
-  --navy:       #0D0928;   /* deep indigo — hero, header */
-  --navy-2:     #160C40;   /* slightly lighter navy for hover/cards */
+  --navy:       #141036;   /* deep indigo — slightly lighter for better readability */
+  --navy-2:     #1C1350;   /* slightly lighter navy for hover/cards */
   --line-dark:  rgba(255, 255, 255, .10);
 
   /* Colors — light surfaces */
@@ -303,24 +303,13 @@ p {
   grid-template-columns: 3.5rem 1fr 1fr auto;
   align-items: center;
   gap: 2rem;
-  padding: 2rem 0;
+  padding: 2rem var(--pad);
+  margin: 0 calc(-1 * var(--pad));
   border-bottom: 1px solid var(--line-light);
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
   cursor: pointer;
   position: relative;
-}
-
-.brand-row::before {
-  content: '';
-  position: absolute;
-  left: -var(--pad);
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: var(--violet-600);
-  transition: width 0.2s ease;
-  border-radius: 0;
 }
 
 .brand-row:first-child { border-top: 1px solid var(--line-light); }

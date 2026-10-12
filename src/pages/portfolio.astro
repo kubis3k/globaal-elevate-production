@@ -76,7 +76,15 @@ const brands = [
         <SectionLabel text="Spolupráce" />
         <h2 class="cta-heading">Chcete s námi spolupracovat?</h2>
         <p class="cta-text">Hledáme talenty, partnery a projekty, které sdílejí naši vizi.</p>
-        <a href="/kontakt" class="btn btn-filled">Kontaktovat nás</a>
+        <div class="cta-box">
+          <div class="cta-box-text">
+            <span class="cta-box-label">Kontakt</span>
+            <p>Napište nám a probereme možnosti spolupráce nebo vašeho projektu.</p>
+          </div>
+          <a href="/kontakt" class="btn btn-primary">
+            Kontaktovat nás <span class="btn-arrow">→</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -194,7 +202,7 @@ const brands = [
   }
 
   .cta-inner {
-    max-width: 560px;
+    max-width: 720px;
   }
 
   .cta-heading {
@@ -205,8 +213,45 @@ const brands = [
   .cta-text {
     font-size: 1rem;
     color: var(--fg-muted);
-    margin-bottom: 1.75rem;
+    margin-bottom: 2rem;
     line-height: 1.7;
+  }
+
+  .cta-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+  }
+
+  .cta-box-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.375rem;
+  }
+
+  .cta-box-text p {
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 38ch;
+  }
+
+  @media (max-width: 640px) {
+    .cta-box {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
   }
 
   @media (max-width: 900px) {

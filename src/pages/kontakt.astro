@@ -41,77 +41,78 @@ import SectionLabel from '../components/SectionLabel.astro'
 
         <!-- Vpravo: formulář -->
         <div class="contact-form-wrap anim-fade">
-          <!-- Výběr tématu -->
-          <div class="topic-group">
-            <p class="topic-label">Co řešíte?</p>
-            <div class="topic-pills">
-              <button type="button" class="topic-pill active" data-topic="projekt">Projekt</button>
-              <button type="button" class="topic-pill" data-topic="booking">Booking</button>
-              <button type="button" class="topic-pill" data-topic="spoluprace">Spolupráce</button>
-              <button type="button" class="topic-pill" data-topic="jine">Jiné</button>
+          <div class="form-card">
+            <!-- Výběr tématu -->
+            <div class="topic-group">
+              <p class="topic-label">Co řešíte?</p>
+              <div class="topic-pills">
+                <button type="button" class="topic-pill active" data-topic="projekt">Projekt</button>
+                <button type="button" class="topic-pill" data-topic="booking">Booking</button>
+                <button type="button" class="topic-pill" data-topic="spoluprace">Spolupráce</button>
+                <button type="button" class="topic-pill" data-topic="jine">Jiné</button>
+              </div>
             </div>
+
+            <form class="contact-form" id="contact-form" novalidate>
+              <input type="hidden" id="topic" name="topic" value="projekt" />
+
+              <div class="fields-row">
+                <div class="field">
+                  <label for="name">Jméno</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Jan Novák"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="jan@firma.cz"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+              </div>
+
+              <div class="field field-textarea">
+                <label for="message">Zpráva</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Popište váš projekt nebo dotaz…"
+                  rows="6"
+                  required
+                  maxlength="1200"
+                ></textarea>
+                <span class="char-count" id="char-count">0 / 1200</span>
+              </div>
+
+              <div id="form-status" class="form-status" aria-live="polite"></div>
+
+              <button type="submit" class="submit-btn" id="submit-btn">
+                <span class="btn-text">Odeslat zprávu</span>
+                <span class="btn-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </span>
+                <span class="btn-check" hidden>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+              </button>
+            </form>
           </div>
-
-          <form class="contact-form" id="contact-form" novalidate>
-            <input type="hidden" id="topic" name="topic" value="projekt" />
-
-            <div class="field">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder=" "
-                required
-                autocomplete="name"
-              />
-              <label for="name">Jméno</label>
-              <span class="field-line"></span>
-            </div>
-
-            <div class="field">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder=" "
-                required
-                autocomplete="email"
-              />
-              <label for="email">Email</label>
-              <span class="field-line"></span>
-            </div>
-
-            <div class="field field-textarea">
-              <textarea
-                id="message"
-                name="message"
-                placeholder=" "
-                rows="5"
-                required
-                maxlength="1200"
-              ></textarea>
-              <label for="message">Zpráva</label>
-              <span class="field-line"></span>
-              <span class="char-count" id="char-count">0 / 1200</span>
-            </div>
-
-            <div id="form-status" class="form-status" aria-live="polite"></div>
-
-            <button type="submit" class="submit-btn" id="submit-btn">
-              <span class="btn-text">Odeslat zprávu</span>
-              <span class="btn-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"/>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                </svg>
-              </span>
-              <span class="btn-check" hidden>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </span>
-            </button>
-          </form>
         </div>
       </div>
     </div>
@@ -166,16 +167,26 @@ import SectionLabel from '../components/SectionLabel.astro'
     text-decoration-color: var(--fg);
   }
 
+  /* ---- Form card wrapper ---- */
+  .form-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 2.25rem 2.25rem;
+  }
+
   /* ---- Topic pills ---- */
   .topic-group {
     margin-bottom: 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
   }
 
   .topic-label {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--fg-muted);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 0.75rem;
   }
@@ -187,12 +198,12 @@ import SectionLabel from '../components/SectionLabel.astro'
   }
 
   .topic-pill {
-    padding: 0.5rem 1.125rem;
-    border-radius: 99px;
+    padding: 0.4375rem 1rem;
+    border-radius: 6px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--fg-muted);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -200,96 +211,92 @@ import SectionLabel from '../components/SectionLabel.astro'
   }
 
   .topic-pill:hover {
-    border-color: var(--fg);
+    border-color: rgba(255,255,255,0.4);
     color: var(--fg);
   }
 
   .topic-pill.active {
-    background: var(--fg);
-    border-color: var(--fg);
-    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
   }
 
-  /* ---- Floating-label fields ---- */
+  /* ---- Fields ---- */
   .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 1.25rem;
+  }
+
+  .fields-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 
   .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     position: relative;
+  }
+
+  .field label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .field input,
   .field textarea {
     width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    padding: 1.25rem 0 0.625rem;
-    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
     color: var(--fg);
     font-family: inherit;
-    transition: border-color 0.25s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
     outline: none;
     resize: none;
-    display: block;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+    background: rgba(108, 43, 217, 0.07);
   }
 
   .field textarea {
-    min-height: 120px;
-  }
-
-  /* Floating label */
-  .field label {
-    position: absolute;
-    left: 0;
-    top: 1.25rem;
-    font-size: 1rem;
-    color: var(--fg-muted);
-    font-weight: 400;
-    pointer-events: none;
-    transition: all 0.2s ease;
-    transform-origin: left top;
-  }
-
-  /* When input has value or is focused, float the label up */
-  .field input:not(:placeholder-shown) ~ label,
-  .field input:focus ~ label,
-  .field textarea:not(:placeholder-shown) ~ label,
-  .field textarea:focus ~ label {
-    transform: translateY(-1.25rem) scale(0.75);
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  /* Animated underline */
-  .field-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-    display: block;
-  }
-
-  .field input:focus ~ .field-line,
-  .field textarea:focus ~ .field-line {
-    width: 100%;
+    min-height: 140px;
   }
 
   /* Character counter */
   .char-count {
     position: absolute;
-    bottom: 0.35rem;
-    right: 0;
-    font-size: 0.75rem;
+    bottom: 0.625rem;
+    right: 0.875rem;
+    font-size: 0.6875rem;
     color: var(--fg-muted);
     pointer-events: none;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    .fields-row {
+      grid-template-columns: 1fr;
+    }
+    .form-card {
+      padding: 1.5rem;
+    }
   }
 
   /* ---- Submit button ---- */
