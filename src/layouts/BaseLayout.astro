@@ -116,6 +116,11 @@ const jsonLd = [
   </head>
 
   <body>
+    <!-- Page loader splash -->
+    <div id="page-loader" aria-hidden="true">
+      <img src="/logo-white.png" alt="Globaal Elevate" width="160" height="29" />
+    </div>
+
     <Header lang={lang} />
     <main>
       <slot />
@@ -125,6 +130,15 @@ const jsonLd = [
     <CookieBanner lang={lang} />
 
     <script>
+      // Page loader
+      const loader = document.getElementById('page-loader')
+      const hideLoader = () => loader?.classList.add('loaded')
+      if (document.readyState === 'complete') {
+        setTimeout(hideLoader, 200)
+      } else {
+        window.addEventListener('load', () => setTimeout(hideLoader, 200))
+      }
+
       // IntersectionObserver for scroll animations
       const observer = new IntersectionObserver(
         (entries) => {
