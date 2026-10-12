@@ -20,32 +20,75 @@ const isEn = lang === 'en'
       </p>
     </div>
 
-    <form class="nl-form" id="nl-form" novalidate>
-      <div class="nl-field-row">
-        <div class="nl-field">
-          <input
-            type="email"
-            id="nl-email"
-            name="email"
-            placeholder={isEn ? 'your@email.com' : 'vas@email.cz'}
-            required
-            autocomplete="email"
-          />
+    <!-- Form state -->
+    <div class="nl-form-area" id="nl-inline-form-area">
+      <form class="nl-form" id="nl-form" novalidate>
+        <!-- Honeypot -->
+        <input
+          type="text"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          style="position:absolute;opacity:0;height:0;width:0;pointer-events:none;"
+        />
+        <div class="nl-field-row">
+          <div class="nl-field">
+            <label class="sr-only" for="nl-email">
+              {isEn ? 'Your email' : 'Váš e-mail'}
+            </label>
+            <input
+              type="email"
+              id="nl-email"
+              name="email"
+              placeholder={isEn ? 'your@email.com' : 'vas@email.cz'}
+              required
+              autocomplete="email"
+              aria-describedby="nl-inline-err"
+            />
+          </div>
+          <button type="submit" class="nl-btn" id="nl-btn">
+            <span class="nl-btn-text">{isEn ? 'Subscribe →' : 'Přihlásit se →'}</span>
+            <span class="nl-btn-spinner" hidden aria-hidden="true">
+              <svg class="nl-spinner-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+            </span>
+          </button>
         </div>
-        <button type="submit" class="nl-btn" id="nl-btn">
-          <span class="nl-btn-text">{isEn ? 'Subscribe' : 'Přihlásit se'}</span>
-          <span class="nl-btn-check" hidden>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </span>
-        </button>
-      </div>
-      <p class="nl-status" id="nl-status" aria-live="polite"></p>
+        <p class="nl-err" id="nl-inline-err" aria-live="polite"></p>
+      </form>
       <p class="nl-fine">
         {isEn ? 'No spam. Unsubscribe anytime.' : 'Žádný spam. Odhlášení kdykoliv.'}
+        {' '}
+        <a href={isEn ? '/en/gdpr' : '/gdpr'} class="nl-privacy-link">
+          {isEn ? 'Privacy policy' : 'Zásady ochrany'}
+        </a>
       </p>
-    </form>
+    </div>
+
+    <!-- Success state — replaces form area -->
+    <div class="nl-success-area" id="nl-inline-success" hidden aria-live="polite">
+      <div class="nl-success-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </div>
+      <p class="nl-success-title">
+        {isEn ? 'Almost done!' : 'Skoro hotovo!'}
+      </p>
+      <p class="nl-success-text">
+        {isEn
+          ? 'We sent you a confirmation email. Click the link inside to complete your signup.'
+          : 'Poslali jsme vám e-mail. Klikněte na odkaz v něm a přihlášení potvrďte.'}
+      </p>
+      <p class="nl-success-hint">
+        {isEn
+          ? 'Nothing arrived? Check spam or Promotions.'
+          : 'Nic nepřišlo? Mrkněte do spamu nebo složky Hromadné.'}
+      </p>
+    </div>
   </div>
 </div>
 
@@ -89,11 +132,18 @@ const isEn = lang === 'en'
     margin: 0;
   }
 
-  /* Form */
-  .nl-form {
+  /* Form area */
+  .nl-form-area {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .nl-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .nl-field-row {
@@ -107,74 +157,132 @@ const isEn = lang === 'en'
 
   .nl-field input {
     width: 100%;
+    height: 48px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 0.8125rem 1rem;
+    border-radius: 10px;
+    padding: 0 1rem;
     font-size: 0.9375rem;
     color: var(--fg);
     font-family: inherit;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     outline: none;
+    box-sizing: border-box;
   }
 
-  .nl-field input::placeholder {
-    color: var(--fg-muted);
-  }
+  .nl-field input::placeholder { color: var(--fg-muted); }
 
   .nl-field input:focus {
-    border-color: var(--accent);
+    border-color: #B5976A;
+    box-shadow: 0 0 0 3px rgba(181, 151, 106, 0.2);
   }
+
+  .nl-field input.nl-invalid { border-color: #D64545; }
 
   .nl-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
-    padding: 0.8125rem 1.5rem;
-    background: var(--accent);
+    height: 48px;
+    padding: 0 1.5rem;
+    background: #B5976A;
     color: #fff;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     font-size: 0.9375rem;
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.2s ease, transform 0.15s ease;
+    transition: background 0.2s ease;
     flex-shrink: 0;
   }
 
-  .nl-btn:hover:not(:disabled) {
-    background: var(--accent-dark);
-    transform: translateY(-1px);
-  }
+  .nl-btn:hover:not(:disabled) { background: #A3845A; }
+  .nl-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
-  .nl-btn:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-    transform: none;
-  }
+  .nl-spinner-svg { animation: inlineSpin 0.8s linear infinite; }
 
-  .nl-btn.sent {
-    background: #22c55e;
-  }
+  @keyframes inlineSpin { to { transform: rotate(360deg); } }
 
-  .nl-status {
+  .nl-err {
     font-size: 0.8125rem;
-    color: #ef4444;
+    color: #D64545;
     margin: 0;
-    min-height: 1.2em;
-  }
-
-  .nl-status.ok {
-    color: #22c55e;
+    min-height: 1em;
   }
 
   .nl-fine {
     font-size: 0.75rem;
     color: var(--fg-muted);
     margin: 0;
+    line-height: 1.5;
+  }
+
+  .nl-privacy-link {
+    color: var(--fg-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .nl-privacy-link:hover { color: var(--fg); }
+
+  /* Screen-reader-only label */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Success area */
+  .nl-success-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nl-success-area[hidden] { display: none; }
+
+  .nl-success-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #FDF8F2;
+    border: 1px solid rgba(181, 151, 106, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #B5976A;
+    margin-bottom: 4px;
+  }
+
+  .nl-success-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  .nl-success-text {
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .nl-success-hint {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+    margin: 0;
+    opacity: 0.75;
   }
 
   @media (max-width: 768px) {
@@ -198,55 +306,85 @@ const isEn = lang === 'en'
 </style>
 
 <script define:vars={{ lang }}>
-  const form = document.getElementById('nl-form')
-  const emailInput = document.getElementById('nl-email')
-  const btn = document.getElementById('nl-btn')
-  const btnText = btn.querySelector('.nl-btn-text')
-  const btnCheck = btn.querySelector('.nl-btn-check')
-  const status = document.getElementById('nl-status')
+  const form      = document.getElementById('nl-form')
+  const emailInput = form.querySelector('#nl-email')
+  const btn       = document.getElementById('nl-btn')
+  const btnText   = btn.querySelector('.nl-btn-text')
+  const btnSpinner = btn.querySelector('.nl-btn-spinner')
+  const errEl     = document.getElementById('nl-inline-err')
+  const formArea  = document.getElementById('nl-inline-form-area')
+  const successArea = document.getElementById('nl-inline-success')
+  const honeypot  = form.querySelector('input[name="website"]')
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     const email = emailInput.value.trim()
-    if (!email) return
 
+    // Client-side validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!email || !emailRegex.test(email)) {
+      emailInput.classList.add('nl-invalid')
+      errEl.textContent = lang === 'en'
+        ? 'Please enter a valid email address.'
+        : 'Zadejte platný e-mail.'
+      emailInput.focus()
+      return
+    }
+
+    emailInput.classList.remove('nl-invalid')
+    errEl.textContent = ''
     btn.disabled = true
-    btnText.textContent = lang === 'en' ? 'Subscribing…' : 'Přihlašuji…'
-    status.textContent = ''
-    status.className = 'nl-status'
+    btnText.hidden = true
+    btnSpinner.hidden = false
 
     try {
-      const res = await fetch('/api/newsletter', {
+      const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, lang }),
+        body: JSON.stringify({
+          email,
+          website: honeypot?.value ?? '',
+          source: 'inline',
+          lang,
+        }),
       })
 
-      if (res.ok) {
-        btn.classList.add('sent')
-        btnText.hidden = true
-        btnCheck.hidden = false
-        emailInput.value = ''
-        status.className = 'nl-status ok'
-        status.textContent = lang === 'en'
-          ? 'You\'re subscribed! Check your inbox. 🎉'
-          : 'Přihlásili jste se! Zkontrolujte svou schránku. 🎉'
+      if (res.ok || res.status === 200) {
+        // Show success — mark popup as subscribed so it won't appear
+        try {
+          localStorage.setItem('gep_nl_popup', JSON.stringify({ status: 'subscribed', ts: Date.now() }))
+        } catch {}
+        formArea.hidden = true
+        successArea.hidden = false
       } else {
         const data = await res.json().catch(() => ({}))
         if (data.error === 'Invalid email') {
-          status.textContent = lang === 'en' ? 'Please enter a valid email.' : 'Zadejte platný email.'
+          errEl.textContent = lang === 'en'
+            ? 'Please enter a valid email address.'
+            : 'Zadejte platný e-mail.'
+        } else if (res.status === 429) {
+          errEl.textContent = lang === 'en'
+            ? 'Too many attempts. Try again in a few minutes.'
+            : 'Příliš mnoho pokusů. Zkuste to za chvíli.'
         } else {
           throw new Error()
         }
         btn.disabled = false
-        btnText.textContent = lang === 'en' ? 'Subscribe' : 'Přihlásit se'
+        btnText.hidden = false
+        btnSpinner.hidden = true
       }
     } catch {
-      btn.disabled = false
-      btnText.textContent = lang === 'en' ? 'Subscribe' : 'Přihlásit se'
-      status.textContent = lang === 'en'
+      errEl.textContent = lang === 'en'
         ? 'Something went wrong. Please try again.'
         : 'Něco se nepovedlo. Zkuste to znovu.'
+      btn.disabled = false
+      btnText.hidden = false
+      btnSpinner.hidden = true
     }
+  })
+
+  emailInput.addEventListener('input', () => {
+    emailInput.classList.remove('nl-invalid')
+    errEl.textContent = ''
   })
 </script>

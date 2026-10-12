@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Přihlášení potvrzeno"
+  description="Úspěšně jste se přihlásili k newsletteru Globaal Elevate Production."
+  lang="cs"
+>
+  <section class="conf-section">
+    <div class="container conf-inner">
+      <div class="conf-icon" aria-hidden="true">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </div>
+      <h1 class="conf-heading">Jste přihlášeni.</h1>
+      <p class="conf-lead">
+        Přihlášení k newsletteru Globaal Elevate Production bylo úspěšně potvrzeno. Budeme vám jako prvním posílat novinky o projektech, eventech a nové hudbě.
+      </p>
+      <div class="conf-actions">
+        <a href="/" class="btn btn-filled">Zpět na web</a>
+        <a href="https://3lwave.cz" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          Eventy na 3lwave →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Mark newsletter as confirmed — popup will never show again
+  try {
+    localStorage.setItem('gep_nl_popup', JSON.stringify({ status: 'subscribed', ts: Date.now() }))
+  } catch {}
+</script>
+
+<style>
+  .conf-section {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    padding: 6rem 0;
+  }
+
+  .conf-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    max-width: 520px;
+  }
+
+  .conf-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .conf-heading {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  .conf-lead {
+    font-size: 1.0625rem;
+    color: var(--fg-muted);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .conf-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+</style>

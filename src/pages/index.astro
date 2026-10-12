@@ -1,9 +1,21 @@
 ---
+import { readdirSync } from 'fs'
+import { resolve } from 'path'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import Hero from '../components/Hero.astro'
 import SectionLabel from '../components/SectionLabel.astro'
 import ImagePlaceholder from '../components/ImagePlaceholder.astro'
 import NewsletterSignup from '../components/NewsletterSignup.astro'
+
+let eventImages: string[] = []
+try {
+  const eventsDir = resolve('./public/events')
+  eventImages = readdirSync(eventsDir)
+    .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f))
+    .map(f => `/events/${f}`)
+} catch {
+  // events/ directory doesn't exist — section will be hidden
+}
 ---
 
 <BaseLayout
@@ -133,39 +145,27 @@ import NewsletterSignup from '../components/NewsletterSignup.astro'
     </div>
   </section>
 
-  <!-- 5. Fotogalerie z eventů -->
+  <!-- 5. Fotogalerie z eventů — sekce se zobrazí jen pokud existují fotky v public/events/ -->
+  {eventImages.length > 0 && (
   <section class="section events-section">
     <div class="container">
       <div class="events-header anim-fade">
         <SectionLabel text="3lwave — ze zákulisí" />
         <h2 class="events-title">Z akcí, které tvoříme</h2>
-        <p class="events-lead">Přidejte fotky do <code>public/events/</code> a zobrazí se zde automaticky.</p>
       </div>
       <div class="events-grid anim-stagger">
-        <ImagePlaceholder
-          src="/events/event-1.jpg"
-          alt="3lwave event — hlavní pódium"
-          ratio="4/3"
-          label="Foto z eventu"
-          class="event-photo"
-        />
-        <ImagePlaceholder
-          src="/events/event-2.jpg"
-          alt="3lwave event — publikum"
-          ratio="4/3"
-          label="Foto z eventu"
-          class="event-photo"
-        />
-        <ImagePlaceholder
-          src="/events/event-3.jpg"
-          alt="3lwave event — artists"
-          ratio="4/3"
-          label="Foto z eventu"
-          class="event-photo"
-        />
+        {eventImages.map((src, i) => (
+          <ImagePlaceholder
+            src={src}
+            alt={`3lwave event ${i + 1}`}
+            ratio="4/3"
+            class="event-photo"
+          />
+        ))}
       </div>
     </div>
   </section>
+  )}
 
   <!-- 6. Newsletter -->
   <section class="section newsletter-section">
