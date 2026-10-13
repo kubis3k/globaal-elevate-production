@@ -9,7 +9,7 @@ const brands = [
     description: 'Eventová značka nové generace — hudba, zážitky a propojení lidí na nezapomenutelných akcích.',
     year: '2026',
     color: '#F59E0B',
-    href: 'https://3lwave.cz',
+    href: '/portfolio/3lwave',
   },
   {
     name: 'Globaal Records',
@@ -17,7 +17,7 @@ const brands = [
     description: 'Nezávislé hudební vydavatelství zaměřené na autentické umělce a originální zvuky.',
     year: '2026',
     color: '#ff6600',
-    href: 'https://3lwave.cz/label',
+    href: '/portfolio/globaal-records',
   },
   {
     name: 'Globaal Production',
@@ -25,7 +25,7 @@ const brands = [
     description: 'Kreativní a marketingová agentura — branding, web development a telesales pro malé a střední firmy.',
     year: '2026',
     color: '#6366f1',
-    href: '/kontakt',
+    href: '/portfolio/globaal-production',
   },
   {
     name: 'Vision Technology',
@@ -33,7 +33,7 @@ const brands = [
     description: 'Vývoj AI systémů, webů a digitálních produktů na zakázku. Od prototypu po produkci.',
     year: '2026',
     color: '#10b981',
-    href: 'https://visiontechnology.cz',
+    href: '/portfolio/vision-technology',
   },
 ]
 ---
@@ -50,7 +50,7 @@ const brands = [
     <div class="container">
       <div class="brands-grid anim-stagger">
         {brands.map(brand => (
-          <a href={brand.href} target="_blank" rel="noopener noreferrer" class="card brand-card">
+          <a href={brand.href} class="card brand-card">
             <div class="brand-top-accent" style={`background: ${brand.color}`}></div>
             <div class="brand-header">
               <span class="brand-dot" style={`background: ${brand.color}`}></span>

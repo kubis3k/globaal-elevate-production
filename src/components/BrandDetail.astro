@@ -1,0 +1,190 @@
+---
+import PageLayout from '../layouts/PageLayout.astro'
+import SectionLabel from './SectionLabel.astro'
+import type { Brand, Lang } from '../data/brands'
+
+interface Props {
+  brand: Brand
+  lang: Lang
+}
+const { brand, lang } = Astro.props
+const t = brand[lang]
+const isEn = lang === 'en'
+const base = isEn ? '/en/portfolio' : '/portfolio'
+const url = brand.external ? brand.url : (isEn ? '/en/kontakt' : '/kontakt')
+---
+
+<PageLayout
+  title={brand.name}
+  description={t.tagline}
+  badge={`• ${t.category}`}
+  heading={brand.name}
+  lead={t.tagline}
+  lang={lang}
+>
+  <section class="section">
+    <div class="container">
+      <div class="detail-grid anim-fade">
+        <div class="detail-main">
+          <SectionLabel text={isEn ? 'About the project' : 'O projektu'} />
+          {t.paragraphs.map(p => <p class="detail-text">{p}</p>)}
+
+          <div class="detail-actions">
+            <a
+              href={url}
+              class="btn btn-primary"
+              target={brand.external ? '_blank' : undefined}
+              rel={brand.external ? 'noopener noreferrer' : undefined}
+            >
+              {t.cta} <span class="btn-arrow">{brand.external ? '↗' : '→'}</span>
+            </a>
+            <a href={base} class="btn btn-outline">← {isEn ? 'All projects' : 'Všechny projekty'}</a>
+          </div>
+        </div>
+
+        <aside class="detail-side">
+          <div class="side-card" style={`--brand: ${brand.color}`}>
+            <div class="side-accent"></div>
+            <dl>
+              <div><dt>{isEn ? 'Category' : 'Kategorie'}</dt><dd>{t.category}</dd></div>
+              <div><dt>{isEn ? 'Since' : 'Od roku'}</dt><dd>{brand.year}</dd></div>
+              <div><dt>{isEn ? 'Status' : 'Stav'}</dt><dd class="status">{isEn ? 'Active project' : 'Aktivní projekt'}</dd></div>
+            </dl>
+          </div>
+        </aside>
+      </div>
+
+      {t.services && (
+        <div class="services anim-fade">
+          <SectionLabel text={isEn ? 'What we offer' : 'Co nabízíme'} />
+          <div class="services-grid anim-stagger">
+            {t.services.map(sv => (
+              <div class="service-item">
+                <h3>{sv.title}</h3>
+                <p>{sv.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {t.highlights.length > 0 && (
+      <div class="highlights anim-stagger">
+        {t.highlights.map((h, i) => (
+          <div class="highlight">
+            <span class="highlight-num">0{i + 1}</span>
+            <h3>{h.title}</h3>
+            <p>{h.text}</p>
+          </div>
+        ))}
+      </div>
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .detail-text {
+    font-size: 1.0625rem;
+    color: var(--fg-muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    max-width: 640px;
+  }
+
+  .detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .side-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+  }
+
+  .side-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand);
+  }
+
+  .side-card dl { display: flex; flex-direction: column; gap: 1.25rem; margin: 0.5rem 0 0; }
+  .side-card dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .side-card dd { margin: 0; font-size: 1rem; font-weight: 600; }
+  .side-card dd.status { color: #22c55e; }
+
+  .services { margin-top: 4rem; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .service-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .service-item h3 { font-size: 1.0625rem; font-weight: 700; }
+  .service-item p { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
+
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .highlight {
+    padding: 2rem 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .highlight-num {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--fg-muted);
+  }
+
+  .highlight h3 { font-size: 1.0625rem; font-weight: 700; }
+  .highlight p { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
+
+  @media (max-width: 900px) {
+    .detail-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .highlights, .services-grid { grid-template-columns: 1fr; }
+    .highlight { padding-right: 0; padding-bottom: 1.5rem; }
+  }
+</style>
