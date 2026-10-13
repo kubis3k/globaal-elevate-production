@@ -1,0 +1,366 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro'
+import SectionLabel from '../../components/SectionLabel.astro'
+---
+
+<PageLayout
+  title="About us"
+  description="Globaal Elevate Production — a creative group that grew out of the North Bohemian scene. Music, creativity and technology under one vision."
+  badge="• Who we are"
+  heading="We grew out of the scene."
+  lead="Before we became a creative group, we were people around music and events in North Bohemia."
+  lang="en"
+>
+  <!-- Mission -->
+  <section class="section">
+    <div class="container">
+      <div class="asym-grid anim-fade">
+        <div>
+          <SectionLabel text="Our mission" />
+          <p class="meta-text">Since 2026</p>
+        </div>
+        <div class="mission-body">
+          <h2 class="section-heading">From a real scene to a creative group</h2>
+          <p class="body-text">
+            Globaal Elevate Production grew out of a real scene, not a spreadsheet. Before we became a creative group, we were people around music and events in North Bohemia — and from that background we expanded into marketing creative, in-house IT development and SaaS products.
+          </p>
+          <p class="body-text">
+            Every brand under us solves a problem we experienced ourselves. We are based in Prague, but our roots are in the north.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section values-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Our values" />
+        <h2 class="section-heading">What drives us</h2>
+      </div>
+
+      <div class="values-grid anim-stagger">
+        <div class="value-item">
+          <div class="value-number">01</div>
+          <h3>The scene as a foundation</h3>
+          <p>We started at music events in North Bohemia. Experience with logistics, promotion and audiences is part of every project we build today.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-number">02</div>
+          <h3>Our own problem, our own solution</h3>
+          <p>Globaal Production was born because we ourselves had nowhere to order decent branding at a reasonable price. Every one of our brands solves a problem we experienced first-hand.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-number">03</div>
+          <h3>Connected, not isolated</h3>
+          <p>Events through 3lwave, creative through Globaal Production, technology through Vision Technology — every brand under GEP can draw on the capacity of the others. A system, not a coincidence.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-number">04</div>
+          <h3>Numbers over slogans</h3>
+          <p>We don't measure success in followers. We measure it in projects that stand — events that sold out, websites that convert, clients who came back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section class="section management-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Leadership" />
+        <h2 class="section-heading">Three founders, one vision</h2>
+      </div>
+      <div class="mgmt-grid anim-stagger">
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/zakladatel.jpg" alt="Jakub Lučan" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">JL</div>
+          </div>
+          <h3 class="mgmt-name">Jakub Lučan</h3>
+          <p class="mgmt-role">Founder, CEO & CTO</p>
+          <p class="mgmt-bio">Co-founder of the group. Behind GEP's technology direction — from developing internal systems to the architecture of digital products.</p>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/stepan-lisa.jpg" alt="Štěpán Lísa" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">ŠL</div>
+          </div>
+          <h3 class="mgmt-name">Štěpán Lísa</h3>
+          <p class="mgmt-role">Founder & CEO</p>
+          <p class="mgmt-bio">Co-founder of the group and lead graphic designer. Focuses primarily on visual identity and branding — the face of GEP is largely the work of his hands.</p>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-photo">
+            <img src="/jan-lestina.jpg" alt="Jan Leština" class="mgmt-img" onerror="this.parentElement.classList.add('no-photo')" />
+            <div class="mgmt-placeholder">JL</div>
+          </div>
+          <h3 class="mgmt-name">Jan Leština</h3>
+          <p class="mgmt-role">Founder & CEO</p>
+          <p class="mgmt-bio">Co-founder of the group. Responsible for marketing and growth — from digital campaigns and telesales to building brands in the field.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brands -->
+  <section class="section brands-section">
+    <div class="container">
+      <div class="anim-fade">
+        <SectionLabel text="Portfolio" />
+        <h2 class="section-heading">Our projects</h2>
+      </div>
+
+      <div class="brands-list anim-stagger">
+        <a href="https://3lwave.cz" target="_blank" rel="noopener noreferrer" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Events</span>
+            <strong>3lwave</strong>
+          </div>
+          <p>Next-generation event brand — music, experiences and connecting people.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://3lwave.cz/label" target="_blank" rel="noopener noreferrer" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Music</span>
+            <strong>Globaal Records</strong>
+          </div>
+          <p>Independent label focused on authentic artists and original sounds.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/en/portfolio" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Creative</span>
+            <strong>Globaal Production</strong>
+          </div>
+          <p>Creative and marketing agency — branding, web development and telesales for small and medium-sized businesses.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://visiontechnology.cz" target="_blank" rel="noopener noreferrer" class="card brand-row">
+          <div class="brand-info">
+            <span class="brand-tag">Technology</span>
+            <strong>Vision Technology</strong>
+          </div>
+          <p>Custom development of AI systems, websites and digital products.</p>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .section-heading {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-text {
+    font-size: 0.8125rem;
+    color: var(--fg-muted);
+    margin-top: 1rem;
+  }
+
+  .body-text {
+    font-size: 1rem;
+    color: var(--fg-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .mission-body {
+    max-width: 640px;
+  }
+
+  .values-section {
+    background: var(--bg-surface);
+  }
+
+  /* Values: editorial grid-with-rules — lighter than clickable portfolio cards */
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .value-item {
+    padding: 2rem 2rem 2rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .value-item:nth-child(odd) {
+    padding-right: 3rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .value-item:nth-child(even) {
+    padding-left: 3rem;
+    padding-right: 0;
+  }
+
+  .value-number {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--fg-muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.25rem;
+  }
+
+  .value-item h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+  }
+
+  .value-item p {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    line-height: 1.65;
+  }
+
+  .management-section { background: var(--bg); }
+
+  .mgmt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .mgmt-card { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .mgmt-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+  }
+
+  .mgmt-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .mgmt-placeholder {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--fg-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .mgmt-photo.no-photo .mgmt-img { display: none; }
+  .mgmt-photo.no-photo .mgmt-placeholder { display: flex; }
+
+  .mgmt-name { font-size: 1.25rem; font-weight: 700; }
+  .mgmt-role {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .mgmt-bio { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
+
+  @media (max-width: 768px) {
+    .mgmt-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .mgmt-grid { grid-template-columns: 1fr; }
+    .mgmt-photo { max-width: 200px; }
+  }
+
+  .brands-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .brand-row {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+  }
+
+  .brand-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .brand-tag {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .brand-info strong {
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .brand-row p {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+  }
+
+  .arrow {
+    font-size: 1.25rem;
+    color: var(--fg-muted);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .brand-row:hover .arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 640px) {
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .value-item:nth-child(odd) {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .value-item:nth-child(even) {
+      padding-left: 0;
+    }
+
+    .brand-row {
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+    }
+
+    .brand-row p {
+      grid-column: 1;
+    }
+  }
+</style>
