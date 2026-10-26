@@ -19,7 +19,7 @@ interface Props {
 
 const {
   title,
-  description = 'Od severočeské rapové scény po firmy s vlastním IT a marketingovým motorem — Globaal Elevate Production je kreativní skupina, která spojuje hudbu, kreativu a technologii pod jednou vizí.',
+  description = 'Globaal Elevate Production je kreativní skupina ze severních Čech. Pořádáme koncerty a klubové akce (3lwave), vydáváme hudbu (Globaal Records), děláme marketing pro firmy (Globaal Production) a vyvíjíme software (Vision Technology).',
   lang = 'cs',
   image = '/og-image.jpg',
   noindex = false,
@@ -27,7 +27,7 @@ const {
 
 const canonicalUrl = new URL(Astro.url.pathname, 'https://globaalelevate.com').href
 const ogImageUrl = new URL(image, 'https://globaalelevate.com').href
-const fullTitle = `${title} — Globaal Elevate Production`
+const fullTitle = title.includes('Globaal Elevate Production') ? title : `${title} — Globaal Elevate Production`
 
 const jsonLd = [
   {
@@ -82,6 +82,7 @@ const jsonLd = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="facebook-domain-verification" content="as7sb0chwxqjhu0oko8g9lso5jmy9f" />
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonicalUrl} />
 

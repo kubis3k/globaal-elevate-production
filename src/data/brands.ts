@@ -30,9 +30,9 @@ export const brands: Brand[] = [
     external: true,
     cs: {
       category: 'Eventy',
-      tagline: 'Eventová značka nové generace — hudba, zážitky a propojení lidí.',
+      tagline: 'Pořádáme koncerty, klubové akce a tour zastávky. Od Chomutova po další města po celé republice.',
       paragraphs: [
-        '3lwave vznikl ze severočeské hudební scény. Pořádáme eventy, na kterých jde o hudbu, atmosféru a lidi, kteří k nim patří — od line-upu a produkce po promo a komunitu kolem akcí.',
+        '3lwave vznikl ze severočeské hudební scény. Pořádáme koncerty a klubové akce, na kterých jde o hudbu, atmosféru a lidé, kteří k nim patří. Součástí jsou i tour zastávky, například v Chomutově, Liberci nebo Mariánských Lázních.',
         'Zkušenost s logistikou, promotion a publikem, kterou jsme získali přímo na scéně, přenášíme do každého dalšího projektu skupiny Globaal Elevate.',
       ],
       highlights: [
@@ -44,9 +44,9 @@ export const brands: Brand[] = [
     },
     en: {
       category: 'Events',
-      tagline: 'Next-generation event brand — music, experiences and connecting people.',
+      tagline: 'We organise concerts, club events and tour stops, from Chomutov to other cities across the country.',
       paragraphs: [
-        '3lwave grew out of the North Bohemian music scene. We run events that are about music, atmosphere and the people who belong to them — from line-up and production to promotion and the community around each event.',
+        '3lwave grew out of the North Bohemian music scene. We organise concerts and club events that are about music, atmosphere and the people who belong to them. Tour stops are part of it too, for example in Chomutov, Liberec or Mariánské Lázně.',
         'The experience with logistics, promotion and audiences that we gained directly on the scene carries into every other project of the Globaal Elevate group.',
       ],
       highlights: [
@@ -66,23 +66,23 @@ export const brands: Brand[] = [
     external: true,
     cs: {
       category: 'Hudba',
-      tagline: 'Nezávislé vydavatelství zaměřené na autentické umělce a originální zvuky.',
+      tagline: 'Nezávislý hudební label. Hledáme autentické umělce, pomáháme jim s vydáním, distribucí a rozvojem.',
       paragraphs: [
-        'Globaal Records je nezávislé hudební vydavatelství. Stavíme na autentických umělcích a originálním zvuku, ne na trendech.',
+        'Globaal Records je nezávislý hudební label. Hledáme autentické umělce a pomáháme jim s vydáním, distribucí a rozvojem. Stavíme na originálním zvuku, ne na trendech.',
         'Díky propojení s eventy 3lwave a kreativním zázemím skupiny mohou umělci růst na jednom místě — od vydání hudby po vystoupení před publikem.',
       ],
       highlights: [
         { title: 'Autentičnost', text: 'Podporujeme umělce s vlastním hlasem a originálním zvukem.' },
-        { title: 'Nezávislost', text: 'Jsme nezávislé vydavatelství, které drží kurz podle hudby.' },
+        { title: 'Nezávislost', text: 'Jsme nezávislý label, který drží kurz podle hudby.' },
         { title: 'Propojení s eventy', text: 'Umělci mají cestu na pódia akcí 3lwave.' },
       ],
       cta: 'Navštívit web labelu',
     },
     en: {
       category: 'Music',
-      tagline: 'Independent label focused on authentic artists and original sounds.',
+      tagline: 'An independent music label. We look for authentic artists and help them with releases, distribution and development.',
       paragraphs: [
-        'Globaal Records is an independent music label. We build on authentic artists and original sound, not on trends.',
+        'Globaal Records is an independent music label. We look for authentic artists and help them with releases, distribution and development. We build on original sound, not on trends.',
         'Thanks to the connection with 3lwave events and the creative backing of the group, artists can grow in one place — from releasing music to performing in front of an audience.',
       ],
       highlights: [
@@ -102,10 +102,10 @@ export const brands: Brand[] = [
     external: false,
     cs: {
       category: 'Kreativa',
-      tagline: 'Kreativní a marketingová agentura pro malé a střední firmy.',
+      tagline: 'Kreativní a marketingová agentura pro malé a střední firmy. Weby, branding a online reklama, které přivádějí zákazníky.',
       paragraphs: [
         'Globaal Production vznikl, protože jsme sami neměli kde objednat slušný branding za rozumnou cenu. Dnes stejnou službu nabízíme malým a středním firmám.',
-        'Zajišťujeme kompletní marketing a grafické zpracování — od vizuální identity a webu přes SEO a placenou reklamu po oslovování zákazníků.',
+        'Zajišťujeme prezentační weby, branding, grafiku a online marketing včetně SEO a reklamy na Meta a Google.',
       ],
       highlights: [],
       services: [
@@ -114,17 +114,16 @@ export const brands: Brand[] = [
         { title: 'Google Ads', text: 'Placená reklama ve vyhledávání a na dalších kanálech Googlu.' },
         { title: 'Marketing', text: 'Plánování a řízení marketingu, který odpovídá cílům vaší firmy.' },
         { title: 'Grafické zpracování', text: 'Branding, vizuální identita a grafika pro web, sociální sítě i tisk.' },
-        { title: 'Web development', text: 'Weby, které vypadají dobře a konvertují.' },
-        { title: 'Telesales', text: 'Aktivní oslovování zákazníků a budování obchodních kontaktů.' },
+        { title: 'Weby', text: 'Prezentační weby, které vypadají dobře a přivádějí zákazníky.' },
       ],
       cta: 'Napište nám',
     },
     en: {
       category: 'Creative',
-      tagline: 'Creative and marketing agency for small and medium-sized businesses.',
+      tagline: 'A creative and marketing agency for small and medium-sized businesses. Websites, branding and online advertising that bring in customers.',
       paragraphs: [
         'Globaal Production was born because we ourselves had nowhere to order decent branding at a reasonable price. Today we offer the same service to small and medium-sized businesses.',
-        'We provide complete marketing and graphic design — from visual identity and a website to SEO, paid advertising and reaching out to customers.',
+        'We provide presentation websites, branding, graphic design and online marketing, including SEO and advertising on Meta and Google.',
       ],
       highlights: [],
       services: [
@@ -133,8 +132,7 @@ export const brands: Brand[] = [
         { title: 'Google Ads', text: 'Paid advertising in search and across other Google channels.' },
         { title: 'Marketing', text: 'Planning and running marketing that matches your business goals.' },
         { title: 'Graphic design', text: 'Branding, visual identity and graphics for web, social media and print.' },
-        { title: 'Web development', text: 'Websites that look good and convert.' },
-        { title: 'Telesales', text: 'Active customer outreach and building business contacts.' },
+        { title: 'Websites', text: 'Presentation websites that look good and bring in customers.' },
       ],
       cta: 'Get in touch',
     },
@@ -148,29 +146,29 @@ export const brands: Brand[] = [
     external: true,
     cs: {
       category: 'Technologie',
-      tagline: 'Vývoj AI systémů, webů a digitálních produktů na zakázku.',
+      tagline: 'Software na zakázku: AI systémy, webové aplikace a vlastní SaaS produkty.',
       paragraphs: [
-        'Vision Technology je technologická větev skupiny. Vyvíjíme AI systémy, weby a digitální produkty na zakázku — od prototypu až po produkci.',
+        'Vision Technology je technologická větev skupiny. Vyvíjíme software na zakázku: AI systémy, webové aplikace a vlastní SaaS produkty.',
         'Stojíme také za interními systémy a architekturou digitálních produktů celé skupiny Globaal Elevate.',
       ],
       highlights: [
         { title: 'AI systémy', text: 'Řešení na míru, která řeší konkrétní problém.' },
-        { title: 'Weby a produkty', text: 'Od webu po digitální produkt na zakázku.' },
-        { title: 'Od prototypu po produkci', text: 'Provedeme vás celou cestou od nápadu po nasazení.' },
+        { title: 'Webové aplikace', text: 'Webové aplikace na zakázku podle potřeb firmy.' },
+        { title: 'Vlastní SaaS produkty', text: 'Vyvíjíme i vlastní SaaS produkty.' },
       ],
       cta: 'Navštívit web Vision Technology',
     },
     en: {
       category: 'Technology',
-      tagline: 'Custom development of AI systems, websites and digital products.',
+      tagline: 'Custom software: AI systems, web applications and our own SaaS products.',
       paragraphs: [
-        'Vision Technology is the technology arm of the group. We build custom AI systems, websites and digital products — from prototype to production.',
+        'Vision Technology is the technology arm of the group. We build custom software: AI systems, web applications and our own SaaS products.',
         'We are also behind the internal systems and the digital product architecture of the entire Globaal Elevate group.',
       ],
       highlights: [
         { title: 'AI systems', text: 'Tailor-made solutions that solve a specific problem.' },
-        { title: 'Websites and products', text: 'From a website to a custom digital product.' },
-        { title: 'Prototype to production', text: 'We take you the whole way from idea to deployment.' },
+        { title: 'Web applications', text: 'Custom web applications built around a company\'s needs.' },
+        { title: 'Our own SaaS products', text: 'We also build our own SaaS products.' },
       ],
       cta: 'Visit the Vision Technology website',
     },
